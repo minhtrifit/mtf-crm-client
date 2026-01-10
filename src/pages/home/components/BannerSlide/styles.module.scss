@@ -1,0 +1,8 @@
+:global(.slick-dots) {
+  position: absolute !important;
+  bottom: 20px !important;
+}
+
+:global(.slick-dots li.slick-active div) {
+  background-color: white;
+}

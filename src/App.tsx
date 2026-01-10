@@ -6,6 +6,8 @@ import { router } from './routes/router';
 import { AppConfigProvider } from './+core/provider/AppConfigProvider';
 import './i18n';
 import './styles/globals.scss';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 function App() {
   return (

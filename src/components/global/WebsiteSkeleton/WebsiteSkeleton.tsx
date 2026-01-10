@@ -22,7 +22,7 @@ const WebsiteSkeleton = () => {
       </header>
 
       <div className='max-w-[1200px] mx-auto px-[20px] py-[20px] flex flex-col gap-10'>
-        <section className='w-full grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8'>
+        <section className='w-full grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6'>
           {!isMobile && <Skeleton.Node active style={{ height: 400, width: '100%' }} />}
           <Skeleton.Node active style={{ height: isMobile ? 200 : 400, width: '100%' }} />
         </section>
