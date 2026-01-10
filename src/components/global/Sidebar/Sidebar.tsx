@@ -6,14 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { RootState } from '@/store/store';
 import { setSidebar, toggleSidebar } from '@/store/actions/user.action';
-import { IoHome, IoSettings } from 'react-icons/io5';
-import { AiFillAppstore, AiOutlineShoppingCart } from 'react-icons/ai';
+import { IoHome } from 'react-icons/io5';
+import { AiFillAppstore } from 'react-icons/ai';
 import { FiShoppingBag } from 'react-icons/fi';
-import { FaBook, FaKey, FaUser, FaUserTie } from 'react-icons/fa';
 
 import styles from './styles.module.scss';
-
-const APP_NAME = import.meta.env.VITE_APP_NAME;
 
 const { Sider } = Layout;
 
@@ -45,53 +42,21 @@ const Sidebar = (props: PropType) => {
 
   const menuItems = [
     {
-      key: '/dashboard',
+      key: '/admin',
       icon: <IoHome size={20} />,
-      label: t('dashboard'),
+      label: t('sidebar.dashboard'),
     },
     {
-      key: '/management',
+      key: '/user',
       icon: <AiFillAppstore size={20} />,
-      label: t('management'),
+      label: t('sidebar.management'),
       children: [
         {
-          key: '/management/products',
+          key: '/admin/user',
           icon: <FiShoppingBag size={20} />,
-          label: t('products'),
-        },
-        {
-          key: '/management/carts',
-          icon: <AiOutlineShoppingCart size={20} />,
-          label: t('carts'),
-        },
-        {
-          key: '/management/blogs',
-          icon: <FaBook size={20} />,
-          label: t('blogs'),
+          label: t('sidebar.users'),
         },
       ],
-    },
-    {
-      key: '/roles',
-      icon: <FaKey size={18} />,
-      label: t('roles'),
-      children: [
-        {
-          key: '/roles/customers',
-          icon: <FaUser size={20} />,
-          label: t('customers'),
-        },
-        {
-          key: '/roles/staffs',
-          icon: <FaUserTie size={20} />,
-          label: t('staffs'),
-        },
-      ],
-    },
-    {
-      key: '/settings',
-      icon: <IoSettings size={20} />,
-      label: t('settings'),
     },
   ];
 
@@ -143,7 +108,7 @@ const Sidebar = (props: PropType) => {
           <div
             className={`w-[80px] flex items-center justify-center hover:cursor-pointer`}
             onClick={() => {
-              navigate('/dashboard');
+              navigate('/admin');
             }}
           >
             <img className='w-full h-full' src={`/assets/images/logo.png`} alt='logo' />

@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
-import { BlogType, UserType } from '@/types';
+import { BlogType } from '@/types';
+import { UserType } from '@/types/auth';
 
 export const toggleSidebar = createAction('users/toggleSidebar');
 export const setSidebar = createAction<boolean>('users/setSidebar');

@@ -35,7 +35,8 @@ node version: >20.
 ⚙️ Config [.env]() file in dir with path `.env`:
 
 ```bash
-VITE_APP_NAME=mtf_crm_client
+VITE_APP_NAME=MTF CRM
+VITE_APP_KEY=mtf_crm_client
 VITE_API_URL=http://localhost:5000
 ```
 

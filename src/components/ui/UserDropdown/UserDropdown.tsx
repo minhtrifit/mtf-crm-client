@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Dropdown, Avatar, Typography, Space } from 'antd';
 import { DownOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
@@ -5,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { clearUser } from '@/store/actions/user.action';
 import { useNavigate } from 'react-router-dom';
-import { UserType } from '@/types';
+import { UserType } from '@/types/auth';
 
 const { Text } = Typography;
 
@@ -24,14 +25,8 @@ const UserDropdown = () => {
 
   const items = [
     {
-      key: '1',
-      label: t('settings'),
-      icon: <SettingOutlined />,
-      onClick: () => console.log('Cài đặt'),
-    },
-    {
-      key: '2',
-      label: t('log-out'),
+      key: 'logout',
+      label: t('auth.logout'),
       icon: <LogoutOutlined />,
       onClick: () => handleLogOut(),
     },
@@ -45,7 +40,7 @@ const UserDropdown = () => {
       >
         <Space>
           <Avatar src='https://github.com/shadcn.png' />
-          <Text strong>{user?.name?.firstname}</Text>
+          <Text strong>{get(user, 'fullName', '')}</Text>
 
           <DownOutlined className='ml-2' style={{ fontSize: '10px' }} />
         </Space>

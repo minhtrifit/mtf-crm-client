@@ -1,7 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { Dropdown, Avatar, Typography, Space } from 'antd';
 
-const LanguageToggle = () => {
+interface PropType {
+  textColor?: 'black' | 'white';
+}
+
+const LanguageToggle = (props: PropType) => {
+  const { textColor = 'black' } = props;
+
   const { i18n } = useTranslation();
 
   const items = [
@@ -53,7 +59,13 @@ const LanguageToggle = () => {
         <Space>
           <Avatar src={renderLanguage(i18n.language).icon} />
 
-          <Typography>{renderLanguage(i18n.language).label}</Typography>
+          <Typography
+            style={{
+              color: textColor,
+            }}
+          >
+            {renderLanguage(i18n.language).label}
+          </Typography>
         </Space>
       </div>
     </Dropdown>

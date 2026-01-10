@@ -3,7 +3,8 @@ import Cookies from 'js-cookie';
 import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 
 import { FulfilledAction, PendingAction, RejectedAction } from '@/types/reduxthunk.type';
-import { BlogType, UserType } from '@/types';
+import { BlogType } from '@/types';
+import { UserType } from '@/types/auth';
 
 import {
   clearUser,
@@ -14,7 +15,7 @@ import {
   clearBlog,
 } from '../actions/user.action';
 
-const APP_NAME = import.meta.env.VITE_APP_NAME;
+const APP_KEY = import.meta.env.VITE_APP_KEY;
 
 // Interface declair
 interface UserState {
@@ -70,7 +71,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.user = payload;
     })
     .addCase(clearUser, (state, _) => {
-      Cookies.remove(APP_NAME); // Clear cookies
+      Cookies.remove(APP_KEY); // Clear cookies
 
       state.user = null;
     })
