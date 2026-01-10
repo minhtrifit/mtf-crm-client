@@ -13,7 +13,7 @@ interface PropType {
   children: React.ReactNode;
 }
 
-const AuthProvider = ({ children }: PropType) => {
+const AdminAuthProvider = ({ children }: PropType) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -102,4 +102,4 @@ const AuthProvider = ({ children }: PropType) => {
   return <>{children}</>;
 };
 
-export default AuthProvider;
+export default AdminAuthProvider;

@@ -6,9 +6,11 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import 'dayjs/locale/en';
 import { useTranslation } from 'react-i18next';
+import { useAppConfig } from './AppConfigProvider';
 
 export default function WebsiteAntdProvider({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation();
+  const { config } = useAppConfig();
 
   // Chọn locale Antd dựa vào i18n
   const antdLocale = i18n.language === 'vi' ? viVN : enUS;
@@ -21,7 +23,7 @@ export default function WebsiteAntdProvider({ children }: { children: React.Reac
       locale={antdLocale}
       theme={{
         token: {
-          colorPrimary: '#fa5130',
+          colorPrimary: config?.websitePrimaryColor,
           fontFamily: 'Inter, sans-serif',
         },
         components: {

@@ -1,6 +1,9 @@
 {
   "auth": {
     "email": "Email",
+    "fullName": "Full Name",
+    "phone": "Phone",
+    "address": "Address",
     "password": "Password",
     "login": "Login",
     "register": "Register",
@@ -8,7 +11,11 @@
     "sign_up_system": "Sign up to system",
     "login_failed": "Login successfully",
     "register_failed": "Register failed",
-    "logout": "Logout"
+    "logout": "Logout",
+    "dont_have_account": "Don't have account?",
+    "already_have_account": "Already have account?",
+    "confirm_password": "Confirm password",
+    "password_not_match": "Confirm password not match"
   },
   "invalid_email": "Invalid email",
   "this_field_is_required": "This field is required",
@@ -17,9 +24,17 @@
   "back_homepage": "Back to Homepage",
   "app_not_support_device": "Application not support this device",
   "user_profile": "User profile",
+  "what_look_for": "What should you look for?",
+  "recommend_search": "Recommend search",
+  "cart": "Cart",
   "sidebar": {
     "dashboard": "Dashboard",
     "management": "Management",
-    "users": "Users"
+    "categories": "Categories",
+    "products": "Products",
+    "orders": "Orders",
+    "accounts": "Accounts",
+    "users": "Users",
+    "customers": "Customers"
   }
 }

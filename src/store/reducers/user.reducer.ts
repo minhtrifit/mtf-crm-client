@@ -3,7 +3,6 @@ import Cookies from 'js-cookie';
 import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 
 import { FulfilledAction, PendingAction, RejectedAction } from '@/types/reduxthunk.type';
-import { BlogType } from '@/types';
 import { UserType } from '@/types/auth';
 
 import {
@@ -11,8 +10,7 @@ import {
   setUser,
   toggleSidebar,
   setSidebar,
-  updateBlog,
-  clearBlog,
+  toggleWebsiteModal,
 } from '../actions/user.action';
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
@@ -22,8 +20,8 @@ interface UserState {
   isLoading: boolean;
   isError: boolean;
   isOpenSidebar: boolean;
+  isOpenWebsiteModal: boolean;
   user: UserType | null;
-  blog: BlogType | null;
 }
 
 // createAsyncThunk middleware
@@ -52,8 +50,8 @@ const initialState: UserState = {
   isLoading: false,
   isError: false,
   isOpenSidebar: true,
+  isOpenWebsiteModal: false,
   user: null,
-  blog: null,
 };
 
 const userReducer = createReducer(initialState, (builder) => {
@@ -61,34 +59,35 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(toggleSidebar, (state, _) => {
       state.isOpenSidebar = !state.isOpenSidebar;
     })
+
+    .addCase(toggleWebsiteModal, (state, _) => {
+      state.isOpenWebsiteModal = !state.isOpenWebsiteModal;
+    })
+
     .addCase(setSidebar, (state, action) => {
       const value: boolean = action.payload;
 
       state.isOpenSidebar = value;
     })
+
     .addCase(setUser, (state, action) => {
       const payload = action?.payload;
       state.user = payload;
     })
+
     .addCase(clearUser, (state, _) => {
       Cookies.remove(APP_KEY); // Clear cookies
 
       state.user = null;
     })
-    .addCase(updateBlog, (state, action) => {
-      const blog = action.payload;
 
-      state.blog = blog;
-    })
-    .addCase(clearBlog, (state, _) => {
-      state.blog = null;
-    })
     .addMatcher(
       (action): action is PendingAction => action.type.endsWith('/pending'),
       (state) => {
         state.isLoading = true;
       },
     )
+
     .addMatcher(
       (action): action is FulfilledAction => action.type.endsWith('/fulfilled'),
       (state) => {
@@ -96,6 +95,7 @@ const userReducer = createReducer(initialState, (builder) => {
         state.isError = false;
       },
     )
+
     .addMatcher(
       (action): action is RejectedAction => action.type.endsWith('/rejected'),
       (state) => {

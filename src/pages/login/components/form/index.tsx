@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import Cookies from 'js-cookie';
 import { z } from 'zod';
@@ -10,6 +10,8 @@ import { Input, Button, message, Typography } from 'antd';
 import authApi from '@/+core/api/auth.api';
 import { UserRole, UserType } from '@/types/auth';
 import { setUser } from '@/store/actions/user.action';
+import { WEBSITE_ROUTE } from '@/routes/route.constant';
+import Label from '@/components/ui/Label/Label';
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
 
@@ -79,7 +81,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <form
-      className='bg-[#FFF] p-4 pb-6 rounded-md w-[400px] max-w-[400px] flex flex-col gap-5 shadow-md
+      className='bg-[#FFF] p-4 pb-6 rounded-md w-[90%] md:w-[400px] flex flex-col gap-5 shadow-md
                   border-[1px] border-solid border-zinc-100'
       onSubmit={handleSubmit(onSubmit, onError)}
     >
@@ -94,7 +96,7 @@ const LoginForm: React.FC = () => {
         render={({ field }) => {
           return (
             <div className='w-full flex flex-col gap-2'>
-              <label className='text-[0.95rem] font-semibold'>{t('auth.email')}</label>
+              <Label title={t('auth.email')} required />
 
               <Input
                 {...field}
@@ -118,7 +120,7 @@ const LoginForm: React.FC = () => {
         render={({ field }) => {
           return (
             <div className='w-full flex flex-col gap-2'>
-              <label className='text-[0.95rem] font-semibold'>{t('auth.password')}</label>
+              <Label title={t('auth.password')} required />
 
               <Input.Password
                 {...field}
@@ -135,6 +137,13 @@ const LoginForm: React.FC = () => {
           );
         }}
       />
+
+      <div className='flex items-center justify-center'>
+        <span className='text-zinc-700 text-[0.8rem] text-center'>
+          {t('auth.dont_have_account')}{' '}
+          <Link to={WEBSITE_ROUTE.REGISTER}>{t('auth.register')}</Link>
+        </span>
+      </div>
 
       <Button htmlType='submit' type='primary' loading={isSubmitting}>
         {t('auth.login')}

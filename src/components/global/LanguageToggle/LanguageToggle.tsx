@@ -57,7 +57,9 @@ const LanguageToggle = (props: PropType) => {
         onClick={(e) => e.preventDefault()} // tránh nhảy trang
       >
         <Space>
-          <Avatar src={renderLanguage(i18n.language).icon} />
+          <div className='bg-[#fff] p-[1px] rounded-full'>
+            <Avatar src={renderLanguage(i18n.language).icon} />
+          </div>
 
           <Typography
             style={{

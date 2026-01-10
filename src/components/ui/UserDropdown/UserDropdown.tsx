@@ -5,6 +5,7 @@ import { DownOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { clearUser } from '@/store/actions/user.action';
+import { clearCart } from '@/store/actions/cart.action';
 import { useNavigate } from 'react-router-dom';
 import { UserType } from '@/types/auth';
 
@@ -20,6 +21,7 @@ const UserDropdown = () => {
 
   const handleLogOut = () => {
     dispatch(clearUser());
+    dispatch(clearCart());
     navigate('/');
   };
 

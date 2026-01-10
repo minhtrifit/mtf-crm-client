@@ -1,6 +1,7 @@
 import AuthLayout from '@/components/global/layout/AuthLayout';
 import { WEBSITE_ROUTE } from './route.constant';
 import LoginPage from '@/pages/login';
+import RegisterPage from '@/pages/register';
 import { ForbiddenPage } from '@/pages/forbidden';
 
 export const authRoutes = {
@@ -10,6 +11,10 @@ export const authRoutes = {
     {
       path: WEBSITE_ROUTE.LOGIN,
       element: <LoginPage />,
+    },
+    {
+      path: WEBSITE_ROUTE.REGISTER,
+      element: <RegisterPage />,
     },
     {
       path: WEBSITE_ROUTE.FORBIDDEN,

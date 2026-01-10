@@ -7,8 +7,12 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { RootState } from '@/store/store';
 import { setSidebar, toggleSidebar } from '@/store/actions/user.action';
 import { IoHome } from 'react-icons/io5';
-import { AiFillAppstore } from 'react-icons/ai';
+import { AiFillAppstore, AiOutlineShoppingCart } from 'react-icons/ai';
 import { FiShoppingBag } from 'react-icons/fi';
+import { MdCategory } from 'react-icons/md';
+import { HiUsers } from 'react-icons/hi';
+import { LuUserCog } from 'react-icons/lu';
+import { FaUserTie } from 'react-icons/fa6';
 
 import styles from './styles.module.scss';
 
@@ -47,14 +51,41 @@ const Sidebar = (props: PropType) => {
       label: t('sidebar.dashboard'),
     },
     {
-      key: '/user',
+      key: '/management',
       icon: <AiFillAppstore size={20} />,
       label: t('sidebar.management'),
       children: [
         {
-          key: '/admin/user',
+          key: '/admin/category',
+          icon: <MdCategory size={20} />,
+          label: t('sidebar.categories'),
+        },
+        {
+          key: '/admin/product',
           icon: <FiShoppingBag size={20} />,
+          label: t('sidebar.products'),
+        },
+        {
+          key: '/admin/order',
+          icon: <AiOutlineShoppingCart size={20} />,
+          label: t('sidebar.orders'),
+        },
+      ],
+    },
+    {
+      key: '/accounts',
+      icon: <HiUsers size={20} />,
+      label: t('sidebar.accounts'),
+      children: [
+        {
+          key: '/admin/user',
+          icon: <LuUserCog size={20} />,
           label: t('sidebar.users'),
+        },
+        {
+          key: '/admin/customer',
+          icon: <FaUserTie size={20} />,
+          label: t('sidebar.customers'),
         },
       ],
     },

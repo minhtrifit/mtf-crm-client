@@ -21,3 +21,11 @@ export interface LoginPayload {
   email: string;
   password: string;
 }
+
+export interface RegisterPayload {
+  email: string;
+  fullName: string;
+  password: string;
+  phone: string;
+  address: string;
+}

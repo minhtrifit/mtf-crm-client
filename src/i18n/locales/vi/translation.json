@@ -1,6 +1,9 @@
 {
   "auth": {
     "email": "Email",
+    "fullName": "Họ và tên",
+    "phone": "Số điện thoại",
+    "address": "Địa chỉ",
     "password": "Mật khẩu",
     "login": "Đăng nhập",
     "register": "Đăng ký",
@@ -8,7 +11,11 @@
     "sign_up_system": "Đăng ký vào hệ thống",
     "login_failed": "Đăng nhập không thành công",
     "register_failed": "Đăng ký không thành công",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "dont_have_account": "Chưa có tài khoản?",
+    "already_have_account": "Đã có tài khoản?",
+    "confirm_password": "Xác nhận mật khẩu",
+    "password_not_match": "Mật khẩu không khớp"
   },
   "invalid_email": "Email không hợp lệ",
   "this_field_is_required": "Vui lòng nhập trường này",
@@ -17,9 +24,17 @@
   "back_homepage": "Trở về Trang Chủ",
   "app_not_support_device": "Ứng dụng không hỗ trợ thiết bị này",
   "user_profile": "Hồ sơ người dùng",
+  "what_look_for": "Bạn cần tìm gì?",
+  "recommend_search": "Gợi ý tìm kiếm",
+  "cart": "Giỏ hàng",
   "sidebar": {
     "dashboard": "Trang chủ",
     "management": "Quản lý",
-    "users": "Người dùng"
+    "categories": "Danh mục",
+    "products": "Sản phẩm",
+    "orders": "Đơn hàng",
+    "accounts": "Tài khoản",
+    "users": "Người dùng",
+    "customers": "Khách hàng"
   }
 }

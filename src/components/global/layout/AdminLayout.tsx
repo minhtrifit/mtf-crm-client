@@ -3,7 +3,7 @@ import { Layout, theme } from 'antd';
 import { Outlet } from 'react-router-dom';
 import { MenuUnfoldOutlined, MenuFoldOutlined, MenuOutlined } from '@ant-design/icons';
 import AdminAntdProvider from '@/+core/provider/AdminAntdProvider';
-import AuthProvider from '@/+core/provider/AuthProvider';
+import AdminAuthProvider from '@/+core/provider/AdminAuthProvider';
 import AuthProtectProvider from '@/+core/provider/AuthProtectProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -47,7 +47,7 @@ const AdminLayout: React.FC = () => {
 
   return (
     <AdminAntdProvider>
-      <AuthProvider>
+      <AdminAuthProvider>
         <AuthProtectProvider>
           {isMobile ? (
             <div className='w-full h-screen flex items-center justify-center'>
@@ -117,7 +117,7 @@ const AdminLayout: React.FC = () => {
             </Layout>
           )}
         </AuthProtectProvider>
-      </AuthProvider>
+      </AdminAuthProvider>
     </AdminAntdProvider>
   );
 };

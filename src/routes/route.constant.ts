@@ -8,8 +8,28 @@ export const WEBSITE_ROUTE = {
 };
 
 export const ADMIN_ROUTE = {
+  CATEGORY: 'category',
+  CATEGORY_ADD: 'add',
+  CATEGORY_DETAIL: 'detail/:id',
+  CATEGORY_EDIT: 'edit/:id',
+
+  PRODUCT: 'product',
+  PRODUCT_ADD: 'add',
+  PRODUCT_DETAIL: 'detail/:id',
+  PRODUCT_EDIT: 'edit/:id',
+
+  ORDER: 'order',
+  ORDER_ADD: 'add',
+  ORDER_DETAIL: 'detail/:id',
+  ORDER_EDIT: 'edit/:id',
+
   USER: 'user',
   USER_ADD: 'add',
   USER_DETAIL: 'detail/:id',
   USER_EDIT: 'edit/:id',
+
+  CUSTOMER: 'customer',
+  CUSTOMER_ADD: 'add',
+  CUSTOMER_DETAIL: 'detail/:id',
+  CUSTOMER_EDIT: 'edit/:id',
 };
