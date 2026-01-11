@@ -7,12 +7,12 @@ import { useDetail } from '../../hooks/useDetail';
 import { useCreate } from '../../hooks/useCreate';
 import { useEdit } from '../../hooks/useEdit';
 import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
-import Error from '@/components/ui/Error/Error';
-import FilterBar from '@/pages/components/FilterBar';
-import DataLoading from '@/components/ui/DataLoading/DataLoading';
-import DataTable from '@/pages/components/DataTable';
 import { Category, UpdateCategoryPayload } from '@/types/category';
-import FormModal from '@/pages/components/FormModal';
+import Error from '@/components/ui/Error/Error';
+import DataLoading from '@/components/ui/DataLoading/DataLoading';
+import FilterBar from '../../components/FilterBar';
+import DataTable from '../../components/DataTable';
+import FormModal from '../../components/FormModal';
 
 export interface FilterType {
   page: number;
