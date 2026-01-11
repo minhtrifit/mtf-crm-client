@@ -13,9 +13,20 @@ export const categoryApi = {
       throw error;
     }
   },
+  getShowcase: async (params?: Record<string, any>) => {
+    try {
+      const response = await axiosInstance.get('/category/showcase', {
+        params,
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   getDetail: async (id: string) => {
     try {
-      const response = await axiosInstance.get(`/category/${id}`);
+      const response = await axiosInstance.get(`/category/detail/${id}`);
 
       return response;
     } catch (error) {
@@ -33,7 +44,7 @@ export const categoryApi = {
   },
   update: async (id: string, data: UpdateCategoryPayload) => {
     try {
-      const response = await axiosInstance.patch(`/category/${id}`, data);
+      const response = await axiosInstance.patch(`/category/edit/${id}`, data);
 
       return response;
     } catch (error) {

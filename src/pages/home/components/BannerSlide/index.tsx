@@ -31,15 +31,15 @@ const BannerSlide = () => {
   const data = [
     {
       id: '1',
-      url: 'https://pix.actiup.net/2025/12/18/1766022380077054/1440x600.png',
+      url: 'assets/banners/sale_1.png',
     },
     {
       id: '2',
-      url: 'https://pix.actiup.net/2025/12/09/1765251192712473/Banner_BANNER_1440-x-600.jpg',
+      url: 'assets/banners/sale_2.jpg',
     },
     {
       id: '3',
-      url: 'https://pix.actiup.net/2025/10/28/1761634714203477/bac-ninh-moi.jpg',
+      url: 'assets/banners/sale_3.png',
     },
   ];
 

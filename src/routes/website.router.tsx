@@ -18,5 +18,9 @@ export const websiteRoutes = {
       path: WEBSITE_ROUTE.PRODUCT,
       element: <div>Chi tiết sản phẩm</div>,
     },
+    {
+      path: WEBSITE_ROUTE.CATEGORY,
+      element: <div>Sản phẩm thuộc danh mục</div>,
+    },
   ],
 };

@@ -5,6 +5,7 @@ export const WEBSITE_ROUTE = {
   FORBIDDEN: '/xac-thuc/khong-co-quyen-truy-cap',
   PRODUCTS: '/san-pham',
   PRODUCT: '/san-pham/:slug',
+  CATEGORY: '/danh-muc/:slug',
 };
 
 export const ADMIN_ROUTE = {
