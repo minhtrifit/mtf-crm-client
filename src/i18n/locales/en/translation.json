@@ -19,6 +19,7 @@
   },
   "invalid_email": "Invalid email",
   "this_field_is_required": "This field is required",
+  "this_field_must_be_greater_than_0": "This field must be greater than 0",
   "not_found_page": "Page not found",
   "no_access_page": "No permission to access page",
   "back_homepage": "Back to Homepage",
@@ -68,6 +69,7 @@
   "invalid_slug": "Invalid slug",
   "price": "Price",
   "stock": "Stock",
+  "back": "Back",
   "category": {
     "default": "Category",
     "name": "Category Name",

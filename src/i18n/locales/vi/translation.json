@@ -19,6 +19,7 @@
   },
   "invalid_email": "Email không hợp lệ",
   "this_field_is_required": "Vui lòng nhập trường này",
+  "this_field_must_be_greater_than_0": "Trường này phải lớn hơn 0",
   "not_found_page": "Trang không tồn tại",
   "no_access_page": "Không có quyền truy cập trang",
   "back_homepage": "Trở về Trang Chủ",
@@ -68,6 +69,7 @@
   "invalid_slug": "Slug không hợp lệ",
   "price": "Giá tiền",
   "stock": "Tồn kho",
+  "back": "Quay lại",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",

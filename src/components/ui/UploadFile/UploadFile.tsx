@@ -1,163 +1,107 @@
-import React, { useEffect, useState } from 'react';
-import { Upload, Image, message } from 'antd';
+import { message, Image } from 'antd';
 import { useTranslation } from 'react-i18next';
-import type { UploadFile, UploadProps, RcFile } from 'antd/es/upload/interface';
-import { RiUpload2Fill } from 'react-icons/ri';
 import uploadApi from '@/+core/api/upload.api';
+import { RiUpload2Fill } from 'react-icons/ri';
+import { IoClose } from 'react-icons/io5';
 
-type UploadMode = 'single' | 'multiple';
-
-interface CustomUploadProps extends Omit<UploadProps, 'onChange' | 'fileList'> {
-  mode?: UploadMode;
+interface PropType {
+  mode?: 'single' | 'multiple';
   value?: string | string[];
+  error?: boolean;
   onChange?: (value: string | string[]) => void;
   disabled?: boolean;
 }
 
-const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+const UploadFile = (props: PropType) => {
+  const { mode = 'single', value, error, onChange, disabled = false, ...rest } = props;
 
-const UploadFile: React.FC<CustomUploadProps> = ({
-  mode = 'single',
-  value,
-  onChange,
-  disabled = false,
-  ...rest
-}) => {
   const { t } = useTranslation();
 
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const urls = Array.isArray(value) ? value : value ? [value] : [];
 
-  useEffect(() => {
-    if (!value) {
-      setFileList([]);
-      return;
-    }
-
-    if (mode === 'single' && typeof value === 'string') {
-      setFileList([
-        {
-          uid: '-1',
-          name: value.split('/').pop() || 'image',
-          status: 'done',
-          url: value,
-        },
-      ]);
-    }
-
-    if (mode === 'multiple' && Array.isArray(value)) {
-      setFileList(
-        value.map((url, index) => ({
-          uid: String(index),
-          name: url.split('/').pop() || 'image',
-          status: 'done',
-          url,
-        })),
-      );
-    }
-  }, [value, mode]);
-
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview && file.originFileObj) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
-    }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-  };
-
-  const customRequest: UploadProps['customRequest'] = async ({ file, onSuccess, onError }) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) return;
 
+    const files = e.target.files;
+
+    if (!files || files.length === 0) return;
+
     try {
-      const res = await uploadApi.single(file as RcFile);
-      // BE: res.data.file.url
-      onSuccess?.({
-        url: res?.data?.file?.url,
-      });
-    } catch (err) {
-      onError?.(err as Error);
-    }
-  };
+      const uploadedUrls: string[] = [];
 
-  const handleChange: UploadProps['onChange'] = ({ file, fileList }) => {
-    const newFileList = fileList.map((f) => {
-      if (f.response?.url && !f.url) {
-        f.url = f.response.url;
+      for (let i = 0; i < files.length; i++) {
+        const res = await uploadApi.single(files[i]);
+        uploadedUrls.push(res.data.file.url);
       }
-      return f;
-    });
 
-    setFileList(newFileList);
+      let newValue: string | string[];
 
-    const doneFiles = newFileList.filter((f) => f.status === 'done');
+      if (mode === 'single') {
+        newValue = uploadedUrls[0];
+      } else {
+        newValue = [...urls, ...uploadedUrls];
+      }
 
-    if (mode === 'single') {
-      onChange?.(doneFiles[0]?.url || '');
-    } else {
-      onChange?.(doneFiles.map((f) => f.url!) as string[]);
-    }
-
-    if (file.status === 'error') {
-      message.error(`${file.name} upload failed`);
+      onChange?.(newValue);
+    } catch (err) {
+      message.error('Upload failed');
     }
   };
 
-  const uploadButton = (
-    <button
-      type='button'
-      style={{ border: 0, background: 'none' }}
-      className='flex flex-col items-center gap-2'
-    >
-      <RiUpload2Fill size={20} />
-      <span className='text-[0.8rem] text-zinc-700'>{t('upload_image')}</span>
-    </button>
-  );
+  const handleRemove = (index: number) => {
+    if (disabled) return;
+    if (mode === 'single') {
+      onChange?.('');
+    } else {
+      const newUrls = [...urls];
+      newUrls.splice(index, 1);
+      onChange?.(newUrls);
+    }
+  };
 
   return (
-    <>
-      <Upload
-        {...rest}
-        listType='picture-card'
-        disabled={disabled}
-        openFileDialogOnClick={!disabled}
-        customRequest={customRequest}
-        fileList={fileList}
-        onPreview={handlePreview}
-        onChange={handleChange}
-        maxCount={mode === 'single' ? 1 : undefined}
-        multiple={mode === 'multiple'}
-        showUploadList={{
-          showRemoveIcon: !disabled,
-        }}
-      >
-        {!disabled &&
-          (mode === 'multiple' ? uploadButton : fileList.length >= 1 ? null : uploadButton)}
-      </Upload>
-
-      {/* Preview Modal */}
-      {previewImage && (
-        <Image
-          style={{ display: 'none' }}
-          src={previewImage}
-          preview={{
-            visible: previewOpen,
-            onVisibleChange: (visible: boolean) => {
-              setPreviewOpen(visible);
-              if (!visible) setPreviewImage('');
-            },
-          }}
-        />
+    <div className='flex flex-col gap-2'>
+      {/* Upload button */}
+      {!disabled && (mode === 'multiple' || urls.length === 0) && (
+        <label
+          className={`flex flex-col items-center gap-2 cursor-pointer border border-dashed p-4 rounded
+                      hover:bg-zinc-50 transition-colors duration-200
+                      ${error ? 'border-red-500' : 'border-zinc-400'}
+                    `}
+        >
+          <RiUpload2Fill size={24} />
+          <span className='text-sm text-zinc-700'>{t('upload_image')}</span>
+          <input
+            {...rest}
+            type='file'
+            multiple={mode === 'multiple'}
+            onChange={handleFileChange}
+            className='hidden'
+          />
+        </label>
       )}
-    </>
+
+      {/* Render images */}
+      <div className='flex gap-2 flex-wrap'>
+        {urls.map((url, idx) => (
+          <div key={idx} className='relative'>
+            <Image src={url} width={100} height={100} />
+            {!disabled && (
+              <button
+                type='button'
+                onClick={() => handleRemove(idx)}
+                className='absolute top-0 right-0 bg-[#FFF] rounded-full w-6 h-6
+                            border-[1px] border-solid border-zinc-500
+                            hover:bg-zinc-100 hover:cursor-pointer transition-colors duration-200
+                            flex items-center justify-center text-xs'
+              >
+                <IoClose />
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

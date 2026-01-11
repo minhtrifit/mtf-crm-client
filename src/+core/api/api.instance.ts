@@ -43,8 +43,24 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
+    const resMessage = error.response.data.message;
+
+    let content = 'Something wrong';
+
+    if (Array.isArray(resMessage)) {
+      // Nếu là mảng object { field, message }
+      if (resMessage.every((item) => typeof item === 'object' && 'message' in item)) {
+        content = resMessage.map((item) => item.message).join(', ');
+      } else {
+        // Nếu là mảng string
+        content = resMessage.join(', ');
+      }
+    } else if (typeof resMessage === 'string') {
+      content = resMessage;
+    }
+
     message.error({
-      content: error.response.data.message || 'Something wrong',
+      content: content,
       duration: 1.5,
       onClose: () => {
         if (error.response.status === 401) {

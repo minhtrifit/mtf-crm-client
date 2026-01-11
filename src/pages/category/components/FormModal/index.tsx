@@ -150,7 +150,7 @@ const FormModal = (props: PropType) => {
         <Controller
           control={control}
           name='imageUrl'
-          render={({ field }) => {
+          render={({ field, fieldState }) => {
             return (
               <div className='w-full flex flex-col gap-2'>
                 <Label title={t('image')} required />
@@ -159,14 +159,7 @@ const FormModal = (props: PropType) => {
                   {...field}
                   mode='single'
                   disabled={mode === 'detail'}
-                  onChange={(value: string | string[]) => {
-                    console.log(value);
-
-                    if (value) {
-                      field.onChange(value as string);
-                      clearErrors('imageUrl');
-                    }
-                  }}
+                  error={fieldState.error ? true : false}
                 />
 
                 {errors.imageUrl && (
