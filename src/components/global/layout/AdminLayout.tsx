@@ -15,6 +15,7 @@ import LanguageToggle from '../LanguageToggle/LanguageToggle';
 import UserDropdown from '@/components/ui/UserDropdown/UserDropdown';
 import NotificationDropdown from '../NotificationDropdown/NotificationDropdown';
 import Footer from '../Footer/Footer';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
 
 const { Header, Content } = Layout;
 
@@ -90,8 +91,6 @@ const AdminLayout: React.FC = () => {
                         )}
                       </div>
                     )}
-
-                    {/* <Breadcrumb /> */}
                   </div>
 
                   <div className='flex items-center gap-8'>
@@ -108,6 +107,9 @@ const AdminLayout: React.FC = () => {
                     //   background: colorBgContainer,
                     // }}
                   >
+                    <div className='mb-5'>
+                      <Breadcrumb />
+                    </div>
                     <Outlet />
                   </div>
                 </Content>

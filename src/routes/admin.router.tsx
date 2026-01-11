@@ -1,6 +1,7 @@
 import AdminLayout from '@/components/global/layout/AdminLayout';
 import { ADMIN_ROUTE } from './route.constant';
 import DashboardPage from '@/pages/dashboard/DashboardPage';
+import CategoryListPage from '@/pages/category/pages/list';
 
 export const adminRoutes = {
   path: '/admin',
@@ -13,7 +14,7 @@ export const adminRoutes = {
     {
       path: ADMIN_ROUTE.CATEGORY,
       children: [
-        { index: true, element: <div>Category list page</div> },
+        { index: true, element: <CategoryListPage /> },
         { path: ADMIN_ROUTE.CATEGORY_ADD, element: <div>Category add page</div> },
         { path: ADMIN_ROUTE.CATEGORY_DETAIL, element: <div>Category detail page</div> },
         { path: ADMIN_ROUTE.CATEGORY_EDIT, element: <div>Category edit page</div> },

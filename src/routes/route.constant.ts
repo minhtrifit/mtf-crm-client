@@ -8,6 +8,8 @@ export const WEBSITE_ROUTE = {
 };
 
 export const ADMIN_ROUTE = {
+  HOME: '/admin',
+
   CATEGORY: 'category',
   CATEGORY_ADD: 'add',
   CATEGORY_DETAIL: 'detail/:id',

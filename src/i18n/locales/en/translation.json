@@ -27,6 +27,7 @@
   "what_look_for": "What should you look for?",
   "recommend_search": "Recommend search",
   "cart": "Cart",
+  "error": "Opps! Something wrong",
   "sidebar": {
     "dashboard": "Dashboard",
     "management": "Management",
@@ -36,5 +37,38 @@
     "accounts": "Accounts",
     "users": "Users",
     "customers": "Customers"
+  },
+  "breadcrumb": {
+    "add": "Add",
+    "detail": "Detail",
+    "edit": "Edit",
+    "admin": "Dashboard",
+    "category": "Category",
+    "product": "Product",
+    "order": "Order",
+    "user": "User",
+    "customer": "Customer"
+  },
+  "add": "Add new",
+  "detail": "Detail",
+  "edit": "Edit",
+  "search": "Search",
+  "status": "Status",
+  "active": "Active",
+  "inactive": "Inactive",
+  "action": "Action",
+  "createdAt": "Created At",
+  "updatedAt": "Updated At",
+  "confirm": "Confirm",
+  "yes": "Yes",
+  "cancel": "Cancel",
+  "save": "Save",
+  "image": "Image",
+  "upload_image": "Upload",
+  "invalid_slug": "Invalid slug",
+  "category": {
+    "name": "Category Name",
+    "name_placeholder": "Search by category name, slug",
+    "update_status": "Update this category status?"
   }
 }

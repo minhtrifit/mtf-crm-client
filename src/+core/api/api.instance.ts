@@ -1,5 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { message } from 'antd';
+import { forceLogout } from '../helpers';
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
 const API_URL = import.meta.env.VITE_API_URL;
@@ -26,7 +28,7 @@ axiosInstance.interceptors.request.use(
         const token = parsedSession?.token;
 
         if (token) {
-          config.headers.token = `${token}`;
+          config.headers['Authorization'] = `Bearer ${token}`;
         }
       } catch (error) {
         console.error('Không thể parse session:', error);
@@ -41,6 +43,18 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
+    message.error({
+      content: error.response.data.message || 'Something wrong',
+      duration: 1.5,
+      onClose: () => {
+        if (error.response.status === 401) {
+          forceLogout();
+        }
+      },
+    });
+
+    console.log(error.response);
+
     // Xử lý lỗi chung
     return Promise.reject(error);
   },
