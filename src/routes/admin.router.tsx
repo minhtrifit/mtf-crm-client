@@ -2,6 +2,10 @@ import AdminLayout from '@/components/global/layout/AdminLayout';
 import { ADMIN_ROUTE } from './route.constant';
 import DashboardPage from '@/pages/dashboard/DashboardPage';
 import CategoryListPage from '@/pages/category/pages/list';
+import ProductListPage from '@/pages/product/pages/list';
+import ProductCreatePage from '@/pages/product/pages/create';
+import ProductDetailPage from '@/pages/product/pages/detail';
+import ProductEditPage from '@/pages/product/pages/edit';
 
 export const adminRoutes = {
   path: '/admin',
@@ -23,10 +27,10 @@ export const adminRoutes = {
     {
       path: ADMIN_ROUTE.PRODUCT,
       children: [
-        { index: true, element: <div>Product list page</div> },
-        { path: ADMIN_ROUTE.PRODUCT_ADD, element: <div>Product add page</div> },
-        { path: ADMIN_ROUTE.PRODUCT_DETAIL, element: <div>Product detail page</div> },
-        { path: ADMIN_ROUTE.PRODUCT_EDIT, element: <div>Product edit page</div> },
+        { index: true, element: <ProductListPage /> },
+        { path: ADMIN_ROUTE.PRODUCT_ADD, element: <ProductCreatePage /> },
+        { path: ADMIN_ROUTE.PRODUCT_DETAIL, element: <ProductDetailPage /> },
+        { path: ADMIN_ROUTE.PRODUCT_EDIT, element: <ProductEditPage /> },
       ],
     },
     {

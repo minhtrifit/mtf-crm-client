@@ -2,7 +2,6 @@ import Cookies from 'js-cookie';
 import dayjs from 'dayjs';
 import { persistor } from '@/store/store';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
-import { RcFile, UploadFile } from 'antd/es/upload';
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
 
@@ -22,10 +21,17 @@ export const forceLogout = async () => {
   window.location.href = WEBSITE_ROUTE.HOME;
 };
 
-const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+export const formatCurrency = (
+  value?: number | string,
+  locale: string = 'vi-VN',
+  currency: string = 'VND',
+): string => {
+  const number = Number(value);
+
+  if (!Number.isFinite(number)) return '';
+
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+  }).format(number);
+};

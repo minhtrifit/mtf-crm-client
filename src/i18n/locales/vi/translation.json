@@ -66,9 +66,18 @@
   "image": "Hình ảnh",
   "upload_image": "Tải ảnh lên",
   "invalid_slug": "Slug không hợp lệ",
+  "price": "Giá tiền",
+  "stock": "Tồn kho",
   "category": {
+    "default": "Danh mục",
     "name": "Tên danh mục",
     "name_placeholder": "Tìm kiếm theo tên danh mục, slug",
     "update_status": "Cập nhật trạng thái cho danh mục này?"
+  },
+  "product": {
+    "default": "Sản phẩm",
+    "name": "Tên sản phẩm",
+    "name_placeholder": "Tìm kiếm theo tên sản phẩm, slug",
+    "update_status": "Cập nhật trạng thái cho sản phẩm này?"
   }
 }

@@ -3,19 +3,20 @@ import { get } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Avatar, Button, Pagination, Popconfirm, Switch, Table, Tooltip } from 'antd';
-import { Category } from '@/types/category';
+import { Product } from '@/types/product';
 import { PagingType } from '@/types';
-import { formatDateTime } from '@/+core/helpers';
-import { FilterType } from '@/pages/category/pages/list';
+import { FilterType } from '../../pages/list';
+import { formatCurrency, formatDateTime } from '@/+core/helpers';
 import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
 import { FaEye, FaPen } from 'react-icons/fa';
+import { FiShoppingBag } from 'react-icons/fi';
 import { MdCategory } from 'react-icons/md';
 
 const { Column } = Table;
 
 interface PropType {
   filter: FilterType;
-  data: Category[];
+  data: Product[];
   paging: PagingType | null;
   handlePageChange: (page: number) => void;
   handleActionItem: (name: string, value: any) => Promise<void>;
@@ -46,15 +47,38 @@ const DataTable = (props: PropType) => {
           render={(_, __, index) => (filter.page - 1) * DEFAULT_PAGE_SIZE + index + 1}
         />
         <Column
-          title={t('category.name')}
+          title={t('product.name')}
           dataIndex='name'
           key='name'
           width={200}
           render={(_, record) => {
             return (
               <div className='flex items-center gap-3'>
-                <Avatar size={50} src={get(record, 'imageUrl', '')} icon={<MdCategory />} />
+                <Avatar
+                  shape='square'
+                  size={50}
+                  src={get(record, 'imagesUrl[0]', '')}
+                  icon={<FiShoppingBag />}
+                />
                 <span>{get(record, 'name', '')}</span>
+              </div>
+            );
+          }}
+        />
+        <Column
+          title={t('category.default')}
+          dataIndex='category'
+          key='category'
+          width={200}
+          render={(_, record) => {
+            return (
+              <div className='flex items-center gap-3'>
+                <Avatar
+                  size={50}
+                  src={get(record, 'category.imageUrl', '')}
+                  icon={<MdCategory />}
+                />
+                <span>{get(record, 'category.name', '')}</span>
               </div>
             );
           }}
@@ -66,6 +90,24 @@ const DataTable = (props: PropType) => {
           width={200}
           render={(_, record) => {
             return <span>{get(record, 'slug', '')}</span>;
+          }}
+        />
+        <Column
+          title={t('price')}
+          dataIndex='price'
+          key='price'
+          width={120}
+          render={(_, record) => {
+            return <span>{formatCurrency(get(record, 'price', 0))}</span>;
+          }}
+        />
+        <Column
+          title={t('stock')}
+          dataIndex='stock'
+          key='stock'
+          width={120}
+          render={(_, record) => {
+            return <span>{get(record, 'stock', 0)}</span>;
           }}
         />
         <Column
@@ -95,7 +137,7 @@ const DataTable = (props: PropType) => {
             return (
               <Popconfirm
                 title={t('confirm')}
-                description={t('category.update_status')}
+                description={t('product.update_status')}
                 onConfirm={() => {
                   handleActionItem('status', {
                     id: get(record, 'id', null),
@@ -129,8 +171,7 @@ const DataTable = (props: PropType) => {
                     variant='solid'
                     icon={<FaEye />}
                     onClick={() => {
-                      // navigate(`detail/${record?.id}`);
-                      handleActionItem('detail', record);
+                      navigate(`detail/${record?.id}`);
                     }}
                   />
                 </Tooltip>
@@ -141,8 +182,7 @@ const DataTable = (props: PropType) => {
                     variant='solid'
                     icon={<FaPen />}
                     onClick={() => {
-                      // navigate(`edit/${record?.id}`);
-                      handleActionItem('edit', record);
+                      navigate(`edit/${record?.id}`);
                     }}
                   />
                 </Tooltip>

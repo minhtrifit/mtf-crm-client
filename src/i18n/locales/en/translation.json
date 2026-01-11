@@ -66,9 +66,18 @@
   "image": "Image",
   "upload_image": "Upload",
   "invalid_slug": "Invalid slug",
+  "price": "Price",
+  "stock": "Stock",
   "category": {
+    "default": "Category",
     "name": "Category Name",
     "name_placeholder": "Search by category name, slug",
     "update_status": "Update this category status?"
+  },
+  "product": {
+    "default": "Product",
+    "name": "Product Name",
+    "name_placeholder": "Search by product name, slug",
+    "update_status": "Update this product status?"
   }
 }
