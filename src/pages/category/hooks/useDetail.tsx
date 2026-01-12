@@ -16,11 +16,11 @@ export const useDetail = () => {
 
       const response: any = await categoryApi.getDetail(id);
 
-      setData(response.data.data ?? null);
+      setData(response?.data?.data ?? null);
 
-      return response.data.data;
+      return response?.data?.data;
     } catch (err: any) {
-      setError(err.response.data.message || t('error'));
+      setError(err?.response?.data?.message || t('error'));
 
       return false;
     } finally {

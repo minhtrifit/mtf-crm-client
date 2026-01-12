@@ -19,12 +19,12 @@ export const useList = (initialParams?: Record<string, any>) => {
 
       const response: any = await productApi.getList(fetchParams);
 
-      setData(response.data.data.data ?? []);
-      setPaging(response.data.data.paging ?? null);
+      setData(response?.data?.data?.data ?? []);
+      setPaging(response?.data?.data?.paging ?? null);
 
       return true;
     } catch (err: any) {
-      setError(err.response.data.message || t('error'));
+      setError(err?.response?.data?.message || t('error'));
 
       return false;
     } finally {

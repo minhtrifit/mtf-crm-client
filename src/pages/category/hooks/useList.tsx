@@ -19,8 +19,8 @@ export const useList = (initialParams?: Record<string, any>) => {
 
       const response: any = await categoryApi.getList(fetchParams);
 
-      setData(response.data.data.data ?? []);
-      setPaging(response.data.data.paging ?? null);
+      setData(response?.data?.data?.data ?? []);
+      setPaging(response?.data?.data?.paging ?? null);
 
       return true;
     } catch (err: any) {

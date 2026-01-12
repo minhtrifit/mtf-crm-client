@@ -15,14 +15,14 @@ export const useEdit = () => {
 
       return {
         success: true,
-        data: response.data.data,
-        message: response.data.message,
+        data: response?.data?.data,
+        message: response?.data?.message,
       };
     } catch (err: any) {
       return {
         success: false,
         data: null,
-        message: err.response.data.message || t('error'),
+        message: err?.response?.data?.message || t('error'),
       };
     } finally {
       setLoading(false);

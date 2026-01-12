@@ -17,11 +17,11 @@ export const useGetShowcaseCategory = (initialParams?: Record<string, any>) => {
 
       const response: any = await categoryApi.getShowcase(fetchParams);
 
-      setData(response.data.data.data ?? []);
+      setData(response?.data?.data?.data ?? []);
 
       return true;
     } catch (err: any) {
-      setError(err.response.data.message || t('error'));
+      setError(err?.response?.data?.message || t('error'));
 
       return false;
     } finally {
