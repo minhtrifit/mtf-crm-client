@@ -40,6 +40,17 @@ export const productApi = {
       throw error;
     }
   },
+  getShowcaseByCategorySlug: async (slug: string, params?: Record<string, any>) => {
+    try {
+      const response = await axiosInstance.get(`/product/showcase-by-category-slug/${slug}`, {
+        params,
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default productApi;

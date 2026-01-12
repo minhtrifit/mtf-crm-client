@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { setUser } from '@/store/actions/user.action';
 import { UserRole, UserType } from '@/types/auth';
 import authApi from '../api/auth.api';
+import { WEBSITE_ROUTE } from '@/routes/route.constant';
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
 
@@ -44,6 +45,7 @@ const WebsiteAuthProvider = ({ children }: PropType) => {
 
       const isAdmin = authUser.role === UserRole.ADMIN;
       const isAdminRoute = pathname.startsWith('/admin');
+      const isAuthPage = pathname === WEBSITE_ROUTE.LOGIN || pathname === WEBSITE_ROUTE.REGISTER;
 
       /**
        * RULE:
@@ -51,6 +53,15 @@ const WebsiteAuthProvider = ({ children }: PropType) => {
        */
       if (isAdmin && !isAdminRoute) {
         navigate('/admin', { replace: true });
+        return;
+      }
+
+      /**
+       * RULE:
+       * user + /login | /register => redirect /
+       */
+      if (!isAdmin && isAuthPage) {
+        navigate('/', { replace: true });
         return;
       }
 

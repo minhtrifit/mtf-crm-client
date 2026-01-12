@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-interface AppConfig {
+export interface AppConfig {
   websitePrimaryColor: string;
 }
 

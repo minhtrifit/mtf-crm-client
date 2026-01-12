@@ -72,6 +72,8 @@
   "stock": "Tồn kho",
   "back": "Quay lại",
   "description": "Mô tả",
+  "no_data": "Không có dữ liệu",
+  "add_to_cart": "Thêm vào giỏ hàng",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",

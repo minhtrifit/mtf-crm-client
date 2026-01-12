@@ -51,6 +51,15 @@ export const categoryApi = {
       throw error;
     }
   },
+  getDetailBySlug: async (id: string) => {
+    try {
+      const response = await axiosInstance.get(`/category/detail-by-slug/${id}`);
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default categoryApi;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { useQueryParams } from '@/hooks/useQueryParams';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
@@ -17,6 +18,9 @@ const RegisterForm: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { searchParams } = useQueryParams();
+
+  const websiteRedirect = searchParams.get('website-redirect') ?? '';
 
   const FormSchema = z
     .object({
@@ -54,6 +58,12 @@ const RegisterForm: React.FC = () => {
     },
   });
 
+  const getLoginUrl = () => {
+    if (websiteRedirect === '') return WEBSITE_ROUTE.LOGIN;
+
+    return `${WEBSITE_ROUTE.LOGIN}?website-redirect=${websiteRedirect}`;
+  };
+
   const onSubmit = async (data: FormType) => {
     try {
       const payload: RegisterPayload = {
@@ -68,7 +78,9 @@ const RegisterForm: React.FC = () => {
 
       if (res.success) {
         message.success(res.message);
-        navigate(WEBSITE_ROUTE.LOGIN);
+
+        if (websiteRedirect === '') navigate(WEBSITE_ROUTE.LOGIN);
+        else navigate(`${WEBSITE_ROUTE.LOGIN}?website-redirect=${websiteRedirect}`);
       }
     } catch (error: any) {
       message.error(error?.response?.data?.message || t('auth.register_failed'));
@@ -241,7 +253,7 @@ const RegisterForm: React.FC = () => {
 
       <div className='flex items-center justify-center'>
         <span className='text-zinc-700 text-[0.8rem] text-center'>
-          {t('auth.already_have_account')} <Link to={WEBSITE_ROUTE.LOGIN}>{t('auth.login')}</Link>
+          {t('auth.already_have_account')} <Link to={getLoginUrl()}>{t('auth.login')}</Link>
         </span>
       </div>
 

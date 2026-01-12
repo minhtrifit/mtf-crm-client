@@ -177,6 +177,7 @@ const ProductForm = (props: PropType) => {
 
     const value = generateSlug(name);
     setValue('slug', value);
+    clearErrors('slug');
   }, [debouncedName]);
 
   return (

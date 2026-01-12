@@ -61,13 +61,13 @@ const LanguageToggle = (props: PropType) => {
             <Avatar src={renderLanguage(i18n.language).icon} />
           </div>
 
-          <Typography
+          {/* <Typography
             style={{
               color: textColor,
             }}
           >
             {renderLanguage(i18n.language).label}
-          </Typography>
+          </Typography> */}
         </Space>
       </div>
     </Dropdown>

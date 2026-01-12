@@ -72,6 +72,8 @@
   "stock": "Stock",
   "back": "Back",
   "description": "Description",
+  "no_data": "No data",
+  "add_to_cart": "Add to cart",
   "category": {
     "default": "Category",
     "name": "Category Name",

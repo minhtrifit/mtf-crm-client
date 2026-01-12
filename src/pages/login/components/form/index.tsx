@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { useQueryParams } from '@/hooks/useQueryParams';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import Cookies from 'js-cookie';
@@ -21,6 +22,9 @@ const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { searchParams } = useQueryParams();
+
+  const websiteRedirect = searchParams.get('website-redirect') ?? '';
 
   const FormSchema = z.object({
     email: z
@@ -45,6 +49,12 @@ const LoginForm: React.FC = () => {
     },
   });
 
+  const getRegisterUrl = () => {
+    if (websiteRedirect === '') return WEBSITE_ROUTE.REGISTER;
+
+    return `${WEBSITE_ROUTE.REGISTER}?website-redirect=${websiteRedirect}`;
+  };
+
   const onSubmit = async (data: FormType) => {
     try {
       const authRes = await authApi.login(data);
@@ -64,7 +74,11 @@ const LoginForm: React.FC = () => {
 
         dispatch(setUser(AuthUser));
 
-        if (AuthUser.role === UserRole.USER) navigate('/');
+        if (AuthUser.role === UserRole.USER) {
+          if (websiteRedirect === '') navigate('/');
+          else navigate(websiteRedirect);
+        }
+
         if (AuthUser.role === UserRole.ADMIN) navigate('/admin');
       }
     } catch (error: any) {
@@ -140,8 +154,7 @@ const LoginForm: React.FC = () => {
 
       <div className='flex items-center justify-center'>
         <span className='text-zinc-700 text-[0.8rem] text-center'>
-          {t('auth.dont_have_account')}{' '}
-          <Link to={WEBSITE_ROUTE.REGISTER}>{t('auth.register')}</Link>
+          {t('auth.dont_have_account')} <Link to={getRegisterUrl()}>{t('auth.register')}</Link>
         </span>
       </div>
 

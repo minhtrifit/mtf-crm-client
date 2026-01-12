@@ -1,0 +1,10 @@
+.product__card {
+  transition: all 0.25s ease;
+  border: 1px solid #e5e7eb;
+
+  &:hover {
+    border-color: var(--primary-color);
+    // box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    // transform: translateY(-2px);
+  }
+}
