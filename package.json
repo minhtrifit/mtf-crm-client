@@ -40,6 +40,7 @@
     "slick-carousel": "^1.8.1",
     "uuid": "^11.1.0",
     "yarn": "1.22.21",
+    "yet-another-react-lightbox": "^3.28.0",
     "zod": "3.22.4"
   },
   "devDependencies": {

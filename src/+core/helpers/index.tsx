@@ -35,3 +35,25 @@ export const formatCurrency = (
     currency,
   }).format(number);
 };
+
+export const generateSlug = (text: string): string => {
+  if (!text) return '';
+
+  return (
+    text
+      .toLowerCase()
+      .trim()
+      // bỏ dấu tiếng Việt
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      // đ -> d
+      .replace(/đ/g, 'd')
+      // ký tự đặc biệt -> -
+      .replace(/[^a-z0-9\s-]/g, '')
+      // khoảng trắng & nhiều dấu - -> 1 dấu -
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      // bỏ - ở đầu & cuối
+      .replace(/^-+|-+$/g, '')
+  );
+};

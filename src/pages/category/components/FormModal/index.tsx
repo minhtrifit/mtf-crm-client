@@ -57,7 +57,7 @@ const FormModal = (props: PropType) => {
     defaultValues: emptyValue,
   });
 
-  // Mỗi khi defaultValues thay đổi (edit/view), reset form
+  // Mỗi khi defaultValues thay đổi (edit/detail), reset form
   useEffect(() => {
     reset(defaultValues ?? emptyValue);
   }, [defaultValues]);
@@ -153,7 +153,7 @@ const FormModal = (props: PropType) => {
           render={({ field, fieldState }) => {
             return (
               <div className='w-full flex flex-col gap-2'>
-                <Label title={t('image')} required />
+                <Label title={t('image_square')} required />
 
                 <UploadFile
                   {...field}

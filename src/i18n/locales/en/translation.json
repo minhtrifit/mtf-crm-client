@@ -65,11 +65,13 @@
   "cancel": "Cancel",
   "save": "Save",
   "image": "Image",
+  "image_square": "Image (Recommend square shape)",
   "upload_image": "Upload",
   "invalid_slug": "Invalid slug",
   "price": "Price",
   "stock": "Stock",
   "back": "Back",
+  "description": "Description",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -79,7 +81,7 @@
   "product": {
     "default": "Product",
     "name": "Product Name",
-    "name_placeholder": "Search by product name, slug",
+    "name_placeholder": "Search by product name, slug, SKU",
     "update_status": "Update this product status?"
   }
 }

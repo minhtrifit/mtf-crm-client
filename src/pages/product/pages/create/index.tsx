@@ -15,7 +15,7 @@ const ProductCreatePage = () => {
 
     if (res.success) {
       message.success(res.message);
-      navigate(ADMIN_ROUTE.PRODUCT);
+      navigate(`/admin/${ADMIN_ROUTE.PRODUCT}`);
     }
   };
 
