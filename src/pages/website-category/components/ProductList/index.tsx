@@ -2,7 +2,7 @@ import { get } from 'lodash';
 import { Pagination } from 'antd';
 import { PagingType } from '@/types';
 import { Product } from '@/types/product';
-import { FilterType, WEBSITE_PRODUCT_LIMIT } from '../..';
+import { FilterType, WEBSITE_PRODUCT_LIMIT } from '../../list';
 import WebsiteEmpty from '@/components/ui/WebsiteEmpty/WebsiteEmpty';
 import ProductCard from '@/components/ui/ProductCard/ProductCard';
 

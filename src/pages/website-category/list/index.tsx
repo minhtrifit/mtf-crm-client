@@ -4,12 +4,12 @@ import { Avatar } from 'antd';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useParams } from 'react-router-dom';
 import { useQueryParams } from '@/hooks/useQueryParams';
-import { useList } from './hooks/useList';
-import { useDetailCategory } from './hooks/useDetailCategory';
+import { useList } from '../hooks/useList';
+import { useDetailCategory } from '../hooks/useDetailCategory';
 import { useScrollToId } from '@/hooks/useScrollToId';
 import Error from '@/components/ui/Error/Error';
-import { ProductListSkeleton, TitleSkelelon } from './components/Skeleton';
-import ProductList from './components/ProductList';
+import { ProductListSkeleton, TitleSkelelon } from '../components/Skeleton';
+import ProductList from '../components/ProductList';
 
 export interface FilterType {
   page: number;

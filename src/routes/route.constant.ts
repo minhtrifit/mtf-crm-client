@@ -6,6 +6,7 @@ export const WEBSITE_ROUTE = {
   PRODUCTS: '/san-pham',
   PRODUCT: '/san-pham/:slug',
   CATEGORY: '/danh-muc/:slug',
+  CHECKOUT: '/thanh-toan',
 };
 
 export const ADMIN_ROUTE = {

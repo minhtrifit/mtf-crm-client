@@ -73,7 +73,15 @@
   "back": "Back",
   "description": "Description",
   "no_data": "No data",
-  "add_to_cart": "Add to cart",
+  "add_to_cart": "Add To Cart",
+  "add_to_cart_successfully": "Add product to card successfully",
+  "buy_now": "Buy Now",
+  "in_stock": "In stock",
+  "out_stock": "Out of stock",
+  "total": "Total",
+  "clear_cart": "Clear cart",
+  "clear_cart_confirm": "Are you sure to clear cart?",
+  "checkout": "Checkout",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -82,7 +90,10 @@
   },
   "product": {
     "default": "Product",
+    "detail": "Detail product",
+    "sku": "Product SKU",
     "name": "Product Name",
+    "description": "Product description",
     "name_placeholder": "Search by product name, slug, SKU",
     "update_status": "Update this product status?"
   }

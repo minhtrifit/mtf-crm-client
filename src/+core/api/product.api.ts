@@ -51,6 +51,15 @@ export const productApi = {
       throw error;
     }
   },
+  getDetailBySlug: async (id: string) => {
+    try {
+      const response = await axiosInstance.get(`/product/detail-by-slug/${id}`);
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default productApi;

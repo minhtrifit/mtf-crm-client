@@ -1,3 +1,5 @@
+import { Product } from './product';
+
 export interface PagingType {
   current_page: number;
   total_item: number;
@@ -6,8 +8,6 @@ export interface PagingType {
 }
 
 export interface CartItem {
-  productId: string;
-  name: string;
-  price: number;
+  product: Product;
   quantity: number;
 }

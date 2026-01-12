@@ -1,7 +1,10 @@
 import WebsiteLayout from '@/components/global/layout/WebsiteLayout';
 import { WEBSITE_ROUTE } from './route.constant';
 import HomePage from '@/pages/home';
-import WebsiteCategoryPage from '@/pages/website-category';
+import WebsiteProductPage from '@/pages/website-product/list';
+import WebsiteCategoryPage from '@/pages/website-category/list';
+import WebsiteDetailProductPage from '@/pages/website-product/detail';
+import WebsiteCheckoutPage from '@/pages/website-checkout';
 
 export const websiteRoutes = {
   path: '/',
@@ -13,7 +16,7 @@ export const websiteRoutes = {
     },
     {
       path: WEBSITE_ROUTE.PRODUCTS,
-      element: <div>Danh sách sản phẩm</div>,
+      element: <WebsiteProductPage />,
     },
     {
       path: WEBSITE_ROUTE.CATEGORY,
@@ -21,7 +24,11 @@ export const websiteRoutes = {
     },
     {
       path: WEBSITE_ROUTE.PRODUCT,
-      element: <div>Chi tiết sản phẩm</div>,
+      element: <WebsiteDetailProductPage />,
+    },
+    {
+      path: WEBSITE_ROUTE.CHECKOUT,
+      element: <WebsiteCheckoutPage />,
     },
   ],
 };

@@ -10,7 +10,7 @@ import { RootState } from '@/store/store';
 import { clearUser } from '@/store/actions/user.action';
 import { toggleCartModal } from '@/store/actions/cart.action';
 import type { MenuProps } from 'antd';
-import { Button, Dropdown, Input, Spin } from 'antd';
+import { Badge, Button, Dropdown, Input, Spin } from 'antd';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { FiShoppingBag } from 'react-icons/fi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -34,6 +34,7 @@ const Header = () => {
 
   const user = useSelector((state: RootState) => state.users.user);
   const isOpenCartModal = useSelector((state: RootState) => state.carts.isOpenModal);
+  const carts = useSelector((state: RootState) => state.carts.items);
 
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 500);
@@ -178,16 +179,18 @@ const Header = () => {
           </div>
         ) : (
           <div className='flex items-center gap-8'>
-            <div
-              className='hover:cursor-pointer'
-              onClick={() => {
-                handleToogleCartModal();
-              }}
-            >
-              <AiOutlineShoppingCart size={30} />
-            </div>
-
             <LanguageToggle textColor='white' />
+
+            <Badge count={carts?.length} showZero={false}>
+              <div
+                className='text-[#FFF] hover:cursor-pointer'
+                onClick={() => {
+                  handleToogleCartModal();
+                }}
+              >
+                <AiOutlineShoppingCart size={30} />
+              </div>
+            </Badge>
 
             {!user ? (
               <div
