@@ -81,7 +81,9 @@
   "total": "Total",
   "clear_cart": "Clear cart",
   "clear_cart_confirm": "Are you sure to clear cart?",
+  "clear_cart_successfully": "Clear cart successfully",
   "checkout": "Checkout",
+  "notification": "Notification",
   "category": {
     "default": "Category",
     "name": "Category Name",

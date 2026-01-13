@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
-import { Avatar, Button, Drawer, Popconfirm } from 'antd';
+import { Avatar, Button, Drawer, notification, Popconfirm } from 'antd';
 import { CartItem } from '@/types';
 import { formatCurrency } from '@/+core/helpers';
 import { clearCart, toggleCartModal, updateCartQuantity } from '@/store/actions/cart.action';
@@ -34,6 +34,12 @@ const CartDrawer = (props: PropType) => {
 
   const handleClearCart = () => {
     dispatch(clearCart());
+    dispatch(toggleCartModal());
+    notification.success({
+      message: t('notification'),
+      description: t('clear_cart_successfully'),
+      placement: 'bottomLeft',
+    });
   };
 
   const handleCheckout = () => {

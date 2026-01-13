@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { setUser } from '@/store/actions/user.action';
+import { persistor } from '@/store/store';
 import { UserRole, UserType } from '@/types/auth';
 import authApi from '../api/auth.api';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
@@ -72,10 +73,18 @@ const WebsiteAuthProvider = ({ children }: PropType) => {
     }
   };
 
+  const handleClearStore = async () => {
+    await persistor.purge();
+    console.log('CLEAR STORE');
+  };
+
   useEffect(() => {
     const session = Cookies.get(APP_KEY);
 
-    if (!session) return;
+    if (!session) {
+      handleClearStore();
+      return;
+    }
 
     try {
       const parsedSession = JSON.parse(session);

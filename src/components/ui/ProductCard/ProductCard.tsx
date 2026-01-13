@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { RootState } from '@/store/store';
 import { addToCart } from '@/store/actions/cart.action';
-import { Button, Card, Image, message, Rate, Tooltip } from 'antd';
+import { Button, Card, Image, notification, Rate, Tooltip } from 'antd';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { formatCurrency } from '@/+core/helpers';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -38,7 +38,11 @@ const ProductCard = (props: PropType) => {
     }
 
     dispatch(addToCart({ product, quantity: 1 }));
-    message.success(t('add_to_cart_successfully'));
+    notification.success({
+      message: t('notification'),
+      description: t('add_to_cart_successfully'),
+      placement: 'bottomLeft',
+    });
   };
 
   return (

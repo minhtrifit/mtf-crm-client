@@ -6,7 +6,7 @@ import { RootState } from '@/store/store';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useTranslation } from 'react-i18next';
-import { Avatar, Button, Card, message, Rate, Tag } from 'antd';
+import { Avatar, Button, Card, notification, Rate, Tag } from 'antd';
 import { Product } from '@/types/product';
 import { formatCurrency } from '@/+core/helpers';
 import ImageGallery from '@/components/ui/ImageGallery/ImageGallery';
@@ -48,7 +48,11 @@ const DetailForm = (props: PropType) => {
 
     dispatch(addToCart({ product, quantity }));
     setQuantity(1);
-    message.success(t('add_to_cart_successfully'));
+    notification.success({
+      message: t('notification'),
+      description: t('add_to_cart_successfully'),
+      placement: 'bottomLeft',
+    });
   };
 
   const handleBuyNow = () => {

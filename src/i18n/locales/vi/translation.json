@@ -81,7 +81,9 @@
   "total": "Tổng tiền",
   "clear_cart": "Xóa giỏ hàng",
   "clear_cart_confirm": "Bạn có chắc muốn xóa giỏ hàng?",
+  "clear_cart_successfully": "Xóa giỏ hàng thành công",
   "checkout": "Thanh toán",
+  "notification": "Thông báo",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",
