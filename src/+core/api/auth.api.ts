@@ -35,6 +35,16 @@ export const authApi = {
       throw error;
     }
   },
+
+  createUser: async (data: RegisterPayload) => {
+    try {
+      const response = await axiosInstance.post('/users', data);
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default authApi;

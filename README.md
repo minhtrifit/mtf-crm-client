@@ -27,17 +27,20 @@
 ### 🌍 Environment <a name="environment"></a>
 
 ```console
-node version: >20.
+node version: >20. (Recommended 24.12.0)
 ```
 
 ### 📦 Source code setup <a name="source-code-setup"></a>
 
 ⚙️ Config [.env]() file in dir with path `.env`:
 
+- VITE_ADMIN_CODE: (optional) use for create admin account
+
 ```bash
 VITE_APP_NAME=MTF CRM
 VITE_APP_KEY=mtf_crm_client
 VITE_API_URL=http://localhost:5000
+VITE_ADMIN_CODE=abc123
 ```
 
 📥 Installation packages:

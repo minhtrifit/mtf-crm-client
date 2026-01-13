@@ -28,4 +28,6 @@ export interface RegisterPayload {
   password: string;
   phone: string;
   address: string;
+  role?: UserRole;
+  adminCode?: string;
 }

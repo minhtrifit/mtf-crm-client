@@ -8,11 +8,13 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input, Button, message, Typography } from 'antd';
 import authApi from '@/+core/api/auth.api';
-import { RegisterPayload } from '@/types/auth';
+import { RegisterPayload, UserRole } from '@/types/auth';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import Label from '@/components/ui/Label/Label';
 
 const { Text } = Typography;
+
+const ADMIN_CODE = import.meta.env.VITE_ADMIN_CODE;
 
 const RegisterForm: React.FC = () => {
   const { t } = useTranslation();
@@ -21,6 +23,7 @@ const RegisterForm: React.FC = () => {
   const { searchParams } = useQueryParams();
 
   const websiteRedirect = searchParams.get('website-redirect') ?? '';
+  const admincode = searchParams.get('admin-code') ?? '';
 
   const FormSchema = z
     .object({
@@ -74,13 +77,35 @@ const RegisterForm: React.FC = () => {
         address: data.address,
       };
 
-      const res = await authApi.register(payload);
+      // Admin account create (trick)
+      if (admincode) {
+        if (admincode !== ADMIN_CODE) {
+          message.error('WRONG ADMIN CODE');
+          return;
+        }
 
-      if (res.success) {
-        message.success(res.message);
+        const res = await authApi.createUser({
+          ...payload,
+          role: UserRole.ADMIN,
+          adminCode: admincode,
+        });
 
-        if (websiteRedirect === '') navigate(WEBSITE_ROUTE.LOGIN);
-        else navigate(`${WEBSITE_ROUTE.LOGIN}?website-redirect=${websiteRedirect}`);
+        if (res.success) {
+          message.success(res.message);
+
+          if (websiteRedirect === '') navigate(WEBSITE_ROUTE.LOGIN);
+          else navigate(`${WEBSITE_ROUTE.LOGIN}?website-redirect=${websiteRedirect}`);
+        }
+      } else {
+        // Normal flow: register user
+        const res = await authApi.register(payload);
+
+        if (res.success) {
+          message.success(res.message);
+
+          if (websiteRedirect === '') navigate(WEBSITE_ROUTE.LOGIN);
+          else navigate(`${WEBSITE_ROUTE.LOGIN}?website-redirect=${websiteRedirect}`);
+        }
       }
     } catch (error: any) {
       message.error(error?.response?.data?.message || t('auth.register_failed'));
