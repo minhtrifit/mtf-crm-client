@@ -1,14 +1,14 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useDebounce } from '@/hooks/useDebounce';
 import { RootState } from '@/store/store';
 import { clearUser } from '@/store/actions/user.action';
-import { toggleCartModal } from '@/store/actions/cart.action';
+import { clearCart, toggleCartModal } from '@/store/actions/cart.action';
 import type { MenuProps } from 'antd';
 import { Badge, Button, Dropdown, Input, Spin } from 'antd';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
@@ -29,6 +29,7 @@ const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const isMobile = useIsMobile(1024);
   const { config } = useAppConfig();
 
@@ -53,7 +54,7 @@ const Header = () => {
   const onChooseDropdown: MenuProps['onClick'] = ({ key }) => {
     if (key === 'logout') {
       dispatch(clearUser());
-      window.location.reload;
+      dispatch(clearCart());
     }
   };
 
@@ -64,6 +65,10 @@ const Header = () => {
     }
 
     dispatch(toggleCartModal());
+  };
+
+  const isCheckoutPage = () => {
+    return location.pathname === WEBSITE_ROUTE.CHECKOUT;
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -181,16 +186,18 @@ const Header = () => {
           <div className='flex items-center gap-8'>
             <LanguageToggle textColor='white' />
 
-            <Badge count={carts?.length} showZero={false}>
-              <div
-                className='text-[#FFF] hover:cursor-pointer'
-                onClick={() => {
-                  handleToogleCartModal();
-                }}
-              >
-                <AiOutlineShoppingCart size={30} />
-              </div>
-            </Badge>
+            {!isCheckoutPage() && (
+              <Badge count={carts?.length} showZero={false}>
+                <div
+                  className='text-[#FFF] hover:cursor-pointer'
+                  onClick={() => {
+                    handleToogleCartModal();
+                  }}
+                >
+                  <AiOutlineShoppingCart size={30} />
+                </div>
+              </Badge>
+            )}
 
             {!user ? (
               <div

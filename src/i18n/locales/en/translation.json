@@ -15,7 +15,8 @@
     "dont_have_account": "Don't have account?",
     "already_have_account": "Already have account?",
     "confirm_password": "Confirm password",
-    "password_not_match": "Confirm password not match"
+    "password_not_match": "Confirm password not match",
+    "user_not_found": "User not found"
   },
   "invalid_email": "Invalid email",
   "this_field_is_required": "This field is required",
@@ -79,11 +80,24 @@
   "in_stock": "In stock",
   "out_stock": "Out of stock",
   "total": "Total",
+  "grand_total": "Grand total",
   "clear_cart": "Clear cart",
   "clear_cart_confirm": "Are you sure to clear cart?",
+  "clear_product_confirm": "Are you sure to clear this product?",
   "clear_cart_successfully": "Clear cart successfully",
   "checkout": "Checkout",
   "notification": "Notification",
+  "invalid_data": "Invalid data",
+  "quantity": "Quantity",
+  "continue": "Continue",
+  "delivery_address": "Delivery address",
+  "note": "Note",
+  "place_order": "Place order",
+  "delivery_status": "Delivery status",
+  "order_at": "Order at",
+  "paid_at": "Paid at",
+  "view_detail_order": "View detail order",
+  "order_successfully": "Đặt hàng thành công",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -98,5 +112,43 @@
     "description": "Product description",
     "name_placeholder": "Search by product name, slug, SKU",
     "update_status": "Update this product status?"
+  },
+  "order": {
+    "default": "Order",
+    "id": "Order ID",
+    "payment_method": "Payment method",
+    "cod_payment": "COD payment",
+    "vn_pay_payment": "VNPay payment",
+    "payment_method_required": "Please choose payment method",
+    "payment_successfully": "Payment successfully",
+    "paid": "Paid",
+    "pending": "Pending",
+    "cancelled": "Cancelled"
+  },
+  "vnpay_code": {
+    "00": "Transaction successful",
+    "07": "Payment successful but transaction is suspected (fraud or unusual activity)",
+    "09": "Card or account is not registered for Internet Banking",
+    "10": "Authentication failed more than 3 times",
+    "11": "Payment timeout. Please try again",
+    "12": "Card or account has been locked",
+    "13": "Invalid OTP. Please try again",
+    "24": "Transaction was cancelled by the customer",
+    "51": "Insufficient account balance",
+    "65": "Daily transaction limit exceeded",
+    "75": "The bank is under maintenance",
+    "79": "Payment password entered incorrectly too many times",
+    "99": "Unknown error. Please contact support"
+  },
+  "delivery": {
+    "ordered": "Ordered",
+    "confirm": "Confirm",
+    "preparing": "Preparing",
+    "shipping": "Phipping",
+    "delivered": "Delivered"
+  },
+  "payment": {
+    "cod": "Cash On Delivery",
+    "vnpay": "VNPay payment"
   }
 }
