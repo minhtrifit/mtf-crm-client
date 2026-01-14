@@ -93,11 +93,15 @@
   "delivery_address": "Địa chỉ nhận hàng",
   "note": "Ghi chú",
   "place_order": "Đặt hàng",
-  "delivery_status": "Trang thái giao hàng",
+  "delivery_status": "Trạng thái giao hàng",
   "order_at": "Đặt hàng lúc",
   "paid_at": "Thanh toán lúc",
   "view_detail_order": "Xem chi tiết đơn hàng",
   "order_successfully": "Đặt hàng thành công",
+  "amount": "Số tiền",
+  "paid_date": "Ngày thanh toán",
+  "from_date": "Từ ngày",
+  "to_date": "Đến ngày",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",
@@ -127,7 +131,9 @@
     "cancelled": "Đã hủy",
     "placeholder": "Tìm kiếm theo mã đơn hàng",
     "user_placeholder": "Tìm kiếm theo tên, email, SĐT",
-    "change_delivery_status_confirm": "Bạn có chắc muốn thay đổi trạng thái giao hàng?"
+    "change_delivery_status_confirm": "Bạn có chắc muốn thay đổi trạng thái giao hàng?",
+    "product_list": "Danh sách sản phẩm",
+    "payment_list": "Lịch sử thanh toán"
   },
   "vnpay_code": {
     "00": "Giao dịch thành công",

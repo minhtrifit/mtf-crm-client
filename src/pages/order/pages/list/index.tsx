@@ -16,6 +16,8 @@ export interface FilterType {
   status: OrderStatus;
   deliveryStatus: DeliveryStatus;
   buyerQ: string;
+  fromPaidTime: string | null;
+  toPaidTime: string | null;
 }
 
 const OrderListPage = () => {
@@ -26,6 +28,8 @@ const OrderListPage = () => {
   const status = searchParams.get('status') ?? '';
   const deliveryStatus = searchParams.get('deliveryStatus') ?? '';
   const buyerQ = searchParams.get('buyerQ') ?? '';
+  const fromPaidTime = searchParams.get('fromPaidTime') ?? null;
+  const toPaidTime = searchParams.get('toPaidTime') ?? null;
 
   const [loading, setLoading] = useState<boolean>(false);
   const [filter, setFilter] = useState<FilterType>({
@@ -34,6 +38,8 @@ const OrderListPage = () => {
     status: status as OrderStatus,
     deliveryStatus: deliveryStatus as DeliveryStatus,
     buyerQ: buyerQ,
+    fromPaidTime: fromPaidTime,
+    toPaidTime: toPaidTime,
   });
 
   const {
@@ -55,10 +61,10 @@ const OrderListPage = () => {
   const { mutate: editMutate, loading: editLoading } = useEdit();
 
   const handleChangeFilter = (key: string, value: string) => {
-    setFilter({
-      ...filter,
+    setFilter((prev) => ({
+      ...prev,
       [key]: value,
-    });
+    }));
   };
 
   const handlePageChange = (page: number) => {
@@ -80,6 +86,8 @@ const OrderListPage = () => {
       status: filter.status,
       deliveryStatus: filter.deliveryStatus,
       buyerQ: filter.buyerQ,
+      fromPaidTime: filter.fromPaidTime,
+      toPaidTime: filter.toPaidTime,
       limit: DEFAULT_PAGE_SIZE,
     });
 
@@ -88,6 +96,8 @@ const OrderListPage = () => {
       q: filter.q,
       status: filter.status,
       deliveryStatus: filter.deliveryStatus,
+      fromPaidTime: filter.fromPaidTime,
+      toPaidTime: filter.toPaidTime,
       buyerQ: filter.buyerQ,
     });
   };
@@ -105,10 +115,9 @@ const OrderListPage = () => {
 
         setTimeout(() => {
           setLoading(false);
+          fetchData(params);
           message.success(res.message);
         }, 500);
-
-        fetchData(params);
       }
     }
   };

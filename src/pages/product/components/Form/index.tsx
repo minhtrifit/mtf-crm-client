@@ -149,8 +149,8 @@ const ProductForm = (props: PropType) => {
     navigate(-1);
   };
 
-  const handleRedirectEdit = (id: string) => {
-    navigate(`/admin/product/edit/${id}`);
+  const handleRedirectDetail = (id: string) => {
+    navigate(`/admin/product/detail/${id}`);
   };
 
   const generateSku = () => {
@@ -191,25 +191,15 @@ const ProductForm = (props: PropType) => {
         </span>
 
         <div className='flex items-center justify-center gap-2'>
-          {mode === 'detail' && (
+          {mode === 'edit' && (
             <Button
               type='primary'
               htmlType='button'
               onClick={() => {
-                handleRedirectEdit(id);
+                handleRedirectDetail(id);
               }}
             >
-              {t('edit')}
-            </Button>
-          )}
-
-          {mode === 'detail' && (
-            <Button
-              type={mode === 'detail' ? 'default' : 'primary'}
-              htmlType='button'
-              onClick={handleBack}
-            >
-              {t('back')}
+              {t('detail')}
             </Button>
           )}
         </div>

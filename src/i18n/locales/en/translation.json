@@ -98,6 +98,10 @@
   "paid_at": "Paid at",
   "view_detail_order": "View detail order",
   "order_successfully": "Đặt hàng thành công",
+  "amount": "Amount",
+  "paid_date": "Paid date",
+  "from_date": "From date",
+  "to_date": "To date",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -127,7 +131,9 @@
     "cancelled": "Cancelled",
     "placeholder": "Search by order code",
     "user_placeholder": "Search by full name, email, phone",
-    "change_delivery_status_confirm": "Are you sure to change delivery status?"
+    "change_delivery_status_confirm": "Are you sure to change delivery status?",
+    "product_list": "Product list",
+    "payment_list": "Payment history"
   },
   "vnpay_code": {
     "00": "Transaction successful",

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useDetail } from '../../hooks/useDetail';
 import Error from '@/components/ui/Error/Error';
 import ProductDetailForm from '../../components/DetailForm';
+import DataLoading from '@/components/ui/DataLoading/DataLoading';
 
 const ProductDetailPage = () => {
   const params = useParams();
@@ -14,7 +15,7 @@ const ProductDetailPage = () => {
     return <Error />;
   }
 
-  return <ProductDetailForm product={data} />;
+  return <>{loading ? <DataLoading size='large' /> : <ProductDetailForm product={data} />}</>;
 };
 
 export default ProductDetailPage;

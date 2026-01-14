@@ -1,6 +1,7 @@
 import { FormEvent } from 'react';
+import dayjs from 'dayjs';
 import { get } from 'lodash';
-import { Button, Input, Select } from 'antd';
+import { Button, Input, Select, DatePicker } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { FilterType } from '../../pages/list';
 import { SearchOutlined } from '@ant-design/icons';
@@ -11,6 +12,7 @@ import { FaRegCheckCircle, FaRegCreditCard, FaTruck } from 'react-icons/fa';
 import { PiPackageBold } from 'react-icons/pi';
 
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 
 interface PropType {
   filter: FilterType;
@@ -68,6 +70,8 @@ const FilterBar = (props: PropType) => {
       icon: <FaRegCheckCircle size={20} />,
     },
   ];
+
+  console.log(filter);
 
   return (
     <section className='block__container w-full flex flex-wrap items-end justify-between gap-3'>
@@ -181,6 +185,32 @@ const FilterBar = (props: PropType) => {
               );
             })}
           </Select>
+        </div>
+
+        <div className='flex flex-col gap-3'>
+          <Label title={t('paid_date')} />
+
+          <RangePicker
+            allowClear
+            style={{ width: 280 }}
+            format='YYYY-MM-DD'
+            placeholder={[t('from_date'), t('to_date')]}
+            value={
+              filter.fromPaidTime && filter.toPaidTime
+                ? [dayjs(filter.fromPaidTime, 'YYYY-MM-DD'), dayjs(filter.toPaidTime, 'YYYY-MM-DD')]
+                : null
+            }
+            onChange={(values) => {
+              if (!values) {
+                handleChangeFilter('fromPaidTime', '');
+                handleChangeFilter('toPaidTime', '');
+                return;
+              }
+
+              handleChangeFilter('fromPaidTime', values[0]?.format('YYYY-MM-DD') || '');
+              handleChangeFilter('toPaidTime', values[1]?.format('YYYY-MM-DD') || '');
+            }}
+          />
         </div>
 
         <Button htmlType='submit' color='primary' variant='solid' icon={<SearchOutlined />}>

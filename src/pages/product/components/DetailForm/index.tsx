@@ -54,6 +54,7 @@ const ProductDetailForm = (props: PropType) => {
           </Button>
         </div>
       </section>
+
       <Divider className='my-0' />
 
       <section className='grid grid-cols-1 md:grid-cols-[1fr_350px] gap-5'>
