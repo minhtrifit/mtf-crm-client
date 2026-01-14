@@ -40,3 +40,10 @@ export interface OrderItemPayload {
   productId: string;
   quantity: number;
 }
+
+export interface UpdateOrderPayload {
+  note?: string;
+  deliveryAddress?: string;
+  status?: OrderStatus;
+  deliveryStatus?: DeliveryStatus;
+}

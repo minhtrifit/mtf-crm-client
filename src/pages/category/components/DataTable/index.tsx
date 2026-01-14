@@ -49,7 +49,7 @@ const DataTable = (props: PropType) => {
           title={t('category.name')}
           dataIndex='name'
           key='name'
-          width={200}
+          width={250}
           render={(_, record) => {
             return (
               <div className='flex items-center gap-3'>

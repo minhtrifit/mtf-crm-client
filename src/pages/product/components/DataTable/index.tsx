@@ -50,7 +50,7 @@ const DataTable = (props: PropType) => {
           title={t('product.name')}
           dataIndex='name'
           key='name'
-          width={200}
+          minWidth={250}
           render={(_, record) => {
             return (
               <div className='flex items-center gap-3'>
@@ -69,7 +69,7 @@ const DataTable = (props: PropType) => {
           title={t('category.default')}
           dataIndex='category'
           key='category'
-          width={200}
+          width={250}
           render={(_, record) => {
             return (
               <div className='flex items-center gap-3'>
@@ -87,7 +87,7 @@ const DataTable = (props: PropType) => {
           title={'Slug'}
           dataIndex='slug'
           key='slug'
-          width={200}
+          minWidth={200}
           render={(_, record) => {
             return <span>{get(record, 'slug', '')}</span>;
           }}

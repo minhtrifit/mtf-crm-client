@@ -116,6 +116,7 @@
   "order": {
     "default": "Order",
     "id": "Order ID",
+    "code": "Order code",
     "payment_method": "Payment method",
     "cod_payment": "COD payment",
     "vn_pay_payment": "VNPay payment",
@@ -123,7 +124,10 @@
     "payment_successfully": "Payment successfully",
     "paid": "Paid",
     "pending": "Pending",
-    "cancelled": "Cancelled"
+    "cancelled": "Cancelled",
+    "placeholder": "Search by order code",
+    "user_placeholder": "Search by full name, email, phone",
+    "change_delivery_status_confirm": "Are you sure to change delivery status?"
   },
   "vnpay_code": {
     "00": "Transaction successful",
@@ -150,5 +154,11 @@
   "payment": {
     "cod": "Cash On Delivery",
     "vnpay": "VNPay payment"
+  },
+  "user": {
+    "default": "User"
+  },
+  "customer": {
+    "default": "Customer"
   }
 }
