@@ -102,6 +102,11 @@
   "paid_date": "Paid date",
   "from_date": "From date",
   "to_date": "To date",
+  "clear_filter": "Clear filter",
+  "apply": "Apply",
+  "advance_filter": "Advance filter",
+  "from": "From",
+  "to": "To",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -152,12 +157,13 @@
   },
   "delivery": {
     "ordered": "Ordered",
-    "confirm": "Confirm",
+    "confirmed": "Confirm",
     "preparing": "Preparing",
     "shipping": "Phipping",
     "delivered": "Delivered"
   },
   "payment": {
+    "method": "Payment method",
     "cod": "Cash On Delivery",
     "vnpay": "VNPay payment"
   },

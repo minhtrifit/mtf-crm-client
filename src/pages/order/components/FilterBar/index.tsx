@@ -1,14 +1,14 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import dayjs from 'dayjs';
 import { get } from 'lodash';
-import { Button, Input, Select, DatePicker } from 'antd';
+import { Button, Input, Select, DatePicker, Drawer } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { FilterType } from '../../pages/list';
 import { SearchOutlined } from '@ant-design/icons';
 import Label from '@/components/ui/Label/Label';
 import { DeliveryStatus, OrderStatus } from '@/+core/constants/commons.constant';
 import { MdCancel, MdOutlineBookmarkAdded, MdPaid, MdPending } from 'react-icons/md';
-import { FaRegCheckCircle, FaRegCreditCard, FaTruck } from 'react-icons/fa';
+import { FaFilter, FaRegCheckCircle, FaRegCreditCard, FaTrash, FaTruck } from 'react-icons/fa';
 import { PiPackageBold } from 'react-icons/pi';
 
 const { Option } = Select;
@@ -18,12 +18,15 @@ interface PropType {
   filter: FilterType;
   handleChangeFilter: (key: string, value: string) => void;
   handleApplyFilter: (e: FormEvent<HTMLFormElement>) => void;
+  handleClearAdvanceFilter: () => void;
 }
 
 const FilterBar = (props: PropType) => {
-  const { filter, handleChangeFilter, handleApplyFilter } = props;
+  const { filter, handleChangeFilter, handleApplyFilter, handleClearAdvanceFilter } = props;
 
   const { t } = useTranslation();
+
+  const [openFilterDrawer, setOpenFilterDrawer] = useState<boolean>(false);
 
   const STATUS_OPTIONS = [
     {
@@ -51,7 +54,7 @@ const FilterBar = (props: PropType) => {
     },
     {
       value: DeliveryStatus.CONFIRMED,
-      label: t('delivery.confirm'),
+      label: t('delivery.confirmed'),
       icon: <MdOutlineBookmarkAdded size={20} />,
     },
     {
@@ -71,10 +74,155 @@ const FilterBar = (props: PropType) => {
     },
   ];
 
-  console.log(filter);
-
   return (
     <section className='block__container w-full flex flex-wrap items-end justify-between gap-3'>
+      <Drawer
+        title={t('advance_filter')}
+        closable={{ 'aria-label': 'Close Button' }}
+        onClose={() => setOpenFilterDrawer(false)}
+        open={openFilterDrawer}
+        footer={
+          <div className='w-full flex items-center gap-3'>
+            <Button
+              className='w-full'
+              icon={<FaTrash />}
+              onClick={() => {
+                handleClearAdvanceFilter();
+                setOpenFilterDrawer(false);
+              }}
+            >
+              {t('clear_filter')}
+            </Button>
+
+            <Button
+              form='order-advance-filter-form'
+              className='w-full'
+              htmlType='submit'
+              color='primary'
+              variant='solid'
+              icon={<SearchOutlined />}
+            >
+              {t('apply')}
+            </Button>
+          </div>
+        }
+      >
+        <form
+          id='order-advance-filter-form'
+          onSubmit={(e) => {
+            handleApplyFilter(e);
+            setOpenFilterDrawer(false);
+          }}
+          className='flex flex-col gap-5'
+        >
+          <div className='flex flex-col gap-3'>
+            <Label title={t('status')} />
+            <Select
+              placeholder={t('status')}
+              showSearch
+              allowClear
+              optionFilterProp='label'
+              filterOption={(input, option) => {
+                const label = option?.label;
+
+                if (typeof label !== 'string') return false;
+
+                return label.toLowerCase().includes(input.toLowerCase());
+              }}
+              value={filter.status ? filter.status : null}
+              onChange={(value) => {
+                handleChangeFilter('status', value);
+              }}
+            >
+              {STATUS_OPTIONS.map((item) => {
+                return (
+                  <Option
+                    key={`item-${get(item, 'value', '')}`}
+                    value={get(item, 'value', '')}
+                    label={get(item, 'label', '')}
+                  >
+                    <div className='flex items-center gap-3'>
+                      {get(item, 'icon', null)}
+
+                      <span className='max-w-[180px] truncate text-[0.85rem] text-zinc-700'>
+                        {get(item, 'label', '')}
+                      </span>
+                    </div>
+                  </Option>
+                );
+              })}
+            </Select>
+          </div>
+
+          <div className='flex flex-col gap-3'>
+            <Label title={t('delivery_status')} />
+            <Select
+              placeholder={t('delivery_status')}
+              showSearch
+              allowClear
+              optionFilterProp='label'
+              filterOption={(input, option) => {
+                const label = option?.label;
+
+                if (typeof label !== 'string') return false;
+
+                return label.toLowerCase().includes(input.toLowerCase());
+              }}
+              value={filter.deliveryStatus ? filter.deliveryStatus : null}
+              onChange={(value) => {
+                handleChangeFilter('deliveryStatus', value);
+              }}
+            >
+              {DELIVERY_STATUS_OPTIONS.map((item) => {
+                return (
+                  <Option
+                    key={`item-${get(item, 'value', '')}`}
+                    value={get(item, 'value', '')}
+                    label={get(item, 'label', '')}
+                  >
+                    <div className='flex items-center gap-3'>
+                      {get(item, 'icon', null)}
+
+                      <span className='max-w-[180px] truncate text-[0.85rem] text-zinc-700'>
+                        {get(item, 'label', '')}
+                      </span>
+                    </div>
+                  </Option>
+                );
+              })}
+            </Select>
+          </div>
+
+          <div className='flex flex-col gap-3'>
+            <Label title={t('paid_date')} />
+
+            <RangePicker
+              allowClear
+              format='YYYY-MM-DD'
+              placeholder={[t('from_date'), t('to_date')]}
+              value={
+                filter.fromPaidTime && filter.toPaidTime
+                  ? [
+                      dayjs(filter.fromPaidTime, 'YYYY-MM-DD'),
+                      dayjs(filter.toPaidTime, 'YYYY-MM-DD'),
+                    ]
+                  : null
+              }
+              onChange={(values) => {
+                if (!values) {
+                  handleChangeFilter('fromPaidTime', '');
+                  handleChangeFilter('toPaidTime', '');
+                  return;
+                }
+
+                handleChangeFilter('fromPaidTime', values[0]?.format('YYYY-MM-DD') || '');
+                handleChangeFilter('toPaidTime', values[1]?.format('YYYY-MM-DD') || '');
+              }}
+            />
+          </div>
+        </form>
+      </Drawer>
+
       <form
         onSubmit={(e) => {
           handleApplyFilter(e);
@@ -107,111 +255,7 @@ const FilterBar = (props: PropType) => {
           />
         </div>
 
-        <div className='flex flex-col gap-3'>
-          <Label title={t('status')} />
-          <Select
-            style={{ width: 230 }}
-            placeholder={t('status')}
-            showSearch
-            allowClear
-            optionFilterProp='label'
-            filterOption={(input, option) => {
-              const label = option?.label;
-
-              if (typeof label !== 'string') return false;
-
-              return label.toLowerCase().includes(input.toLowerCase());
-            }}
-            value={filter.status ? filter.status : null}
-            onChange={(value) => {
-              handleChangeFilter('status', value);
-            }}
-          >
-            {STATUS_OPTIONS.map((item) => {
-              return (
-                <Option
-                  key={`item-${get(item, 'value', '')}`}
-                  value={get(item, 'value', '')}
-                  label={get(item, 'label', '')}
-                >
-                  <div className='flex items-center gap-3'>
-                    {get(item, 'icon', null)}
-
-                    <span className='max-w-[180px] truncate text-[0.85rem] text-zinc-700'>
-                      {get(item, 'label', '')}
-                    </span>
-                  </div>
-                </Option>
-              );
-            })}
-          </Select>
-        </div>
-
-        <div className='flex flex-col gap-3'>
-          <Label title={t('delivery_status')} />
-          <Select
-            style={{ width: 230 }}
-            placeholder={t('delivery_status')}
-            showSearch
-            allowClear
-            optionFilterProp='label'
-            filterOption={(input, option) => {
-              const label = option?.label;
-
-              if (typeof label !== 'string') return false;
-
-              return label.toLowerCase().includes(input.toLowerCase());
-            }}
-            value={filter.deliveryStatus ? filter.deliveryStatus : null}
-            onChange={(value) => {
-              handleChangeFilter('deliveryStatus', value);
-            }}
-          >
-            {DELIVERY_STATUS_OPTIONS.map((item) => {
-              return (
-                <Option
-                  key={`item-${get(item, 'value', '')}`}
-                  value={get(item, 'value', '')}
-                  label={get(item, 'label', '')}
-                >
-                  <div className='flex items-center gap-3'>
-                    {get(item, 'icon', null)}
-
-                    <span className='max-w-[180px] truncate text-[0.85rem] text-zinc-700'>
-                      {get(item, 'label', '')}
-                    </span>
-                  </div>
-                </Option>
-              );
-            })}
-          </Select>
-        </div>
-
-        <div className='flex flex-col gap-3'>
-          <Label title={t('paid_date')} />
-
-          <RangePicker
-            allowClear
-            style={{ width: 280 }}
-            format='YYYY-MM-DD'
-            placeholder={[t('from_date'), t('to_date')]}
-            value={
-              filter.fromPaidTime && filter.toPaidTime
-                ? [dayjs(filter.fromPaidTime, 'YYYY-MM-DD'), dayjs(filter.toPaidTime, 'YYYY-MM-DD')]
-                : null
-            }
-            onChange={(values) => {
-              if (!values) {
-                handleChangeFilter('fromPaidTime', '');
-                handleChangeFilter('toPaidTime', '');
-                return;
-              }
-
-              handleChangeFilter('fromPaidTime', values[0]?.format('YYYY-MM-DD') || '');
-              handleChangeFilter('toPaidTime', values[1]?.format('YYYY-MM-DD') || '');
-            }}
-          />
-        </div>
+        <Button icon={<FaFilter />} onClick={() => setOpenFilterDrawer(true)} />
 
         <Button htmlType='submit' color='primary' variant='solid' icon={<SearchOutlined />}>
           {t('search')}

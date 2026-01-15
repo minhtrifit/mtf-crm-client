@@ -1,22 +1,34 @@
-import { useMemo, useState } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
 import { get } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Avatar, Button, Divider, Table, Tooltip } from 'antd';
 import { Order } from '@/types/order';
+import { Payment, PaymentFilterType } from '@/types/payment';
 import { useNavigate, useParams } from 'react-router-dom';
 import Label from '@/components/ui/Label/Label';
-import { formatCurrency, formatDateTime, formatTimezone } from '@/+core/helpers';
+import { formatCurrency, formatDateTime } from '@/+core/helpers';
 import { FiShoppingBag } from 'react-icons/fi';
 import { FaEye, FaPen } from 'react-icons/fa';
+import { PagingType } from '@/types';
+import DataTable from '@/pages/payment/components/DataTable';
+import FilterBar from '@/pages/payment/components/FilterBar';
 
 const { Column } = Table;
 
 interface PropType {
   data: Order;
+  paymentData: {
+    filter: PaymentFilterType;
+    data: Payment[];
+    paging: PagingType | null;
+    handlePageChange: (page: number) => void;
+    handleChangeFilter: (key: string, value: string | number) => void;
+    handleApplyFilter: (e: FormEvent<HTMLFormElement>) => void;
+  };
 }
 
 const DetailForm = (props: PropType) => {
-  const { data } = props;
+  const { data, paymentData } = props;
 
   const navigate = useNavigate();
   const params = useParams();
@@ -24,18 +36,19 @@ const DetailForm = (props: PropType) => {
   const { t } = useTranslation();
 
   const id = params?.id ?? '';
-  const payments = get(data, 'payments', []);
   const carts = get(data, 'items', []);
-
-  const [paymentPagination, setPaymentPagination] = useState({
-    current: 1,
-    pageSize: 5,
-  });
+  const payments = get(paymentData, 'data', []);
+  const paymentFilter = get(paymentData, 'filter', null);
+  const paymentPaging = get(paymentData, 'paging', null);
 
   const [productPagination, setProductPagination] = useState({
     current: 1,
     pageSize: 5,
   });
+
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   const handleRedirectEdit = (id: string) => {
     navigate(`/admin/order/edit/${id}`);
@@ -66,6 +79,10 @@ const DetailForm = (props: PropType) => {
           </span>
 
           <div className='flex items-center justify-center gap-2'>
+            <Button type='default' htmlType='button' onClick={handleBack}>
+              {t('back')}
+            </Button>
+
             <Button
               type='primary'
               htmlType='button'
@@ -160,53 +177,20 @@ const DetailForm = (props: PropType) => {
 
         <Divider className='my-0' />
 
-        <Table
-          bordered
-          dataSource={PAYMENT_TABLE_DATA}
-          pagination={{
-            ...paymentPagination,
-            total: payments?.length,
-            showSizeChanger: false,
-            onChange: (value) => setPaymentPagination({ ...paymentPagination, current: value }),
-          }}
-        >
-          <Column
-            title='#'
-            key='index'
-            width={60}
-            align='center'
-            render={(_, __, index) =>
-              (paymentPagination.current - 1) * paymentPagination.pageSize + index + 1
-            }
+        <div className='w-full flex flex-col gap-10'>
+          <FilterBar
+            filter={paymentFilter as PaymentFilterType}
+            handleChangeFilter={paymentData.handleChangeFilter}
+            handleApplyFilter={paymentData.handleApplyFilter}
           />
-          <Column
-            title={t('order.payment_method')}
-            dataIndex='payment_method'
-            key='payment_method'
-            width={200}
-            render={(_, record) => {
-              return <span>{t(`payment.${get(record, 'method', '').toLowerCase()}`)}</span>;
-            }}
+
+          <DataTable
+            filter={paymentFilter as PaymentFilterType}
+            data={PAYMENT_TABLE_DATA as Payment[]}
+            paging={paymentPaging}
+            handlePageChange={paymentData.handlePageChange}
           />
-          <Column
-            title={t('amount')}
-            dataIndex='amount'
-            key='amount'
-            width={120}
-            render={(_, record) => {
-              return <span>{formatCurrency(get(record, 'amount', 0))}</span>;
-            }}
-          />
-          <Column
-            title={t('paid_at')}
-            dataIndex='paidAt'
-            key='paidAt'
-            width={100}
-            render={(_, record) => {
-              return <span>{formatTimezone(get(record, 'paidAt', ''))}</span>;
-            }}
-          />
-        </Table>
+        </div>
       </section>
 
       <section className='block__container flex flex-col gap-5'>

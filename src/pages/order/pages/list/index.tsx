@@ -31,7 +31,6 @@ const OrderListPage = () => {
   const fromPaidTime = searchParams.get('fromPaidTime') ?? null;
   const toPaidTime = searchParams.get('toPaidTime') ?? null;
 
-  const [loading, setLoading] = useState<boolean>(false);
   const [filter, setFilter] = useState<FilterType>({
     page: page,
     q: q,
@@ -42,15 +41,7 @@ const OrderListPage = () => {
     toPaidTime: toPaidTime,
   });
 
-  const {
-    data,
-    loading: listLoading,
-    error,
-    paging,
-    params,
-    setParams,
-    fetchData,
-  } = useList({
+  const { data, loading, error, paging, params, setParams, fetchData } = useList({
     page: filter.page,
     q: filter.q,
     status: filter.status,
@@ -102,6 +93,40 @@ const OrderListPage = () => {
     });
   };
 
+  const handleClearAdvanceFilter = () => {
+    setFilter({
+      ...filter,
+      page: 1,
+      q: filter.q,
+      buyerQ: filter.buyerQ,
+      status: '' as OrderStatus,
+      deliveryStatus: '' as DeliveryStatus,
+      fromPaidTime: '',
+      toPaidTime: '',
+    });
+
+    setParams({
+      page: 1,
+      q: filter.q,
+      buyerQ: filter.buyerQ,
+      status: '',
+      deliveryStatus: '',
+      fromPaidTime: '',
+      toPaidTime: '',
+      limit: DEFAULT_PAGE_SIZE,
+    });
+
+    updateParams({
+      page: '1',
+      q: filter.q,
+      buyerQ: filter.buyerQ,
+      status: '',
+      deliveryStatus: '',
+      fromPaidTime: '',
+      toPaidTime: '',
+    });
+  };
+
   const handleActionItem = async (name: string, value: any) => {
     if (name === 'deliveryStatus') {
       const payload: UpdateOrderPayload = {
@@ -111,13 +136,8 @@ const OrderListPage = () => {
       const res = await editMutate(value?.id, payload);
 
       if (res.success) {
-        setLoading(true);
-
-        setTimeout(() => {
-          setLoading(false);
-          fetchData(params);
-          message.success(res.message);
-        }, 500);
+        fetchData(params);
+        message.success(res.message);
       }
     }
   };
@@ -132,9 +152,10 @@ const OrderListPage = () => {
         filter={filter}
         handleChangeFilter={handleChangeFilter}
         handleApplyFilter={handleApplyFilter}
+        handleClearAdvanceFilter={handleClearAdvanceFilter}
       />
 
-      {loading || listLoading || editLoading ? (
+      {loading || editLoading ? (
         <div className='mt-10'>
           <DataLoading size='large' />
         </div>

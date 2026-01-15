@@ -102,6 +102,11 @@
   "paid_date": "Ngày thanh toán",
   "from_date": "Từ ngày",
   "to_date": "Đến ngày",
+  "clear_filter": "Xóa bộ lọc",
+  "apply": "Áp dụng",
+  "advance_filter": "Tìm kiếm nâng cao",
+  "from": "Từ",
+  "to": "Đến",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",
@@ -152,12 +157,13 @@
   },
   "delivery": {
     "ordered": "Đã đặt hàng",
-    "confirm": "Đã xác nhận",
+    "confirmed": "Đã xác nhận",
     "preparing": "Đang chuẩn bị hàng",
     "shipping": "Đang giao",
     "delivered": "Giao hàng thành công"
   },
   "payment": {
+    "method": "Phương thức thanh toán",
     "cod": "Thanh toán khi nhận hàng",
     "vnpay": "Thanh toán VNPay"
   },

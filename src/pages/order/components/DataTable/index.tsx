@@ -40,7 +40,7 @@ const DataTable = (props: PropType) => {
     },
     {
       value: DeliveryStatus.CONFIRMED,
-      label: t('delivery.confirm'),
+      label: t('delivery.confirmed'),
       icon: <MdOutlineBookmarkAdded size={20} />,
     },
     {
