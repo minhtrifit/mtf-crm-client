@@ -107,6 +107,9 @@
   "advance_filter": "Tìm kiếm nâng cao",
   "from": "Từ",
   "to": "Đến",
+  "revenue": "Doanh thu",
+  "overview": "Tổng quan",
+  "year": "Năm",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",
@@ -172,5 +175,25 @@
   },
   "customer": {
     "default": "Khách hàng"
+  },
+  "dashboard": {
+    "total_order": "Tổng đơn hàng",
+    "total_revenue": "Tổng doanh thu",
+    "total_users": "Tổng người dùng"
+  },
+  "month": {
+    "default": "Tháng",
+    "1": "Tháng 1",
+    "2": "Tháng 2",
+    "3": "Tháng 3",
+    "4": "Tháng 4",
+    "5": "Tháng 5",
+    "6": "Tháng 6",
+    "7": "Tháng 7",
+    "8": "Tháng 8",
+    "9": "Tháng 9",
+    "10": "Tháng 10",
+    "11": "Tháng 11",
+    "12": "Tháng 12"
   }
 }

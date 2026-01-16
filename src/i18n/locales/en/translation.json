@@ -107,6 +107,9 @@
   "advance_filter": "Advance filter",
   "from": "From",
   "to": "To",
+  "revenue": "Revenue",
+  "overview": "Overview",
+  "year": "Year",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -172,5 +175,25 @@
   },
   "customer": {
     "default": "Customer"
+  },
+  "dashboard": {
+    "total_order": "Total orders",
+    "total_revenue": "Total revenue",
+    "total_users": "Total users"
+  },
+  "month": {
+    "default": "Month",
+    "1": "Jan",
+    "2": "Feb",
+    "3": "Mar",
+    "4": "Apr",
+    "5": "May",
+    "6": "Jun",
+    "7": "Jul",
+    "8": "Aug",
+    "9": "Sep",
+    "10": "Oct",
+    "11": "Nov",
+    "12": "Dec"
   }
 }

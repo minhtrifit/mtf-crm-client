@@ -1,84 +1,47 @@
-import { useState } from 'react';
-import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import { Card, Statistic, DatePicker } from 'antd';
-import {
-  ArrowDownOutlined,
-  ArrowUpOutlined,
-  DropboxOutlined,
-  ShoppingOutlined,
-} from '@ant-design/icons';
-
-const { RangePicker } = DatePicker;
+import StatisticCard from './components/StatisticCard';
+import OverviewChart from './components/OverviewChart';
+import { FiShoppingBag } from 'react-icons/fi';
+import { AiFillDollarCircle } from 'react-icons/ai';
+import { FaUser } from 'react-icons/fa';
+import Calendar from './components/Calendar';
 
 const DashboardPage = () => {
   const { t } = useTranslation();
 
-  const [dates, setDates] = useState<[dayjs.Dayjs | null, dayjs.Dayjs | null] | null>(null);
-
   return (
-    <main className='block__container flex flex-col gap-5'>
-      <section className='flex items-center justify-end gap-5'>
-        <RangePicker
-          format='DD/MM/YYYY' // Định dạng hiển thị
-          value={dates}
-          placeholder={[t('start-date'), t('end-date')]}
-          onChange={(values) => {
-            setDates(values);
-            if (values) {
-              const startDate = values[0]?.format('DD/MM/YYYY');
-              const endDate = values[1]?.format('DD/MM/YYYY');
+    <main className='flex flex-col gap-5'>
+      <section className='grid grid-cols-1 2xl:grid-cols-[1fr_30%] gap-5'>
+        <div className='w-full flex flex-col gap-5'>
+          <div className='w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5'>
+            <StatisticCard
+              theme='ORANGE'
+              title={t('dashboard.total_order')}
+              value={50000}
+              icon={<FiShoppingBag />}
+            />
 
-              console.log('Start date:', startDate);
-              console.log('End date:', endDate);
-            }
-          }}
-        />
-      </section>
+            <StatisticCard
+              theme='GREEN'
+              title={t('dashboard.total_revenue')}
+              value={10500000000}
+              icon={<AiFillDollarCircle />}
+            />
 
-      <section className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5'>
-        <Card variant='borderless' className='bg-violet-700'>
-          <div>
-            <Statistic
-              title={<span className='text-[#FFF]'>Đơn hàng</span>}
-              value={150}
-              precision={1}
-              prefix={<ShoppingOutlined className='text-[#FFF] text-[30px]' />}
-              valueStyle={{ color: '#FFF' }}
+            <StatisticCard
+              theme='BLUE'
+              title={t('dashboard.total_users')}
+              value={1200}
+              icon={<FaUser />}
             />
           </div>
-        </Card>
 
-        <Card variant='borderless' className='bg-blue-500'>
-          <Statistic
-            title={<span className='text-[#FFF]'>Sản phẩm</span>}
-            value={120}
-            prefix={<DropboxOutlined />}
-            valueStyle={{ color: '#FFF' }}
-          />
-        </Card>
+          <OverviewChart />
+        </div>
 
-        <Card variant='borderless' className='bg-yellow-500'>
-          <Statistic
-            title={<span className='text-[#FFF]'>Doanh số</span>}
-            value={9.3}
-            precision={2}
-            prefix={<ArrowUpOutlined />}
-            suffix='%'
-            valueStyle={{ color: '#FFF' }}
-          />
-        </Card>
-
-        <Card variant='borderless' className='bg-red-500'>
-          <Statistic
-            title={<span className='text-[#FFF]'>Lượt truy cập</span>}
-            value={9.3}
-            precision={2}
-            prefix={<ArrowDownOutlined />}
-            suffix='%'
-            valueStyle={{ color: '#FFF' }}
-          />
-        </Card>
+        <div className='block__container'>
+          <Calendar />
+        </div>
       </section>
     </main>
   );
