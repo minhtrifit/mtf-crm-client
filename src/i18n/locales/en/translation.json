@@ -111,6 +111,7 @@
   "overview": "Overview",
   "year": "Year",
   "delivery_statistics": "Delivery status statistics",
+  "invalid_value": "Invalid value",
   "category": {
     "default": "Category",
     "name": "Category Name",

@@ -111,6 +111,7 @@
   "overview": "Tổng quan",
   "year": "Năm",
   "delivery_statistics": "Thống kê trạng thái giao hàng",
+  "invalid_value": "Giá trị không hợp lệ",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",
