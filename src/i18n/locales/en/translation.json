@@ -110,6 +110,7 @@
   "revenue": "Revenue",
   "overview": "Overview",
   "year": "Year",
+  "delivery_statistics": "Delivery status statistics",
   "category": {
     "default": "Category",
     "name": "Category Name",

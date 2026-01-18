@@ -73,3 +73,8 @@ export const formatTimezone = (value?: string) => {
 
   return dayjs.utc(value).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY HH:mm:ss');
 };
+
+export const formatNumber = (value: number | string) => {
+  if (value === null || value === undefined) return '';
+  return new Intl.NumberFormat('vi-VN').format(Number(value));
+};

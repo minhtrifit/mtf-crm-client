@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import {
   ComposedChart,
   Area,
@@ -10,6 +9,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { useTranslation } from 'react-i18next';
+import { formatCurrency, formatNumber } from '@/+core/helpers';
 
 const OverviewChart = () => {
   const { t } = useTranslation();
@@ -27,6 +28,13 @@ const OverviewChart = () => {
     { month: '10', orders: 3000, users: 980, revenue: 3450 },
     { month: '11', orders: 2000, users: 1000, revenue: 3700 },
     { month: '12', orders: 5000, users: 2130, revenue: 4450 },
+  ];
+
+  const items = [
+    { value: 300, label: t('product.default'), format: formatNumber },
+    { value: 15000, label: t('order.default'), format: formatNumber },
+    { value: 10500000000, label: t('revenue'), format: formatCurrency },
+    { value: 1200, label: t('user.default'), format: formatNumber },
   ];
 
   const RenderLegend = ({ payload }: any) => {
@@ -50,8 +58,34 @@ const OverviewChart = () => {
   };
 
   return (
-    <div className='block__container flex flex-col gap-1'>
+    <div className='block__container flex flex-col gap-3'>
       <h3 className='text-[16px] text-[#495057]'>{t('overview')}</h3>
+
+      <div
+        className='w-full h-[70px] bg-[#f9fbfc] grid grid-cols-4
+             border border-dashed border-zinc-200'
+      >
+        {items.map((item, index) => {
+          const borderClass =
+            index === 1
+              ? 'border-l-[1px] border-r-[0] border-y-[0] border-dashed border-zinc-200'
+              : index === 2
+              ? 'border-x-[1px] border-y-[0] border-dashed border-zinc-200'
+              : '';
+
+          return (
+            <div
+              key={index}
+              className={`flex flex-col items-center justify-center gap-2 ${borderClass}`}
+            >
+              <span className='text-[#495057] text-[1rem] font-bold'>
+                {item.format(item.value)}
+              </span>
+              <span className='text-zinc-700 text-[0.8rem]'>{item.label}</span>
+            </div>
+          );
+        })}
+      </div>
 
       <div className='w-full h-[350px]'>
         <ResponsiveContainer width='100%' height='100%'>
