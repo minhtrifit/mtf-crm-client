@@ -85,7 +85,7 @@ const UploadFile = (props: PropType) => {
       <div className='flex gap-2 flex-wrap'>
         {urls.map((url, idx) => (
           <div key={idx} className='relative'>
-            <Image src={url} width={100} height={100} />
+            <Image src={url} width={100} height={100} className='object-cover' />
             {!disabled && (
               <button
                 type='button'

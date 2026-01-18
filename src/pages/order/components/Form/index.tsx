@@ -207,7 +207,6 @@ const OrderForm = (props: PropType) => {
                   {...field}
                   placeholder={t('status')}
                   showSearch
-                  allowClear
                   optionFilterProp='label'
                   status={errors.status ? 'error' : ''}
                   onClear={() => {
@@ -268,7 +267,6 @@ const OrderForm = (props: PropType) => {
                   {...field}
                   placeholder={t('delivery_status')}
                   showSearch
-                  allowClear
                   optionFilterProp='label'
                   status={errors.deliveryStatus ? 'error' : ''}
                   onClear={() => {

@@ -10,7 +10,7 @@ import { IoHome } from 'react-icons/io5';
 import { AiFillAppstore, AiOutlineShoppingCart } from 'react-icons/ai';
 import { FiShoppingBag } from 'react-icons/fi';
 import { MdCategory } from 'react-icons/md';
-import { HiUsers } from 'react-icons/hi';
+import { HiUsers, HiTemplate } from 'react-icons/hi';
 import { LuUserCog } from 'react-icons/lu';
 import { FaUserTie } from 'react-icons/fa6';
 
@@ -88,6 +88,11 @@ const Sidebar = (props: PropType) => {
           label: t('sidebar.customers'),
         },
       ],
+    },
+    {
+      key: '/admin/website-template',
+      icon: <HiTemplate size={20} />,
+      label: t('breadcrumb.website-template'),
     },
   ];
 

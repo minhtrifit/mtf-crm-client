@@ -49,7 +49,8 @@
     "product": "Product",
     "order": "Order",
     "user": "User",
-    "customer": "Customer"
+    "customer": "Customer",
+    "website-template": "Website Template"
   },
   "add": "Add new",
   "detail": "Detail",
@@ -112,6 +113,7 @@
   "year": "Year",
   "delivery_statistics": "Delivery status statistics",
   "invalid_value": "Invalid value",
+  "save_and_apply": "Save & apply",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -197,5 +199,12 @@
     "10": "Oct",
     "11": "Nov",
     "12": "Dec"
+  },
+  "website_template": {
+    "name": "Website template name",
+    "name_placeholder": "Search by template name",
+    "update_status": "Update this template status?",
+    "brand_logo": "Brand logo",
+    "brand_color": "Brand color"
   }
 }

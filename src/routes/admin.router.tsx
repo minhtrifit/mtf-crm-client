@@ -9,6 +9,8 @@ import ProductEditPage from '@/pages/product/pages/edit';
 import OrderListPage from '@/pages/order/pages/list';
 import OrderDetailPage from '@/pages/order/pages/detail';
 import OrderEditPage from '@/pages/order/pages/edit';
+import WebsiteTemplatePage from '@/pages/website-template/pages/list';
+import CreateWebsiteTemplatePage from '@/pages/website-template/pages/create';
 
 export const adminRoutes = {
   path: '/admin',
@@ -61,6 +63,15 @@ export const adminRoutes = {
         { path: ADMIN_ROUTE.CUSTOMER_ADD, element: <div>Customer add page</div> },
         { path: ADMIN_ROUTE.CUSTOMER_DETAIL, element: <div>Customer detail page</div> },
         { path: ADMIN_ROUTE.CUSTOMER_EDIT, element: <div>Customer edit page</div> },
+      ],
+    },
+    {
+      path: ADMIN_ROUTE.WEBSITE_TEMPLATE,
+      children: [
+        { index: true, element: <WebsiteTemplatePage /> },
+        { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_ADD, element: <CreateWebsiteTemplatePage /> },
+        { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_DETAIL, element: <div>Category detail page</div> },
+        { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_EDIT, element: <div>Category edit page</div> },
       ],
     },
   ],

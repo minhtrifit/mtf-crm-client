@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -17,7 +18,7 @@ const AuthHeader = () => {
   return (
     <header
       style={{ backgroundColor: config?.websitePrimaryColor }}
-      className='sticky top-0 z-[100] w-full h-[60px] text-[#fff]'
+      className='sticky top-0 z-[100] w-full text-[#fff]'
     >
       <div className='max-w-[1200px] h-full mx-auto px-[20px] py-[10px] flex items-center justify-between'>
         <div
@@ -26,7 +27,11 @@ const AuthHeader = () => {
             navigate(WEBSITE_ROUTE.HOME);
           }}
         >
-          <FiShoppingBag size={30} />
+          {get(config, 'logo', '') === '' ? (
+            <FiShoppingBag size={30} />
+          ) : (
+            <img src={get(config, 'logo', '')} className='h-[40px]' alt='brand-logo' />
+          )}
         </div>
 
         <LanguageToggle textColor='white' />

@@ -153,7 +153,11 @@ const Header = () => {
     >
       <div className='max-w-[1200px] mx-auto px-[20px] py-[10px] flex items-center justify-between'>
         <div onClick={() => navigate(WEBSITE_ROUTE.HOME)} className='cursor-pointer'>
-          <FiShoppingBag size={30} />
+          {get(config, 'logo', '') === '' ? (
+            <FiShoppingBag size={30} />
+          ) : (
+            <img src={get(config, 'logo', '')} className='h-[40px]' alt='brand-logo' />
+          )}
         </div>
 
         {!isMobile && (

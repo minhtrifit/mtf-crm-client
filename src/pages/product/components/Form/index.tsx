@@ -310,7 +310,6 @@ const ProductForm = (props: PropType) => {
                     disabled={categoriesLoading}
                     placeholder={t('category.default')}
                     showSearch
-                    allowClear
                     optionFilterProp='label'
                     status={errors.categoryId ? 'error' : ''}
                     onClear={() => {
