@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Avatar, Button, Select, Typography } from 'antd';
+import { Avatar, Button, Empty, Select, Tooltip, Typography } from 'antd';
 import { get } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useFieldArray, useFormContext } from 'react-hook-form';
@@ -7,8 +7,9 @@ import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { useGetAll } from '@/pages/product/hooks/useAll';
 import { Product } from '@/types/product';
 import Label from '@/components/ui/Label/Label';
-import { MdCategory } from 'react-icons/md';
+import { MdCategory, MdDragHandle } from 'react-icons/md';
 import { formatCurrency } from '@/+core/helpers';
+import { FaTrash } from 'react-icons/fa';
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -106,14 +107,20 @@ export const ProductList = ({ sectionIndex }: Props) => {
         </div>
 
         <Button
-          type='dashed'
+          type='primary'
           htmlType='button'
           disabled={!selectedProduct}
           onClick={handleAddProduct}
         >
-          + Add product
+          {t('add')}
         </Button>
       </div>
+
+      {fields.length === 0 && (
+        <div className='w-full flex items-center justify-center'>
+          <Empty />
+        </div>
+      )}
 
       <Droppable
         droppableId={`products-${sectionIndex}`}
@@ -132,14 +139,14 @@ export const ProductList = ({ sectionIndex }: Props) => {
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    className='w-[300px] min-w-[300px] bg-gray-50 border rounded p-2 flex flex-col gap-2'
+                    className='w-[300px] min-w-[300px] bg-gray-50 border rounded p-2 flex flex-col gap-2 shadow-md'
                   >
                     {/* DRAG HANDLE */}
                     <div
                       {...provided.dragHandleProps}
-                      className='cursor-move text-xs text-gray-600'
+                      className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
                     >
-                      ☰
+                      <MdDragHandle size={20} />
                     </div>
 
                     <div className='flex gap-3'>
@@ -151,23 +158,26 @@ export const ProductList = ({ sectionIndex }: Props) => {
                       />
 
                       <div className='flex flex-col gap-3'>
-                        <span className='text-[0.8rem] text-zinc-700'>
+                        <span className='min-h-[30px] text-[0.8rem] text-zinc-700'>
                           {get(field, 'product.name', '')}
                         </span>
+
                         <span className='text-[0.8rem] text-zinc-700 font-semibold'>
                           {formatCurrency(get(field, 'product.price', 0))}
                         </span>
                       </div>
                     </div>
 
-                    <Button
-                      size='small'
-                      danger
-                      htmlType='button'
-                      onClick={() => remove(productIndex)}
-                    >
-                      Remove
-                    </Button>
+                    <Tooltip title={t('product.delete')}>
+                      <Button
+                        danger
+                        htmlType='button'
+                        onClick={() => remove(productIndex)}
+                        className='ml-auto'
+                      >
+                        <FaTrash />
+                      </Button>
+                    </Tooltip>
                   </div>
                 )}
               </Draggable>

@@ -52,7 +52,7 @@ const WebsiteTemplateForm = (props: PropType) => {
           position: z.number().optional(),
         }),
       )
-      .min(1)
+      .min(1, { message: t('require_at_least_one_product') })
       .default([]),
   });
 
@@ -78,7 +78,7 @@ const WebsiteTemplateForm = (props: PropType) => {
       : {
           name: '',
           logoUrl: '',
-          primaryColor: '',
+          primaryColor: '#e4e4e7',
           sections: [],
         },
   });
@@ -191,6 +191,8 @@ const WebsiteTemplateForm = (props: PropType) => {
 
           <Divider className='my-0' />
 
+          <h3 className='text-zinc-500 mb-3'>{t('website_template.general_information')}</h3>
+
           <section className='w-full grid grid-cols-1 xl:grid-cols-2 gap-5'>
             <Controller
               control={control}
@@ -263,6 +265,8 @@ const WebsiteTemplateForm = (props: PropType) => {
           </section>
 
           <Divider className='my-0' />
+
+          <h3 className='text-zinc-500 mb-3'>{t('website_template.section_content')}</h3>
 
           <DragDropContext onDragEnd={handleDragEnd}>
             <SectionList

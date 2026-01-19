@@ -1,9 +1,11 @@
-import { Input, Button, Typography } from 'antd';
+import { Input, Button, Typography, Popconfirm } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useFormContext, useFieldArray, Controller } from 'react-hook-form';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { ProductList } from '../ProductList';
 import Label from '@/components/ui/Label/Label';
+import { GoPlusCircle } from 'react-icons/go';
+import { MdDragHandle } from 'react-icons/md';
 
 const { Text } = Typography;
 
@@ -21,8 +23,9 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
   return (
     <div className='flex flex-col gap-5'>
       <Button
-        type='dashed'
+        type='primary'
         htmlType='button'
+        icon={<GoPlusCircle size={20} />}
         onClick={() =>
           append({
             id: undefined,
@@ -32,7 +35,7 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
           })
         }
       >
-        + Add section
+        <span>{t('website_template.add_section')}</span>
       </Button>
 
       <Droppable droppableId='sections' type='SECTION'>
@@ -44,14 +47,15 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    className='border p-3 mb-2 flex flex-col gap-5 bg-[#FFF] shadow-md'
+                    className='p-3 mb-2 flex flex-col gap-5 bg-[#FFF]
+                                border-[1px] border-solid border-zinc-100 shadow-md'
                   >
                     {/* DRAG HANDLE */}
                     <div
                       {...provided.dragHandleProps}
-                      className='cursor-move text-sm text-gray-600'
+                      className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
                     >
-                      ☰
+                      <MdDragHandle size={20} />
                     </div>
 
                     <Controller
@@ -60,11 +64,11 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
                       render={({ field, fieldState }) => {
                         return (
                           <div className='w-full flex flex-col gap-2'>
-                            <Label title={t('website_template.name')} required />
+                            <Label title={t('website_template.section_name')} required />
 
                             <Input
                               {...field}
-                              placeholder={t('website_template.name')}
+                              placeholder={t('website_template.section_name')}
                               status={fieldState.error ? 'error' : ''}
                             />
 
@@ -78,13 +82,21 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
                       }}
                     />
 
-                    <div className='max-w-[1100px]'>
+                    <div className='max-w-[calc(100vw-400px)] xl:max-w-[calc(100vw-850px)]'>
                       <ProductList sectionIndex={index} />
                     </div>
 
-                    <Button danger htmlType='button' onClick={() => remove(index)}>
-                      Remove
-                    </Button>
+                    <Popconfirm
+                      title={t('confirm')}
+                      description={t('website_template.remove_section_confirm')}
+                      onConfirm={() => remove(index)}
+                      okText={t('yes')}
+                      cancelText={t('cancel')}
+                    >
+                      <Button danger type='primary' htmlType='button' className='ml-auto'>
+                        {t('website_template.remove_section')}
+                      </Button>
+                    </Popconfirm>
                   </div>
                 )}
               </Draggable>

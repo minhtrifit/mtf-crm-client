@@ -1,6 +1,9 @@
+import { Product } from './product';
+
 export interface SectionItemType {
   id: string;
   productId: string;
+  product: Product;
   position: number;
 }
 

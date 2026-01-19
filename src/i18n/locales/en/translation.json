@@ -114,6 +114,7 @@
   "delivery_statistics": "Delivery status statistics",
   "invalid_value": "Invalid value",
   "save_and_apply": "Save & apply",
+  "require_at_least_one_product": "Require at least one product",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -127,7 +128,8 @@
     "name": "Product Name",
     "description": "Product description",
     "name_placeholder": "Search by product name, slug, SKU",
-    "update_status": "Update this product status?"
+    "update_status": "Update this product status?",
+    "delete": "Delete product"
   },
   "order": {
     "default": "Order",
@@ -205,6 +207,12 @@
     "name_placeholder": "Search by template name",
     "update_status": "Update this template status?",
     "brand_logo": "Brand logo",
-    "brand_color": "Brand color"
+    "brand_color": "Brand color",
+    "add_section": "Add section",
+    "section_name": "Section name",
+    "remove_section": "Remove section",
+    "remove_section_confirm": "Are you sure to remove this section?",
+    "general_information": "General Information",
+    "section_content": "Section content"
   }
 }
