@@ -13,6 +13,17 @@ export const productApi = {
       throw error;
     }
   },
+  getAll: async (params?: Record<string, any>) => {
+    try {
+      const response = await axiosInstance.get('/product/all', {
+        params,
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   getDetail: async (id: string) => {
     try {
       const response = await axiosInstance.get(`/product/detail/${id}`);

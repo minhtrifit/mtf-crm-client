@@ -1,8 +1,11 @@
 import { FormEvent, useState } from 'react';
+import { message } from 'antd';
 import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useList } from '../../hooks/useList';
+import { useEdit } from '../../hooks/useEdit';
 import Error from '@/components/ui/Error/Error';
+import { UpdateWebsiteTemplatePayload } from '@/types/website_template';
 import DataLoading from '@/components/ui/DataLoading/DataLoading';
 import FilterBar from '../../components/FilterBar';
 import DataTable from '../../components/DataTable';
@@ -32,6 +35,7 @@ const WebsiteTemplatePage = () => {
     isActive: filter.isActive,
     limit: DEFAULT_PAGE_SIZE,
   });
+  const { mutate, loading: editLoading } = useEdit();
 
   const handleChangeFilter = (key: string, value: string) => {
     setFilter({
@@ -70,6 +74,17 @@ const WebsiteTemplatePage = () => {
   const handleActionItem = async (name: string, value: any) => {
     if (name === 'status') {
       console.log({ name, value });
+
+      const payload: UpdateWebsiteTemplatePayload = {
+        isActive: value?.value,
+      };
+
+      const res = await mutate(value?.id, payload);
+
+      if (res.success) {
+        message.success(res.message);
+        fetchData(params);
+      }
     }
   };
 
@@ -85,7 +100,7 @@ const WebsiteTemplatePage = () => {
         handleApplyFilter={handleApplyFilter}
       />
 
-      {loading ? (
+      {loading || editLoading ? (
         <div className='mt-10'>
           <DataLoading size='large' />
         </div>

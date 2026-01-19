@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import { Avatar, Button, Input, Select } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useGetShowcaseCategory } from '@/pages/home/hooks/useGetShowcaseCategory';
+import { useGetAll } from '@/pages/category/hooks/useAll';
 import { ADMIN_ROUTE } from '@/routes/route.constant';
 import { FilterType } from '../../pages/list';
 import Label from '@/components/ui/Label/Label';
@@ -24,7 +24,7 @@ const FilterBar = (props: PropType) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { data: categories, loading: categoriesLoading } = useGetShowcaseCategory();
+  const { data: categories, loading: categoriesLoading } = useGetAll();
 
   const isActiveOption = [
     { value: 'true', label: t('active') },

@@ -12,7 +12,7 @@ const ColorPicker = ({ value, onChange, disabled }: PropType) => {
 
   return (
     <div className='w-full flex flex-col gap-5'>
-      <div className='w-full flex items-center gap-3'>
+      <div className='w-full flex flex-wrap items-center gap-3'>
         {COLORS.map((color) => {
           const isActive = color.toLowerCase() === value?.toLowerCase();
 

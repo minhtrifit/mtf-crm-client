@@ -11,6 +11,7 @@ import OrderDetailPage from '@/pages/order/pages/detail';
 import OrderEditPage from '@/pages/order/pages/edit';
 import WebsiteTemplatePage from '@/pages/website-template/pages/list';
 import CreateWebsiteTemplatePage from '@/pages/website-template/pages/create';
+import EditWebsiteTemplatePage from '@/pages/website-template/pages/edit';
 
 export const adminRoutes = {
   path: '/admin',
@@ -71,7 +72,7 @@ export const adminRoutes = {
         { index: true, element: <WebsiteTemplatePage /> },
         { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_ADD, element: <CreateWebsiteTemplatePage /> },
         { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_DETAIL, element: <div>Category detail page</div> },
-        { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_EDIT, element: <div>Category edit page</div> },
+        { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_EDIT, element: <EditWebsiteTemplatePage /> },
       ],
     },
   ],

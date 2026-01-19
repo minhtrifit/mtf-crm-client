@@ -24,6 +24,17 @@ export const categoryApi = {
       throw error;
     }
   },
+  getAll: async (params?: Record<string, any>) => {
+    try {
+      const response = await axiosInstance.get('/category/all', {
+        params,
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   getDetail: async (id: string) => {
     try {
       const response = await axiosInstance.get(`/category/detail/${id}`);

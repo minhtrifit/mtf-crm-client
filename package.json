@@ -15,6 +15,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "3.3.4",
     "@reduxjs/toolkit": "^2.2.1",
     "antd": "^5.26.4",
