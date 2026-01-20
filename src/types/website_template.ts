@@ -19,6 +19,7 @@ export interface WebsiteTemplate {
   name: string;
   primaryColor: string;
   logoUrl: string;
+  bannersUrl: string[];
   isActibe: boolean;
 
   sections: SectionType[];
@@ -28,6 +29,7 @@ export interface CreateWebsiteTemplatePayload {
   name: string;
   primaryColor: string;
   logoUrl: string;
+  bannersUrl: string[];
   isActive: boolean;
   sections: SectionType[];
 }
@@ -36,5 +38,6 @@ export interface UpdateWebsiteTemplatePayload {
   name?: string;
   primaryColor?: string;
   logoUrl?: string;
+  bannersUrl?: string[];
   isActive: boolean;
 }

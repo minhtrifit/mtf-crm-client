@@ -10,7 +10,7 @@ import {
   SectionType,
   WebsiteTemplate,
 } from '@/types/website_template';
-import { Button, Divider, Input, Typography } from 'antd';
+import { Button, Divider, Input, message, Typography } from 'antd';
 import Label from '@/components/ui/Label/Label';
 import UploadFile from '@/components/ui/UploadFile/UploadFile';
 import ColorPicker from '../ColorPicker';
@@ -60,6 +60,7 @@ const WebsiteTemplateForm = (props: PropType) => {
     name: z.string().min(1, { message: t('this_field_is_required') }),
     logoUrl: z.string().min(1, { message: t('this_field_is_required') }),
     primaryColor: z.string().min(1, { message: t('this_field_is_required') }),
+    bannersUrl: z.array(z.string()),
 
     sections: z.array(SectionItemSchema).default([]),
   });
@@ -73,12 +74,14 @@ const WebsiteTemplateForm = (props: PropType) => {
           name: defaultValues.name,
           logoUrl: defaultValues.logoUrl,
           primaryColor: defaultValues.primaryColor,
+          bannersUrl: defaultValues.bannersUrl,
           sections: defaultValues.sections,
         }
       : {
           name: '',
           logoUrl: '',
           primaryColor: '#e4e4e7',
+          bannersUrl: [],
           sections: [],
         },
   });
@@ -160,6 +163,8 @@ const WebsiteTemplateForm = (props: PropType) => {
 
     const firstErrorKey = Object.keys(errors)[0];
     setFocus(firstErrorKey as any);
+
+    message.error(t('double_check_information'));
   };
 
   return (
@@ -262,6 +267,32 @@ const WebsiteTemplateForm = (props: PropType) => {
                 );
               }}
             />
+
+            <Controller
+              control={control}
+              name='bannersUrl'
+              render={({ field, fieldState }) => {
+                return (
+                  <div className='w-full flex flex-col gap-2'>
+                    <Label title={t('dimension_banner', { width: 1440, height: 600 })} />
+
+                    <UploadFile
+                      {...field}
+                      mode='multiple'
+                      disabled={mode === 'detail'}
+                      error={fieldState.error ? true : false}
+                      dimension={{ width: 1440, height: 600 }}
+                    />
+
+                    {errors.bannersUrl && (
+                      <Text type='danger' style={{ fontSize: 12 }}>
+                        {errors.bannersUrl.message}
+                      </Text>
+                    )}
+                  </div>
+                );
+              }}
+            />
           </section>
 
           <Divider className='my-0' />
@@ -304,7 +335,9 @@ const WebsiteTemplateForm = (props: PropType) => {
           )}
         </form>
 
-        <PreviewForm primaryColor={primaryColor} logoUrl={logoUrl} />
+        <div className='hidden xl:block sticky top-[100px] self-start'>
+          <PreviewForm primaryColor={primaryColor} logoUrl={logoUrl} />
+        </div>
       </div>
     </FormProvider>
   );

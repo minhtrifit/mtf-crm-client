@@ -10,10 +10,58 @@ interface PropType {
   error?: boolean;
   onChange?: (value: string | string[]) => void;
   disabled?: boolean;
+  dimension?: {
+    width: number;
+    height: number;
+  };
 }
 
+const validateImageDimension = (
+  file: File,
+  dimension?: { width: number; height: number },
+): Promise<void> => {
+  if (!dimension) return Promise.resolve();
+
+  return new Promise((resolve, reject) => {
+    const img = new window.Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+
+      console.log({ width: img.width, height: img.height });
+
+      if (img.width !== dimension.width || img.height !== dimension.height) {
+        reject({
+          response: {
+            data: {
+              message: `Image must be ${dimension.width} x ${dimension.height}px`,
+            },
+          },
+        });
+        return;
+      }
+
+      resolve();
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject({
+        response: {
+          data: {
+            message: 'Invalid image file',
+          },
+        },
+      });
+    };
+
+    img.src = objectUrl;
+  });
+};
+
 const UploadFile = (props: PropType) => {
-  const { mode = 'single', value, error, onChange, disabled = false, ...rest } = props;
+  const { mode = 'single', value, error, onChange, disabled = false, dimension, ...rest } = props;
 
   const { t } = useTranslation();
 
@@ -30,7 +78,11 @@ const UploadFile = (props: PropType) => {
       const uploadedUrls: string[] = [];
 
       for (let i = 0; i < files.length; i++) {
-        const res = await uploadApi.single(files[i]);
+        const file = files[i];
+
+        await validateImageDimension(file, dimension);
+
+        const res = await uploadApi.single(file);
         uploadedUrls.push(res.data.file.url);
       }
 
@@ -43,8 +95,8 @@ const UploadFile = (props: PropType) => {
       }
 
       onChange?.(newValue);
-    } catch (err) {
-      message.error('Upload failed');
+    } catch (err: any) {
+      message.error(err?.response?.data?.message || 'Upload failed');
     }
   };
 

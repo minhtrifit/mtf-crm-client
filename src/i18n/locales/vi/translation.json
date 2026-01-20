@@ -116,6 +116,9 @@
   "save_and_apply": "Lưu & áp dụng",
   "require_at_least_one_product": "Yêu cầu ít nhất 1 sản phẩm",
   "view_all": "Xem tất cả",
+  "dimension_image": "Hình ảnh ({{ width }}x{{ height }})",
+  "dimension_banner": "Banner ({{ width }}x{{ height }})",
+  "double_check_information": "Vui lòng kiểm tra lại thông tin",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",
