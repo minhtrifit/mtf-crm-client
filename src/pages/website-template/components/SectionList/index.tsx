@@ -1,4 +1,4 @@
-import { Input, Button, Typography, Popconfirm } from 'antd';
+import { Input, Button, Typography, Popconfirm, Empty } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useFormContext, useFieldArray, Controller } from 'react-hook-form';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
@@ -37,6 +37,12 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
       >
         <span>{t('website_template.add_section')}</span>
       </Button>
+
+      {fields.length === 0 && (
+        <div className='w-full flex items-center justify-center'>
+          <Empty />
+        </div>
+      )}
 
       <Droppable droppableId='sections' type='SECTION'>
         {(provided) => (

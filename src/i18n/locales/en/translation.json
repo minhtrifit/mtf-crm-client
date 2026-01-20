@@ -218,6 +218,7 @@
     "remove_section": "Remove section",
     "remove_section_confirm": "Are you sure to remove this section?",
     "general_information": "General Information",
-    "section_content": "Section content"
+    "section_content": "Section content",
+    "footer_description": "Footer description"
   }
 }

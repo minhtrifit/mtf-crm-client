@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { useForm, Controller, useFieldArray, FormProvider } from 'react-hook-form';
@@ -10,7 +10,7 @@ import {
   SectionType,
   WebsiteTemplate,
 } from '@/types/website_template';
-import { Button, Divider, Input, message, Typography } from 'antd';
+import { Button, Collapse, Input, message, Typography } from 'antd';
 import Label from '@/components/ui/Label/Label';
 import UploadFile from '@/components/ui/UploadFile/UploadFile';
 import ColorPicker from '../ColorPicker';
@@ -20,6 +20,7 @@ import { SectionList } from '../SectionList';
 import styles from './styles.module.scss';
 
 const { Text } = Typography;
+const { Panel } = Collapse;
 
 interface PropType {
   defaultValues: WebsiteTemplate | null;
@@ -33,10 +34,23 @@ const WebsiteTemplateForm = (props: PropType) => {
 
   const navigate = useNavigate();
   const params = useParams();
+  const [searchParams] = useSearchParams();
 
   const { t } = useTranslation();
 
   const id = params?.id ?? '';
+
+  const panelActiveKey = useMemo(() => {
+    const value = searchParams.get('collapse');
+
+    // Chưa có param → mở hết
+    if (value === null) return ['general-information', 'section-information'];
+
+    // Có param nhưng rỗng → đóng hết
+    if (value === '') return [];
+
+    return value.split(',');
+  }, [searchParams]);
 
   const [submitActive, setSubmitActive] = useState<boolean>(false);
 
@@ -61,6 +75,9 @@ const WebsiteTemplateForm = (props: PropType) => {
     logoUrl: z.string().min(1, { message: t('this_field_is_required') }),
     primaryColor: z.string().min(1, { message: t('this_field_is_required') }),
     bannersUrl: z.array(z.string()),
+    email: z.string(),
+    phone: z.string(),
+    footerDescription: z.string(),
 
     sections: z.array(SectionItemSchema).default([]),
   });
@@ -75,6 +92,9 @@ const WebsiteTemplateForm = (props: PropType) => {
           logoUrl: defaultValues.logoUrl,
           primaryColor: defaultValues.primaryColor,
           bannersUrl: defaultValues.bannersUrl,
+          email: defaultValues.email ?? '',
+          phone: defaultValues.phone ?? '',
+          footerDescription: defaultValues.footerDescription ?? '',
           sections: defaultValues.sections,
         }
       : {
@@ -82,6 +102,9 @@ const WebsiteTemplateForm = (props: PropType) => {
           logoUrl: '',
           primaryColor: '#e4e4e7',
           bannersUrl: [],
+          email: '',
+          phone: '',
+          footerDescription: '',
           sections: [],
         },
   });
@@ -137,6 +160,15 @@ const WebsiteTemplateForm = (props: PropType) => {
     }
   };
 
+  const handleChangePanel = (key: string | string[]) => {
+    const keys = Array.isArray(key) ? key : [key];
+    const params = new URLSearchParams(searchParams.toString());
+
+    params.set('collapse', keys.join(','));
+
+    navigate(`?${params.toString()}`, { replace: true });
+  };
+
   const onFormSubmit = (data: FormType) => {
     console.log('✅ Dữ liệu hợp lệ:', data);
 
@@ -170,11 +202,8 @@ const WebsiteTemplateForm = (props: PropType) => {
   return (
     <FormProvider {...methods}>
       <div className={styles.container}>
-        <form
-          className='block__container flex flex-col gap-5'
-          onSubmit={handleSubmit(onFormSubmit, onError)}
-        >
-          <section className='flex items-center justify-between'>
+        <form className='flex flex-col gap-5' onSubmit={handleSubmit(onFormSubmit, onError)}>
+          <section className='block__container flex items-center justify-between'>
             <span className='text-xl text-primary font-bold'>
               {t(`${mode}`)} {t('breadcrumb.website-template')}
             </span>
@@ -194,119 +223,194 @@ const WebsiteTemplateForm = (props: PropType) => {
             </div>
           </section>
 
-          <Divider className='my-0' />
+          <Collapse activeKey={panelActiveKey} onChange={handleChangePanel}>
+            <Panel header={t('website_template.general_information')} key='general-information'>
+              <section className='w-full grid grid-cols-1 xl:grid-cols-2 gap-5'>
+                <Controller
+                  control={control}
+                  name='name'
+                  render={({ field }) => {
+                    return (
+                      <div className='w-full flex flex-col gap-2'>
+                        <Label title={t('website_template.name')} required />
 
-          <h3 className='text-zinc-500 mb-3'>{t('website_template.general_information')}</h3>
+                        <Input
+                          {...field}
+                          disabled={mode === 'detail'}
+                          placeholder={t('website_template.name')}
+                          status={errors.name ? 'error' : ''}
+                        />
 
-          <section className='w-full grid grid-cols-1 xl:grid-cols-2 gap-5'>
-            <Controller
-              control={control}
-              name='name'
-              render={({ field }) => {
-                return (
-                  <div className='w-full flex flex-col gap-2'>
-                    <Label title={t('website_template.name')} required />
+                        {errors.name && (
+                          <Text type='danger' style={{ fontSize: 12 }}>
+                            {errors.name.message}
+                          </Text>
+                        )}
+                      </div>
+                    );
+                  }}
+                />
 
-                    <Input
-                      {...field}
-                      disabled={mode === 'detail'}
-                      placeholder={t('website_template.name')}
-                      status={errors.name ? 'error' : ''}
-                    />
+                <Controller
+                  control={control}
+                  name='logoUrl'
+                  render={({ field, fieldState }) => {
+                    return (
+                      <div className='w-full flex flex-col gap-2'>
+                        <Label title={t('website_template.brand_logo')} required />
 
-                    {errors.name && (
-                      <Text type='danger' style={{ fontSize: 12 }}>
-                        {errors.name.message}
-                      </Text>
-                    )}
-                  </div>
-                );
-              }}
-            />
+                        <UploadFile
+                          {...field}
+                          disabled={mode === 'detail'}
+                          error={fieldState.error ? true : false}
+                        />
 
-            <Controller
-              control={control}
-              name='logoUrl'
-              render={({ field, fieldState }) => {
-                return (
-                  <div className='w-full flex flex-col gap-2'>
-                    <Label title={t('website_template.brand_logo')} required />
+                        {errors.logoUrl && (
+                          <Text type='danger' style={{ fontSize: 12 }}>
+                            {errors.logoUrl.message}
+                          </Text>
+                        )}
+                      </div>
+                    );
+                  }}
+                />
 
-                    <UploadFile
-                      {...field}
-                      disabled={mode === 'detail'}
-                      error={fieldState.error ? true : false}
-                    />
+                <Controller
+                  control={control}
+                  name='primaryColor'
+                  render={({ field }) => {
+                    return (
+                      <div className='w-full flex flex-col gap-2'>
+                        <Label title={t('website_template.brand_color')} required />
 
-                    {errors.logoUrl && (
-                      <Text type='danger' style={{ fontSize: 12 }}>
-                        {errors.logoUrl.message}
-                      </Text>
-                    )}
-                  </div>
-                );
-              }}
-            />
+                        <ColorPicker {...field} disabled={mode === 'detail'} />
 
-            <Controller
-              control={control}
-              name='primaryColor'
-              render={({ field }) => {
-                return (
-                  <div className='w-full flex flex-col gap-2'>
-                    <Label title={t('website_template.brand_color')} required />
+                        {errors.primaryColor && (
+                          <Text type='danger' style={{ fontSize: 12 }}>
+                            {errors.primaryColor.message}
+                          </Text>
+                        )}
+                      </div>
+                    );
+                  }}
+                />
 
-                    <ColorPicker {...field} disabled={mode === 'detail'} />
+                <Controller
+                  control={control}
+                  name='bannersUrl'
+                  render={({ field, fieldState }) => {
+                    return (
+                      <div className='w-full flex flex-col gap-2'>
+                        <Label title={t('dimension_banner', { width: 1440, height: 600 })} />
 
-                    {errors.primaryColor && (
-                      <Text type='danger' style={{ fontSize: 12 }}>
-                        {errors.primaryColor.message}
-                      </Text>
-                    )}
-                  </div>
-                );
-              }}
-            />
+                        <UploadFile
+                          {...field}
+                          mode='multiple'
+                          disabled={mode === 'detail'}
+                          error={fieldState.error ? true : false}
+                          dimension={{ width: 1440, height: 600 }}
+                        />
 
-            <Controller
-              control={control}
-              name='bannersUrl'
-              render={({ field, fieldState }) => {
-                return (
-                  <div className='w-full flex flex-col gap-2'>
-                    <Label title={t('dimension_banner', { width: 1440, height: 600 })} />
+                        {errors.bannersUrl && (
+                          <Text type='danger' style={{ fontSize: 12 }}>
+                            {errors.bannersUrl.message}
+                          </Text>
+                        )}
+                      </div>
+                    );
+                  }}
+                />
 
-                    <UploadFile
-                      {...field}
-                      mode='multiple'
-                      disabled={mode === 'detail'}
-                      error={fieldState.error ? true : false}
-                      dimension={{ width: 1440, height: 600 }}
-                    />
+                <Controller
+                  control={control}
+                  name='email'
+                  render={({ field }) => {
+                    return (
+                      <div className='w-full flex flex-col gap-2'>
+                        <Label title={t('auth.email')} />
 
-                    {errors.bannersUrl && (
-                      <Text type='danger' style={{ fontSize: 12 }}>
-                        {errors.bannersUrl.message}
-                      </Text>
-                    )}
-                  </div>
-                );
-              }}
-            />
-          </section>
+                        <Input
+                          {...field}
+                          disabled={mode === 'detail'}
+                          placeholder={t('auth.email')}
+                          status={errors.email ? 'error' : ''}
+                        />
 
-          <Divider className='my-0' />
+                        {errors.email && (
+                          <Text type='danger' style={{ fontSize: 12 }}>
+                            {errors.email.message}
+                          </Text>
+                        )}
+                      </div>
+                    );
+                  }}
+                />
 
-          <h3 className='text-zinc-500 mb-3'>{t('website_template.section_content')}</h3>
+                <Controller
+                  control={control}
+                  name='phone'
+                  render={({ field }) => {
+                    return (
+                      <div className='w-full flex flex-col gap-2'>
+                        <Label title={t('auth.phone')} />
 
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <SectionList
-              sectionFieldArray={sectionFieldArray as unknown as ReturnType<typeof useFieldArray>}
-            />
-          </DragDropContext>
+                        <Input
+                          {...field}
+                          disabled={mode === 'detail'}
+                          placeholder={t('auth.phone')}
+                          status={errors.phone ? 'error' : ''}
+                        />
+
+                        {errors.phone && (
+                          <Text type='danger' style={{ fontSize: 12 }}>
+                            {errors.phone.message}
+                          </Text>
+                        )}
+                      </div>
+                    );
+                  }}
+                />
+
+                <Controller
+                  control={control}
+                  name='footerDescription'
+                  render={({ field }) => {
+                    return (
+                      <div className='w-full flex flex-col gap-2 col-span-full'>
+                        <Label title={t('website_template.footer_description')} />
+
+                        <Input
+                          {...field}
+                          disabled={mode === 'detail'}
+                          placeholder={t('website_template.footer_description')}
+                          status={errors.footerDescription ? 'error' : ''}
+                        />
+
+                        {errors.footerDescription && (
+                          <Text type='danger' style={{ fontSize: 12 }}>
+                            {errors.footerDescription.message}
+                          </Text>
+                        )}
+                      </div>
+                    );
+                  }}
+                />
+              </section>
+            </Panel>
+
+            <Panel header={t('website_template.section_content')} key='section-information'>
+              <DragDropContext onDragEnd={handleDragEnd}>
+                <SectionList
+                  sectionFieldArray={
+                    sectionFieldArray as unknown as ReturnType<typeof useFieldArray>
+                  }
+                />
+              </DragDropContext>
+            </Panel>
+          </Collapse>
 
           {mode !== 'detail' && (
-            <section className='flex items-center justify-end gap-2'>
+            <section className='block__container flex items-center justify-end gap-2'>
               <Button htmlType='button' onClick={handleBack}>
                 {t('back')}
               </Button>

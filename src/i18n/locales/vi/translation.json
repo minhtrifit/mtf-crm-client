@@ -218,6 +218,7 @@
     "remove_section": "Xóa section",
     "remove_section_confirm": "Bạn có chắc muốn xóa section này?",
     "general_information": "Thông tin chung",
-    "section_content": "Nội dung section"
+    "section_content": "Nội dung section",
+    "footer_description": "Nội dung chân trang"
   }
 }

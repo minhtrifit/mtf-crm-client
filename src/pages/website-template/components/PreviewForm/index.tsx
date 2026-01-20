@@ -2,8 +2,10 @@ import { get } from 'lodash';
 import Slider from 'react-slick';
 import { useFormContext } from 'react-hook-form';
 import { SectionItemType, SectionType } from '@/types/website_template';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { formatCurrency } from '@/+core/helpers';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { FaPhone } from 'react-icons/fa6';
+import { MdEmail } from 'react-icons/md';
 
 interface PropType {
   primaryColor: string;
@@ -39,6 +41,9 @@ const PreviewForm = (props: PropType) => {
 
   const sections = watch('sections');
   const bannersUrl = watch('bannersUrl');
+  const email = watch('email');
+  const phone = watch('phone');
+  const footerDescription = watch('footerDescription');
 
   const bannerSlideSettings = {
     arrows: true,
@@ -185,18 +190,44 @@ const PreviewForm = (props: PropType) => {
 
         <footer
           style={{ background: primaryColor }}
-          className='flex flex-col gap-3 p-2 rounded-b-sm'
+          className='flex flex-col gap-5 px-2 py-6 rounded-b-sm text-[#FFF] text-[0.8rem]'
         >
-          <div className='w-full max-w-[90%] mx-auto grid grid-cols-5 gap-3'>
-            <div className='h-[80px] bg-[#FFF] rounded-md' />
-            <div className='h-[60px] bg-[#FFF] rounded-md' />
-            <div className='h-[50px] bg-[#FFF] rounded-md' />
+          <div className='w-full max-w-[90%] min-h-[80px] mx-auto flex gap-5'>
+            {logoUrl ? (
+              <div className='flex flex-col items-start gap-3'>
+                <img className='w-auto h-[20px]' src={logoUrl} />
+
+                {phone && (
+                  <div className='flex items-center gap-2'>
+                    <FaPhone size={15} />
+                    <span className='font-semibold'>{phone}</span>
+                  </div>
+                )}
+
+                {email && (
+                  <div className='flex items-center gap-2'>
+                    <MdEmail size={15} />
+                    <span className='font-semibold'>{email}</span>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <div className='w-[60px] h-[80px] bg-[#FFF] rounded-md' />
+                <div className='w-[60px] h-[60px] bg-[#FFF] rounded-md' />
+                <div className='w-[60px] h-[50px] bg-[#FFF] rounded-md' />
+              </>
+            )}
           </div>
 
-          <div className='w-full flex flex-col gap-3 items-center'>
-            <div className='w-[80%] h-[10px] bg-[#FFF] rounded-md' />
-            <div className='w-[50%] h-[10px] bg-[#FFF] rounded-md' />
-          </div>
+          {footerDescription ? (
+            <span className='mx-auto text-[0.7rem]'>{footerDescription}</span>
+          ) : (
+            <div className='w-full flex flex-col gap-3 items-center'>
+              <div className='w-[80%] h-[10px] bg-[#FFF] rounded-md' />
+              <div className='w-[50%] h-[10px] bg-[#FFF] rounded-md' />
+            </div>
+          )}
         </footer>
       </div>
     </div>
