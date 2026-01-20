@@ -18,10 +18,7 @@ const CategoryMenu = (props: PropType) => {
   };
 
   return (
-    <div
-      className='w-[260px] border-[1px] border-solid border-[rgb(225,225,225)] rounded-md
-                  min-h-[365px] max-h-[365px] overflow-y-auto'
-    >
+    <div className='w-[260px] h-[365px] border-[1px] border-solid border-[rgb(225,225,225)] rounded-md overflow-y-auto'>
       {loading ? (
         <div className='flex flex-col'>
           <div className='flex items-center gap-3 p-2'>

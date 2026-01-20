@@ -5,6 +5,7 @@ export interface AppConfig {
   templateId: string;
   logo: string;
   websitePrimaryColor: string;
+  banners: string[];
 }
 
 interface AppConfigContextType {
@@ -28,6 +29,7 @@ const mockFetchAppConfig = (): Promise<AppConfig> => {
         templateId: '',
         logo: '',
         websitePrimaryColor: '#FEB21A',
+        banners: [],
       });
     }, 1000);
   });
@@ -49,6 +51,7 @@ export function AppConfigProvider({ children }: { children: React.ReactNode }) {
           templateId: data?.id,
           logo: data?.logoUrl,
           websitePrimaryColor: data?.primaryColor,
+          banners: data?.bannersUrl,
         };
 
         if (mounted) {
@@ -60,6 +63,7 @@ export function AppConfigProvider({ children }: { children: React.ReactNode }) {
             templateId: '',
             logo: '',
             websitePrimaryColor: '#fa5130', // fallback
+            banners: [],
           });
         }
       } finally {

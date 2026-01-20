@@ -1,6 +1,10 @@
+import { get } from 'lodash';
 import Slider from 'react-slick';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { FiShoppingBag } from 'react-icons/fi';
+
 import styles from './styles.module.scss';
 
 const NextArrow = ({ onClick }: any) => (
@@ -28,20 +32,9 @@ const PrevArrow = ({ onClick }: any) => (
 const BannerSlide = () => {
   const isMobile = useIsMobile(1024);
 
-  const data = [
-    {
-      id: '1',
-      url: 'assets/banners/sale_1.png',
-    },
-    {
-      id: '2',
-      url: 'assets/banners/sale_2.jpg',
-    },
-    {
-      id: '3',
-      url: 'assets/banners/sale_3.png',
-    },
-  ];
+  const { config } = useAppConfig();
+
+  const banners = get(config, 'banners', []);
 
   const settings = {
     dots: true,
@@ -67,12 +60,28 @@ const BannerSlide = () => {
 
   // return <div className='w-full h-full bg-[#efefef] rounded-md' />;
 
+  if (banners?.length === 0) {
+    return (
+      <div
+        style={{ background: config?.websitePrimaryColor }}
+        className='w-full h-[200px] md:h-[365px] text-[#FFF] rounded-md flex items-center justify-center'
+      >
+        <FiShoppingBag size={40} />
+      </div>
+    );
+  }
+
   return (
     <div className={`${styles.banner__slide__wrapper} w-full relative`}>
       <Slider {...settings}>
-        {data.map((item) => (
-          <div key={item.id}>
-            <img src={item.url} className='w-full rounded-md' alt='' />
+        {banners?.map((url: string, index: number) => (
+          <div key={`homepage-banner-${index}`}>
+            <img
+              src={url}
+              style={{ minHeight: isMobile ? 'auto' : '365px' }}
+              className='w-full rounded-md'
+              alt={`homepage-banner-${index}`}
+            />
           </div>
         ))}
       </Slider>
