@@ -1,8 +1,12 @@
-:global(.slick-dots) {
-  position: absolute !important;
-  bottom: 20px !important;
-}
+.banner__slide__wrapper {
+  position: relative;
 
-:global(.slick-dots li.slick-active div) {
-  background-color: white;
+  :global(.slick-dots) {
+    position: absolute;
+    bottom: 20px;
+  }
+
+  :global(.slick-dots li.slick-active div) {
+    background-color: white;
+  }
 }

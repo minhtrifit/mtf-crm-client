@@ -68,7 +68,7 @@ const BannerSlide = () => {
   // return <div className='w-full h-full bg-[#efefef] rounded-md' />;
 
   return (
-    <div className={`${styles.wrapper} w-full relative`}>
+    <div className={`${styles.banner__slide__wrapper} w-full relative`}>
       <Slider {...settings}>
         {data.map((item) => (
           <div key={item.id}>

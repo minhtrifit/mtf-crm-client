@@ -3,7 +3,6 @@ import Slider from 'react-slick';
 import { useFormContext } from 'react-hook-form';
 import { SectionItemType, SectionType } from '@/types/website_template';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-import styles from './styles.module.scss';
 import { formatCurrency } from '@/+core/helpers';
 
 interface PropType {
@@ -49,12 +48,6 @@ const PreviewForm = (props: PropType) => {
     autoplay: true,
     autoplaySpeed: 5000,
     centerMode: false,
-    appendDots: (dots: React.ReactNode) => (
-      <div>
-        <ul className='flex justify-center gap-3'>{dots}</ul>
-      </div>
-    ),
-
     customPaging: () => (
       <div className='w-2 h-2 rounded-full bg-zinc-300 hover:bg-white transition' />
     ),
@@ -122,7 +115,7 @@ const PreviewForm = (props: PropType) => {
                 <div className='w-[100px] h-[15px] bg-zinc-200 rounded-md' />
               )}
 
-              <div className={`${styles.wrapper} w-full relative`}>
+              <div className={'w-full relative'}>
                 <Slider {...settings}>
                   {section?.items?.map((item: SectionItemType) => (
                     <div key={get(item, 'id', '')} className='px-1'>

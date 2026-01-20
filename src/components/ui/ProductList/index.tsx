@@ -2,19 +2,19 @@ import { get } from 'lodash';
 import { Pagination } from 'antd';
 import { PagingType } from '@/types';
 import { Product } from '@/types/product';
-import { FilterType, WEBSITE_PRODUCT_LIMIT } from '../../list';
 import WebsiteEmpty from '@/components/ui/WebsiteEmpty/WebsiteEmpty';
 import ProductCard from '@/components/ui/ProductCard/ProductCard';
 
 interface PropType {
-  filter: FilterType;
+  filter: Record<string, any>;
   data: Product[];
+  PRODUCT_LIMIT: number;
   paging: PagingType | null;
   handlePageChange: (page: number) => void;
 }
 
 const ProductList = (props: PropType) => {
-  const { filter, data, paging, handlePageChange } = props;
+  const { filter, data, PRODUCT_LIMIT, paging, handlePageChange } = props;
 
   if (data?.length === 0) {
     return <WebsiteEmpty />;
@@ -31,7 +31,7 @@ const ProductList = (props: PropType) => {
           <Pagination
             showSizeChanger={false}
             current={filter.page}
-            pageSize={WEBSITE_PRODUCT_LIMIT}
+            pageSize={PRODUCT_LIMIT}
             total={get(paging, 'total', 0)}
             onChange={handlePageChange}
           />

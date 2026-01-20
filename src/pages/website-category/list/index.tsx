@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { get } from 'lodash';
 import { Avatar } from 'antd';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
@@ -8,11 +8,14 @@ import { useList } from '../hooks/useList';
 import { useDetailCategory } from '../hooks/useDetailCategory';
 import { useScrollToId } from '@/hooks/useScrollToId';
 import Error from '@/components/ui/Error/Error';
-import { ProductListSkeleton, TitleSkelelon } from '../components/Skeleton';
-import ProductList from '../components/ProductList';
+import { TitleSkelelon } from '../components/Skeleton';
+import { ProductListSkeleton } from '@/components/ui/Skeleton';
+import ProductList from '@/components/ui/ProductList';
+import FilterBar from '../components/FilterBar';
 
 export interface FilterType {
   page: number;
+  q: string;
 }
 
 export const WEBSITE_PRODUCT_LIMIT = 8;
@@ -39,6 +42,7 @@ const WebsiteCategoryPage = () => {
 
   const [filter, setFilter] = useState<FilterType>({
     page: page,
+    q: '',
   });
 
   const handlePageChange = (page: number) => {
@@ -46,6 +50,32 @@ const WebsiteCategoryPage = () => {
     setParams({ ...productParams, page: page });
     updateParams({ page: page.toString() });
     scrollToId('product-by-category-list', { offset: 150 });
+  };
+
+  const handleChangeFilter = (key: string, value: string) => {
+    setFilter({
+      ...filter,
+      [key]: value,
+    });
+  };
+
+  const handleApplyFilter = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    console.log('APPLY FILTER:', filter);
+
+    setFilter({ ...filter, page: 1 });
+
+    setParams({
+      page: 1,
+      q: filter.q,
+      limit: WEBSITE_PRODUCT_LIMIT,
+    });
+
+    updateParams({
+      page: '1',
+      q: filter.q,
+    });
   };
 
   if (!loading && error) {
@@ -69,6 +99,12 @@ const WebsiteCategoryPage = () => {
           )}
         </section>
 
+        <FilterBar
+          filter={filter}
+          handleChangeFilter={handleChangeFilter}
+          handleApplyFilter={handleApplyFilter}
+        />
+
         <section id='product-by-category-list' className='w-full'>
           {loading ? (
             <ProductListSkeleton />
@@ -76,6 +112,7 @@ const WebsiteCategoryPage = () => {
             <ProductList
               filter={filter}
               data={data}
+              PRODUCT_LIMIT={WEBSITE_PRODUCT_LIMIT}
               paging={paging}
               handlePageChange={handlePageChange}
             />

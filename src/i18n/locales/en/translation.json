@@ -115,6 +115,7 @@
   "invalid_value": "Invalid value",
   "save_and_apply": "Save & apply",
   "require_at_least_one_product": "Require at least one product",
+  "view_all": "View all",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -128,6 +129,7 @@
     "name": "Product Name",
     "description": "Product description",
     "name_placeholder": "Search by product name, slug, SKU",
+    "showcase_name_placeholder": "Search by product name, SKU",
     "update_status": "Update this product status?",
     "delete": "Delete product"
   },

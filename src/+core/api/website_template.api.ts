@@ -34,6 +34,15 @@ export const websiteTemplateApi = {
       throw error;
     }
   },
+  getSections: async (id: string) => {
+    try {
+      const response = await axiosInstance.get(`/website-template/sections/${id}`);
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   create: async (data: CreateWebsiteTemplatePayload) => {
     try {
       const response = await axiosInstance.post('/website-template', data);

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import websiteTemplateApi from '../api/website_template.api';
 
 export interface AppConfig {
+  templateId: string;
   logo: string;
   websitePrimaryColor: string;
 }
@@ -24,6 +25,7 @@ const mockFetchAppConfig = (): Promise<AppConfig> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
+        templateId: '',
         logo: '',
         websitePrimaryColor: '#FEB21A',
       });
@@ -44,6 +46,7 @@ export function AppConfigProvider({ children }: { children: React.ReactNode }) {
         const data = res?.data?.data ?? null;
 
         const config: AppConfig = {
+          templateId: data?.id,
           logo: data?.logoUrl,
           websitePrimaryColor: data?.primaryColor,
         };
@@ -54,6 +57,7 @@ export function AppConfigProvider({ children }: { children: React.ReactNode }) {
       } catch {
         if (mounted) {
           setConfig({
+            templateId: '',
             logo: '',
             websitePrimaryColor: '#fa5130', // fallback
           });
