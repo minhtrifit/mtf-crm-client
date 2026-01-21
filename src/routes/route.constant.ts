@@ -7,6 +7,8 @@ export const WEBSITE_ROUTE = {
   PRODUCT: '/san-pham/:slug',
   CATEGORY: '/danh-muc/:slug',
   CHECKOUT: '/thanh-toan',
+  PROFILE: '/ho-so',
+  ORDERS: '/ho-so/don-hang',
 };
 
 export const ADMIN_ROUTE = {

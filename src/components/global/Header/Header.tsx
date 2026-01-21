@@ -56,6 +56,10 @@ const Header = () => {
       dispatch(clearUser());
       dispatch(clearCart());
     }
+
+    if (key === 'profile') {
+      navigate(WEBSITE_ROUTE.PROFILE);
+    }
   };
 
   const handleToogleCartModal = () => {

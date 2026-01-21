@@ -111,7 +111,13 @@ const StatusForm = () => {
         </section>
 
         <section className='mt-5 w-full flex items-center justify-center gap-3'>
-          <Button>{t('view_detail_order')}</Button>
+          <Button
+            onClick={() => {
+              navigate(WEBSITE_ROUTE.ORDERS);
+            }}
+          >
+            {t('view_detail_order')}
+          </Button>
           <Button
             type='primary'
             onClick={() => {
@@ -210,7 +216,13 @@ const StatusForm = () => {
         </section>
 
         <section className='mt-5 w-full flex items-center justify-center gap-3'>
-          <Button>{t('view_detail_order')}</Button>
+          <Button
+            onClick={() => {
+              navigate(WEBSITE_ROUTE.ORDERS);
+            }}
+          >
+            {t('view_detail_order')}
+          </Button>
           <Button
             type='primary'
             onClick={() => {

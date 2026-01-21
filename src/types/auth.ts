@@ -10,6 +10,7 @@ export interface UserType {
   fullName: string;
   phone: string | null;
   address: string | null;
+  avatar: string | null;
   role: UserRole;
   isActive: boolean;
   createdAt: string;
@@ -30,4 +31,12 @@ export interface RegisterPayload {
   address: string;
   role?: UserRole;
   adminCode?: string;
+}
+
+export interface UpdatePayload {
+  email: string;
+  fullName: string;
+  phone: string;
+  address: string;
+  avatar: string;
 }
