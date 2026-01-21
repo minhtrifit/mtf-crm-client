@@ -11,10 +11,10 @@ import { useGetProfile } from '../../hooks/useGetProfile';
 import Error from '@/components/ui/Error/Error';
 import { FaUserLarge } from 'react-icons/fa6';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import './styles.scss';
 
 export type ProfileLayoutContextType = {
   user: UserType;
+  profileLoading: boolean;
   getProfile: (id: string) => Promise<any>;
 };
 
@@ -57,7 +57,7 @@ const ProfileLayout = () => {
             items={items}
             onChange={onChange}
           />
-          <Outlet context={{ user: data, getProfile: fetchData }} />
+          <Outlet context={{ user: data, profileLoading: loading, getProfile: fetchData }} />
         </div>
       </div>
     </div>

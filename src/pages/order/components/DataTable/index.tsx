@@ -129,9 +129,9 @@ const DataTable = (props: PropType) => {
                 <div className='flex items-center gap-3'>
                   <Avatar
                     size={50}
-                    src={get(record, 'user.fullName', '')}
+                    src={get(record, 'user.avatar', '')}
                     icon={<FaUser size={18} />}
-                    className='bg-primary'
+                    className={`${!get(record, 'user.avatar', '') && 'bg-primary'}`}
                   />
 
                   <div className='flex flex-col gap-1'>

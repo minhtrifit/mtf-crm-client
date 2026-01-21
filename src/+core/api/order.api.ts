@@ -22,6 +22,17 @@ export const orderApi = {
       throw error;
     }
   },
+  getListByUserId: async (id: string, params?: Record<string, any>) => {
+    try {
+      const response = await axiosInstance.get(`/order/list-by-user-id/${id}`, {
+        params,
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   createCod: async (data: OrderPayload) => {
     try {
       const response = await axiosInstance.post('/order/create-cod-order', data);

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
-import { Avatar, Button, Drawer, notification, Popconfirm } from 'antd';
+import { Avatar, Button, Drawer, Empty, notification, Popconfirm } from 'antd';
 import { CartItem } from '@/types';
 import { formatCurrency } from '@/+core/helpers';
 import {
@@ -80,10 +80,17 @@ const CartDrawer = (props: PropType) => {
               okText={t('yes')}
               cancelText={t('cancel')}
             >
-              <Button icon={<FaTrash />}>{t('clear_cart')}</Button>
+              <Button disabled={carts?.length === 0} icon={<FaTrash />}>
+                {t('clear_cart')}
+              </Button>
             </Popconfirm>
 
-            <Button icon={<FaRegCreditCard />} type='primary' onClick={handleCheckout}>
+            <Button
+              disabled={carts?.length === 0}
+              icon={<FaRegCreditCard />}
+              type='primary'
+              onClick={handleCheckout}
+            >
               {t('checkout')}
             </Button>
           </div>
@@ -91,6 +98,8 @@ const CartDrawer = (props: PropType) => {
       }
     >
       <div className='max-h-full overflow-y-auto flex flex-col gap-5'>
+        {carts?.length === 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+
         {carts?.map((item: CartItem) => {
           const product = item.product;
 

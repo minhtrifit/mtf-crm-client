@@ -118,7 +118,7 @@ export const ProductList = ({ sectionIndex }: Props) => {
 
       {fields.length === 0 && (
         <div className='w-full flex items-center justify-center'>
-          <Empty />
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         </div>
       )}
 

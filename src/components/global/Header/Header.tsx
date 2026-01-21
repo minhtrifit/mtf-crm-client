@@ -55,6 +55,7 @@ const Header = () => {
     if (key === 'logout') {
       dispatch(clearUser());
       dispatch(clearCart());
+      navigate('/');
     }
 
     if (key === 'profile') {

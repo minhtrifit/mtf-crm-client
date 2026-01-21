@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
+import { notification } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { clearUser, setUser } from '@/store/actions/user.action';
 import { clearCart } from '@/store/actions/cart.action';
 import { persistor } from '@/store/store';
@@ -15,10 +17,28 @@ interface PropType {
   children: React.ReactNode;
 }
 
+const protectedRoutes = [WEBSITE_ROUTE.PROFILE, WEBSITE_ROUTE.ORDERS];
+
 const WebsiteAuthProvider = ({ children }: PropType) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
+
+  const handleProtectRoute = () => {
+    const route = protectedRoutes.find((r) => r === location.pathname);
+
+    if (route) {
+      navigate(WEBSITE_ROUTE.HOME);
+      notification.error({
+        message: t('notification'),
+        description: t('no_access_page'),
+        placement: 'bottomLeft',
+      });
+
+      return;
+    }
+  };
 
   const handleGetUserProfile = async (token: string) => {
     try {
@@ -88,6 +108,7 @@ const WebsiteAuthProvider = ({ children }: PropType) => {
 
     if (!session) {
       handleClearStore();
+      handleProtectRoute();
       return;
     }
 
@@ -97,12 +118,14 @@ const WebsiteAuthProvider = ({ children }: PropType) => {
 
       if (!token) {
         Cookies.remove(APP_KEY);
+        handleProtectRoute();
         return;
       }
 
       handleGetUserProfile(token);
     } catch (error) {
       Cookies.remove(APP_KEY);
+      handleProtectRoute();
       console.error('Không thể parse session:', error);
     }
   }, []);
