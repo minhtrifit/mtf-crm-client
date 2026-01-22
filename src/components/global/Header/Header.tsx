@@ -7,7 +7,7 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useDebounce } from '@/hooks/useDebounce';
 import { RootState } from '@/store/store';
-import { clearUser } from '@/store/actions/user.action';
+import { clearUser, toggleMenuDrawer } from '@/store/actions/user.action';
 import { clearCart, toggleCartModal } from '@/store/actions/cart.action';
 import type { MenuProps } from 'antd';
 import { Badge, Button, Dropdown, Input, Spin } from 'antd';
@@ -63,13 +63,17 @@ const Header = () => {
     }
   };
 
-  const handleToogleCartModal = () => {
+  const handleToggleCartModal = () => {
     if (!user) {
       navigate(WEBSITE_ROUTE.LOGIN);
       return;
     }
 
     dispatch(toggleCartModal());
+  };
+
+  const handleToggleMenuDrawer = () => {
+    dispatch(toggleMenuDrawer());
   };
 
   const isCheckoutPage = () => {
@@ -188,8 +192,9 @@ const Header = () => {
         )}
 
         {isMobile ? (
-          <div>
-            <IoMdMenu size={30} />
+          <div className='flex items-center gap-5'>
+            <LanguageToggle textColor='white' />
+            <IoMdMenu size={30} onClick={handleToggleMenuDrawer} />
           </div>
         ) : (
           <div className='flex items-center gap-8'>
@@ -200,7 +205,7 @@ const Header = () => {
                 <div
                   className='text-[#FFF] hover:cursor-pointer'
                   onClick={() => {
-                    handleToogleCartModal();
+                    handleToggleCartModal();
                   }}
                 >
                   <AiOutlineShoppingCart size={30} />

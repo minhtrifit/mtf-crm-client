@@ -16,7 +16,8 @@
     "already_have_account": "Already have account?",
     "confirm_password": "Confirm password",
     "password_not_match": "Confirm password not match",
-    "user_not_found": "User not found"
+    "user_not_found": "User not found",
+    "logout_confirm": "Are you sure to logout?"
   },
   "invalid_email": "Invalid email",
   "this_field_is_required": "This field is required",
@@ -119,6 +120,7 @@
   "dimension_image": "Image ({{ width }}x{{ height }})",
   "dimension_banner": "Banner ({{ width }}x{{ height }})",
   "double_check_information": "Please double check information",
+  "home": "Home",
   "category": {
     "default": "Category",
     "name": "Category Name",

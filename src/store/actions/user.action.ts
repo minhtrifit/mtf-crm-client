@@ -6,3 +6,4 @@ export const setSidebar = createAction<boolean>('users/setSidebar');
 export const setUser = createAction<UserType>('users/setUser');
 export const clearUser = createAction('users/clearUser');
 export const toggleWebsiteModal = createAction('users/toggleWebsiteModal');
+export const toggleMenuDrawer = createAction('cart/toggleMenuDrawer');

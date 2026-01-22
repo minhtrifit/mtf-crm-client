@@ -16,7 +16,8 @@
     "already_have_account": "Đã có tài khoản?",
     "confirm_password": "Xác nhận mật khẩu",
     "password_not_match": "Mật khẩu không khớp",
-    "user_not_found": "Không tìm thấy người dùng"
+    "user_not_found": "Không tìm thấy người dùng",
+    "logout_confirm": "Bạn có chắc muốn đăng xuất khỏi tài khoản?"
   },
   "invalid_email": "Email không hợp lệ",
   "this_field_is_required": "Vui lòng nhập trường này",
@@ -119,6 +120,7 @@
   "dimension_image": "Hình ảnh ({{ width }}x{{ height }})",
   "dimension_banner": "Banner ({{ width }}x{{ height }})",
   "double_check_information": "Vui lòng kiểm tra lại thông tin",
+  "home": "Trang chủ",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",

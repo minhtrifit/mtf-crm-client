@@ -11,6 +11,7 @@ import {
   toggleSidebar,
   setSidebar,
   toggleWebsiteModal,
+  toggleMenuDrawer,
 } from '../actions/user.action';
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
@@ -22,6 +23,7 @@ interface UserState {
   isOpenSidebar: boolean;
   isOpenWebsiteModal: boolean;
   user: UserType | null;
+  isOpenMenuDrawer: boolean;
 }
 
 // createAsyncThunk middleware
@@ -52,10 +54,15 @@ const initialState: UserState = {
   isOpenSidebar: true,
   isOpenWebsiteModal: false,
   user: null,
+  isOpenMenuDrawer: false,
 };
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(toggleMenuDrawer, (state) => {
+      state.isOpenMenuDrawer = !state.isOpenMenuDrawer;
+    })
+
     .addCase(toggleSidebar, (state, _) => {
       state.isOpenSidebar = !state.isOpenSidebar;
     })
