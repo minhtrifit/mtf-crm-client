@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { get } from 'lodash';
-import { Avatar, Divider, Modal, Table } from 'antd';
+import { Avatar, Card, Divider, Modal, Pagination, Table } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { useNavigate } from 'react-router-dom';
 import { formatCurrency, formatDateTime, formatTimezone } from '@/+core/helpers';
 import { DEFAULT_PAGE_SIZE, DeliveryStatus } from '@/+core/constants/commons.constant';
@@ -24,6 +25,7 @@ const DetailModal = (props: PropType) => {
   const { order, loading, open, onClose } = props;
 
   const navigate = useNavigate();
+  const isMobile = useIsMobile(1024);
   const { t } = useTranslation();
 
   const payments = get(order, 'payments', []);
@@ -39,6 +41,7 @@ const DetailModal = (props: PropType) => {
     pageSize: DEFAULT_PAGE_SIZE,
   });
 
+  // PAYMENT DATA
   const PAYMENT_TABLE_DATA = useMemo(() => {
     if (!payments) return;
 
@@ -47,6 +50,16 @@ const DetailModal = (props: PropType) => {
     });
   }, [payments]);
 
+  const PAGED_PAYMENT_TABLE_DATA = useMemo(() => {
+    if (!PAYMENT_TABLE_DATA) return [];
+
+    const start = (paymentPagination.current - 1) * paymentPagination.pageSize;
+    const end = start + paymentPagination.pageSize;
+
+    return PAYMENT_TABLE_DATA?.slice(start, end);
+  }, [PAYMENT_TABLE_DATA, paymentPagination.current, paymentPagination.pageSize]);
+
+  // PRODUCT DATA
   const PRODUCT_TABLE_DATA = useMemo(() => {
     if (!carts) return;
 
@@ -54,6 +67,15 @@ const DetailModal = (props: PropType) => {
       return { ...c?.product, key: c?.product?.id, quantity: c?.quantity };
     });
   }, [carts]);
+
+  const PAGED_PRODUCT_TABLE_DATA = useMemo(() => {
+    if (!PRODUCT_TABLE_DATA) return [];
+
+    const start = (productPagination.current - 1) * productPagination.pageSize;
+    const end = start + productPagination.pageSize;
+
+    return PRODUCT_TABLE_DATA?.slice(start, end);
+  }, [PRODUCT_TABLE_DATA, productPagination.current, productPagination.pageSize]);
 
   const handleClose = () => {
     onClose();
@@ -169,136 +191,254 @@ const DetailModal = (props: PropType) => {
 
         <span className='text-[1rem] font-bold text-zinc-700'>{t('order.payment_list')}</span>
 
-        <Table
-          bordered
-          dataSource={PAYMENT_TABLE_DATA}
-          scroll={{ x: 'max-content' }}
-          pagination={
-            payments?.length <= DEFAULT_PAGE_SIZE
-              ? false
-              : {
-                  ...paymentPagination,
-                  total: payments?.length,
-                  showSizeChanger: false,
-                  onChange: (value) =>
-                    setPaymentPagination({ ...paymentPagination, current: value }),
-                }
-          }
-        >
-          <Column
-            title={t('order.payment_method')}
-            dataIndex='payment_method'
-            key='payment_method'
-            width={200}
-            render={(_, record) => {
-              return <span>{t(`payment.${get(record, 'method', '').toLowerCase()}`)}</span>;
-            }}
-          />
-          <Column
-            title={t('amount')}
-            dataIndex='amount'
-            key='amount'
-            width={120}
-            render={(_, record) => {
-              return <span>{formatCurrency(get(record, 'amount', 0))}</span>;
-            }}
-          />
-          <Column
-            title={t('paid_at')}
-            dataIndex='paidAt'
-            key='paidAt'
-            minWidth={150}
-            width={150}
-            render={(_, record) => {
-              return <span>{formatTimezone(get(record, 'paidAt', ''))}</span>;
-            }}
-          />
-        </Table>
+        {isMobile ? (
+          <div className='w-full flex flex-col gap-3'>
+            {PAGED_PAYMENT_TABLE_DATA?.map((p) => {
+              return (
+                <Card key={get(p, 'id', '')}>
+                  <div className='flex flex-col gap-5'>
+                    <div className='grid grid-cols-[120px_1fr] gap-3'>
+                      <span className='text-[0.8rem] font-semibold'>{t('payment.method')}</span>
+                      <span className='text-[0.8rem] text-zinc-700'>
+                        {t(`payment.${get(p, 'method', '').toLowerCase()}`)}
+                      </span>
+                    </div>
+
+                    <div className='grid grid-cols-[120px_1fr] gap-3'>
+                      <span className='text-[0.8rem] font-semibold'>{t('amount')}</span>
+                      <span className='text-[0.8rem] text-zinc-700'>
+                        {formatCurrency(get(p, 'amount', 0))}
+                      </span>
+                    </div>
+
+                    <div className='grid grid-cols-[120px_1fr] gap-3'>
+                      <span className='text-[0.8rem] font-semibold'>{t('paid_at')}</span>
+                      <span className='text-[0.8rem] text-zinc-700'>
+                        {formatTimezone(get(p, 'paidAt', ''))}
+                      </span>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+
+            {payments?.length > DEFAULT_PAGE_SIZE && (
+              <div className='mt-3 mx-auto'>
+                <Pagination
+                  showSizeChanger={false}
+                  current={paymentPagination.current}
+                  pageSize={paymentPagination.pageSize}
+                  total={carts?.length}
+                  onChange={(value) => {
+                    setPaymentPagination({ ...paymentPagination, current: value });
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        ) : (
+          <Table
+            bordered
+            dataSource={PAYMENT_TABLE_DATA}
+            scroll={{ x: 'max-content' }}
+            pagination={
+              payments?.length <= DEFAULT_PAGE_SIZE
+                ? false
+                : {
+                    ...paymentPagination,
+                    total: payments?.length,
+                    showSizeChanger: false,
+                    onChange: (value) =>
+                      setPaymentPagination({ ...paymentPagination, current: value }),
+                  }
+            }
+          >
+            <Column
+              title={t('order.payment_method')}
+              dataIndex='payment_method'
+              key='payment_method'
+              width={200}
+              render={(_, record) => {
+                return <span>{t(`payment.${get(record, 'method', '').toLowerCase()}`)}</span>;
+              }}
+            />
+            <Column
+              title={t('amount')}
+              dataIndex='amount'
+              key='amount'
+              width={120}
+              render={(_, record) => {
+                return <span>{formatCurrency(get(record, 'amount', 0))}</span>;
+              }}
+            />
+            <Column
+              title={t('paid_at')}
+              dataIndex='paidAt'
+              key='paidAt'
+              minWidth={150}
+              width={150}
+              render={(_, record) => {
+                return <span>{formatTimezone(get(record, 'paidAt', ''))}</span>;
+              }}
+            />
+          </Table>
+        )}
 
         <Divider className='my-0' />
 
         <span className='text-[1rem] font-bold text-zinc-700'>{t('order.product_list')}</span>
 
-        <Table
-          bordered
-          dataSource={PRODUCT_TABLE_DATA}
-          scroll={{ x: 'max-content' }}
-          pagination={
-            carts?.length <= DEFAULT_PAGE_SIZE
-              ? false
-              : {
-                  ...productPagination,
-                  total: carts?.length,
-                  showSizeChanger: false,
-                  onChange: (value) =>
-                    setProductPagination({ ...productPagination, current: value }),
-                }
-          }
-        >
-          <Column
-            title='#'
-            key='index'
-            width={60}
-            align='center'
-            render={(_, __, index) =>
-              (productPagination.current - 1) * productPagination.pageSize + index + 1
-            }
-          />
-          <Column
-            title={t('product.name')}
-            dataIndex='name'
-            key='name'
-            width={300}
-            minWidth={300}
-            render={(_, record) => {
+        {isMobile ? (
+          <div className='w-full flex flex-col gap-3'>
+            {PAGED_PRODUCT_TABLE_DATA?.map((product, index) => {
               return (
-                <div
-                  className='flex items-center gap-3 hover:cursor-pointer'
-                  onClick={() => {
-                    navigate(`/san-pham/${get(record, 'slug', '')}`);
+                <Card key={get(product, 'id', '')}>
+                  <div className='flex flex-col gap-5'>
+                    <div className='grid grid-cols-[120px_1fr] gap-3'>
+                      <span className='text-[0.8rem] font-semibold'>#</span>
+                      <span className='text-[0.8rem] text-zinc-700'>
+                        {(productPagination.current - 1) * productPagination.pageSize + index + 1}
+                      </span>
+                    </div>
+
+                    <div
+                      className='grid grid-cols-[120px_1fr] gap-3 hover:cursor-pointer'
+                      onClick={() => {
+                        navigate(`/san-pham/${get(product, 'slug', '')}`);
+                      }}
+                    >
+                      <Avatar
+                        shape='square'
+                        size={50}
+                        src={get(product, 'imagesUrl[0]', '')}
+                        icon={<FiShoppingBag />}
+                      />
+                      <span>{get(product, 'name', '')}</span>
+                    </div>
+
+                    <div className='grid grid-cols-[120px_1fr] gap-3'>
+                      <span className='text-[0.8rem] font-semibold'>{t('price')}</span>
+                      <span className='text-[0.8rem] text-zinc-700'>
+                        {formatCurrency(get(product, 'price', 0))}
+                      </span>
+                    </div>
+
+                    <div className='grid grid-cols-[120px_1fr] gap-3'>
+                      <span className='text-[0.8rem] font-semibold'>{t('quantity')}</span>
+                      <span className='text-[0.8rem] text-zinc-700'>
+                        {formatCurrency(get(product, 'quantity', 0))}
+                      </span>
+                    </div>
+
+                    <div className='grid grid-cols-[120px_1fr] gap-3'>
+                      <span className='text-[0.8rem] font-semibold'>{t('total')}</span>
+                      <span className='text-[0.8rem] text-zinc-700'>
+                        {formatCurrency(get(product, 'quantity', 0) * get(product, 'price', 0))}
+                      </span>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+
+            {carts?.length > DEFAULT_PAGE_SIZE && (
+              <div className='mt-3 mx-auto'>
+                <Pagination
+                  showSizeChanger={false}
+                  current={productPagination.current}
+                  pageSize={productPagination.pageSize}
+                  total={carts?.length}
+                  onChange={(value) => {
+                    setProductPagination({ ...productPagination, current: value });
                   }}
-                >
-                  <Avatar
-                    shape='square'
-                    size={50}
-                    src={get(record, 'imagesUrl[0]', '')}
-                    icon={<FiShoppingBag />}
-                  />
-                  <span>{get(record, 'name', '')}</span>
-                </div>
-              );
-            }}
-          />
-          <Column
-            title={t('price')}
-            dataIndex='price'
-            key='price'
-            width={120}
-            render={(_, record) => {
-              return <span>{formatCurrency(get(record, 'price', 0))}</span>;
-            }}
-          />
-          <Column
-            title={t('quantity')}
-            dataIndex='quantity'
-            key='quantity'
-            width={100}
-            render={(_, record) => {
-              return <span>{formatCurrency(get(record, 'quantity', 0))}</span>;
-            }}
-          />
-          <Column
-            title={t('total')}
-            dataIndex='total'
-            key='total'
-            width={100}
-            render={(_, record) => {
-              return (
-                <span>{formatCurrency(get(record, 'quantity', 0) * get(record, 'price', 0))}</span>
-              );
-            }}
-          />
-        </Table>
+                />
+              </div>
+            )}
+          </div>
+        ) : (
+          <Table
+            bordered
+            dataSource={PRODUCT_TABLE_DATA}
+            scroll={{ x: 'max-content' }}
+            pagination={
+              carts?.length <= DEFAULT_PAGE_SIZE
+                ? false
+                : {
+                    ...productPagination,
+                    total: carts?.length,
+                    showSizeChanger: false,
+                    onChange: (value) =>
+                      setProductPagination({ ...productPagination, current: value }),
+                  }
+            }
+          >
+            <Column
+              title='#'
+              key='index'
+              width={60}
+              align='center'
+              render={(_, __, index) =>
+                (productPagination.current - 1) * productPagination.pageSize + index + 1
+              }
+            />
+            <Column
+              title={t('product.name')}
+              dataIndex='name'
+              key='name'
+              width={300}
+              minWidth={300}
+              render={(_, record) => {
+                return (
+                  <div
+                    className='flex items-center gap-3 hover:cursor-pointer'
+                    onClick={() => {
+                      navigate(`/san-pham/${get(record, 'slug', '')}`);
+                    }}
+                  >
+                    <Avatar
+                      shape='square'
+                      size={50}
+                      src={get(record, 'imagesUrl[0]', '')}
+                      icon={<FiShoppingBag />}
+                    />
+                    <span>{get(record, 'name', '')}</span>
+                  </div>
+                );
+              }}
+            />
+            <Column
+              title={t('price')}
+              dataIndex='price'
+              key='price'
+              width={120}
+              render={(_, record) => {
+                return <span>{formatCurrency(get(record, 'price', 0))}</span>;
+              }}
+            />
+            <Column
+              title={t('quantity')}
+              dataIndex='quantity'
+              key='quantity'
+              width={100}
+              render={(_, record) => {
+                return <span>{formatCurrency(get(record, 'quantity', 0))}</span>;
+              }}
+            />
+            <Column
+              title={t('total')}
+              dataIndex='total'
+              key='total'
+              width={100}
+              render={(_, record) => {
+                return (
+                  <span>
+                    {formatCurrency(get(record, 'quantity', 0) * get(record, 'price', 0))}
+                  </span>
+                );
+              }}
+            />
+          </Table>
+        )}
       </div>
     </Modal>
   );
