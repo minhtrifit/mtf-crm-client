@@ -121,6 +121,11 @@
   "dimension_banner": "Banner ({{ width }}x{{ height }})",
   "double_check_information": "Vui lòng kiểm tra lại thông tin",
   "home": "Trang chủ",
+  "login_to_review": "Đăng nhập để bình luận",
+  "all": "Tất cả",
+  "over": "Trên",
+  "send": "Gửi",
+  "comment_placeholder": "Nhập bình luận của bạn",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",
@@ -136,7 +141,9 @@
     "name_placeholder": "Tìm kiếm theo tên sản phẩm, slug, SKU",
     "showcase_name_placeholder": "Tìm kiếm theo tên sản phẩm, SKU",
     "update_status": "Cập nhật trạng thái cho sản phẩm này?",
-    "delete": "Xóa sản phẩm"
+    "delete": "Xóa sản phẩm",
+    "review": "Đánh giá sản phẩm",
+    "quality": "Chất lượng sản phẩm"
   },
   "order": {
     "default": "Đơn hàng",
@@ -222,5 +229,12 @@
     "general_information": "Thông tin chung",
     "section_content": "Nội dung section",
     "footer_description": "Nội dung chân trang"
+  },
+  "rate": {
+    "five_star": "5 sao",
+    "four_star": "4 sao",
+    "three_star": "3 sao",
+    "two_star": "2 sao",
+    "one_star": "1 sao"
   }
 }

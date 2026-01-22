@@ -1,6 +1,6 @@
 import { Card, Skeleton } from 'antd';
 
-const DetailProductSkeleton = () => {
+export const DetailProductSkeleton = () => {
   return (
     <Card
       styles={{
@@ -38,4 +38,18 @@ const DetailProductSkeleton = () => {
   );
 };
 
-export default DetailProductSkeleton;
+export const CommentSkeleton = () => {
+  return (
+    <div className='w-full flex flex-col gap-5'>
+      <Skeleton.Node active style={{ height: 100, width: '100%' }} />
+
+      <div className='mt-5 flex items-center gap-5'>
+        <Skeleton.Avatar size={60} />
+        <div className='w-full flex flex-col gap-3'>
+          <Skeleton.Node active style={{ height: 20, width: '100%' }} />
+          <Skeleton.Node active style={{ height: 20, width: '50%' }} />
+        </div>
+      </div>
+    </div>
+  );
+};

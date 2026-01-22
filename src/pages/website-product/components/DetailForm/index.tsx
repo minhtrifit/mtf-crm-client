@@ -3,16 +3,23 @@ import { get } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import { addToCart } from '@/store/actions/cart.action';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useTranslation } from 'react-i18next';
-import { Avatar, Button, Card, notification, Rate, Tag } from 'antd';
-import { Product } from '@/types/product';
+import { useQueryParams } from '@/hooks/useQueryParams';
+import { useGetReviews } from '../../hooks/useGetReviews';
+import { useCreateReview } from '../../hooks/useCreateReview';
+import { Avatar, Button, Card, Divider, Empty, notification, Rate, Tag } from 'antd';
+import { CommentType, Product, ProductReviewPayload } from '@/types/product';
 import { formatCurrency } from '@/+core/helpers';
 import ImageGallery from '@/components/ui/ImageGallery/ImageGallery';
 import QuantityInput from '@/components/ui/QuantityInput/QuantityInput';
+import { CommentSkeleton } from '../Skeleton';
+import CommentBox from '../CommentBox';
+import CommentFilterBar from '../CommentFilterBar';
+import CommentList from '../CommentList';
 import { MdCategory } from 'react-icons/md';
-import { addToCart } from '@/store/actions/cart.action';
 
 interface PropType {
   product: Product;
@@ -22,12 +29,31 @@ const DetailForm = (props: PropType) => {
   const { product } = props;
 
   const { config } = useAppConfig();
+  const { searchParams, updateParams } = useQueryParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const rate = searchParams.get('rate') ?? '';
+
   const user = useSelector((state: RootState) => state.users.user);
 
+  const {
+    data: review,
+    loading: loading,
+    params,
+    setParams,
+    fetchData,
+  } = useGetReviews(product?.id, {
+    rate: rate,
+  });
+  const { mutate: reviewMutate, loading: reviewLoading } = useCreateReview();
+
+  const comments = get(review, 'comments', []);
+
+  const [filter, setFilter] = useState<{ rate: string }>({
+    rate: rate,
+  });
   const [quantity, setQuantity] = useState<number>(1);
 
   const getStatus = (stock: number) => {
@@ -64,6 +90,34 @@ const DetailForm = (props: PropType) => {
     dispatch(addToCart({ product, quantity }));
     setQuantity(1);
     navigate(`/thanh-toan?step=1`);
+  };
+
+  const handleRate = (value: string) => {
+    setFilter({ ...filter, rate: value });
+    setParams({ ...params, rate: value ? Number(value) : '' });
+    updateParams({ rate: value });
+  };
+
+  const handleSubmitReview = async (payload: ProductReviewPayload) => {
+    const res = await reviewMutate(payload);
+
+    if (res.success) {
+      notification.success({
+        message: t('notification'),
+        description: t(res.message),
+        placement: 'bottomLeft',
+      });
+
+      fetchData(product?.id, params); // Refetch review
+    }
+  };
+
+  const checkIsUserReviewed = (userId: string, comments: CommentType[]) => {
+    const comment = comments?.find((c) => c.userId === userId);
+
+    if (comment) return true;
+
+    return false;
   };
 
   return (
@@ -171,6 +225,48 @@ const DetailForm = (props: PropType) => {
           </div>
 
           <div className='p-4 whitespace-pre-line'>{get(product, 'description', '')}</div>
+        </section>
+      </Card>
+
+      <Card
+        styles={{
+          body: {
+            padding: 15,
+            borderTop: '1px solid #f5f5f5',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+          },
+        }}
+      >
+        <section className='flex flex-col gap-5'>
+          <div className='w-full bg-[#fafafa] p-4 rounded-md'>
+            <h3 style={{ color: config?.websitePrimaryColor }} className='text-[1.2rem] uppercase'>
+              {t('product.review')}
+            </h3>
+          </div>
+
+          {loading ? (
+            <CommentSkeleton />
+          ) : (
+            <div className='w-full flex flex-col gap-5'>
+              <CommentFilterBar review={review} rate={filter.rate} handleRate={handleRate} />
+
+              {!checkIsUserReviewed(get(user, 'id', ''), comments) && (
+                <CommentBox
+                  productId={product?.id}
+                  loading={reviewLoading}
+                  handleSubmitReview={handleSubmitReview}
+                />
+              )}
+
+              {!checkIsUserReviewed(get(user, 'id', ''), comments) && <Divider className='my-0' />}
+
+              {comments?.length === 0 ? (
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+              ) : (
+                <CommentList comments={comments} />
+              )}
+            </div>
+          )}
         </section>
       </Card>
     </div>

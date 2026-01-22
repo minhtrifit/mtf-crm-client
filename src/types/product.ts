@@ -1,3 +1,4 @@
+import { UserType } from './auth';
 import { Category } from './category';
 
 export interface Product {
@@ -37,4 +38,34 @@ export interface UpdateProductPayload {
   description?: string;
   isActive?: boolean;
   categoryId?: string;
+}
+
+export interface ProductReviewPayload {
+  rating: number;
+  comment: string;
+  imagesUrl: string[];
+  productId: string;
+}
+
+export interface CommentType {
+  id: string;
+  rating: number;
+  comment: string;
+  imagesUrl: string[];
+  createdAt: string;
+  userId: string;
+  user: UserType;
+}
+
+export interface ProductReview {
+  ratingAvg: number;
+  ratingCount: number;
+  ratingStats: {
+    '1': number;
+    '2': number;
+    '3': number;
+    '4': number;
+    '5': number;
+  };
+  comments: CommentType[];
 }

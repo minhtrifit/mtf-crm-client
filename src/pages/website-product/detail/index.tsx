@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useDetail } from '../hooks/useDetail';
 import Error from '@/components/ui/Error/Error';
-import DetailProductSkeleton from '../components/Skeleton';
+import { DetailProductSkeleton } from '../components/Skeleton';
 import DetailForm from '../components/DetailForm';
 
 const WebsiteDetailProductPage = () => {

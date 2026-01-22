@@ -121,6 +121,11 @@
   "dimension_banner": "Banner ({{ width }}x{{ height }})",
   "double_check_information": "Please double check information",
   "home": "Home",
+  "login_to_review": "Login to review",
+  "all": "All",
+  "over": "Over",
+  "send": "Send",
+  "comment_placeholder": "Type your comment",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -136,7 +141,9 @@
     "name_placeholder": "Search by product name, slug, SKU",
     "showcase_name_placeholder": "Search by product name, SKU",
     "update_status": "Update this product status?",
-    "delete": "Delete product"
+    "delete": "Delete product",
+    "review": "Product review",
+    "quality": "Product quality"
   },
   "order": {
     "default": "Order",
@@ -222,5 +229,12 @@
     "general_information": "General Information",
     "section_content": "Section content",
     "footer_description": "Footer description"
+  },
+  "rate": {
+    "five_star": "5 star",
+    "four_star": "4 star",
+    "three_star": "3 star",
+    "two_star": "2 star",
+    "one_star": "1 star"
   }
 }
