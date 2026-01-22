@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { Avatar, Button, Drawer, Popconfirm } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -11,7 +12,6 @@ import { MdHome } from 'react-icons/md';
 import { FaUser } from 'react-icons/fa';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { FiShoppingBag } from 'react-icons/fi';
-import { get } from 'lodash';
 
 interface PropType {
   open: boolean;
@@ -74,6 +74,7 @@ const MenuDrawer = (props: PropType) => {
 
   return (
     <Drawer
+      width={'100vw'}
       onClose={onClose}
       open={open}
       style={{

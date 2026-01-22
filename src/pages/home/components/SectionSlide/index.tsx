@@ -3,11 +3,13 @@ import Slider from 'react-slick';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
+import { useNavigate } from 'react-router-dom';
+import { useScreenWidth } from '@/hooks/useScreenWidth';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { SectionType } from '@/types/website_template';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { Product } from '@/types/product';
 import ProductCard from '@/components/ui/ProductCard/ProductCard';
-import { useNavigate } from 'react-router-dom';
 
 const NextArrow = ({ onClick }: any) => (
   <button
@@ -40,15 +42,25 @@ const SectionSlide = (props: PropType) => {
 
   const { config } = useAppConfig();
   const { t } = useTranslation();
+  const isMobile = useIsMobile(640);
+  const screenWidth = useScreenWidth();
   const navigate = useNavigate();
 
   const items = get(section, 'items', []);
+
+  const getSlidesToShow = (width: number) => {
+    if (width < 640) return 1;
+    if (width < 1024) return 2;
+    if (width < 1280) return 3;
+
+    return 4;
+  };
 
   const settings = {
     arrows: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: isMobile ? 1 : getSlidesToShow(screenWidth),
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
