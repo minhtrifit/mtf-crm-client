@@ -147,7 +147,8 @@
     "delete": "Xóa sản phẩm",
     "review": "Đánh giá sản phẩm",
     "quality": "Chất lượng sản phẩm",
-    "sold": "Đã bán"
+    "sold": "Đã bán",
+    "rating_count": "Số lượt đánh giá"
   },
   "order": {
     "default": "Đơn hàng",

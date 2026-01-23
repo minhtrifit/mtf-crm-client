@@ -147,7 +147,8 @@
     "delete": "Delete product",
     "review": "Product review",
     "quality": "Product quality",
-    "sold": "Sold"
+    "sold": "Sold",
+    "rating_count": "Rating count"
   },
   "order": {
     "default": "Order",

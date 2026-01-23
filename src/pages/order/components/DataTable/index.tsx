@@ -4,11 +4,11 @@ import { Avatar, Button, Modal, Pagination, Select, Table, Tooltip } from 'antd'
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { formatCurrency, formatDateTime } from '@/+core/helpers';
-import { DEFAULT_PAGE_SIZE, DeliveryStatus } from '@/+core/constants/commons.constant';
+import { DEFAULT_PAGE_SIZE, DeliveryStatus, OrderStatus } from '@/+core/constants/commons.constant';
 import { Order } from '@/types/order';
 import { FilterType } from '../../pages/list';
 import { PagingType } from '@/types';
-import { MdOutlineBookmarkAdded } from 'react-icons/md';
+import { MdOutlineBookmarkAdded, MdPaid, MdPending, MdCancel } from 'react-icons/md';
 import { FaEye, FaPen, FaUser, FaRegCheckCircle, FaRegCreditCard, FaTruck } from 'react-icons/fa';
 import { PiPackageBold } from 'react-icons/pi';
 
@@ -31,6 +31,24 @@ const DataTable = (props: PropType) => {
 
   const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
   const [target, setTarget] = useState<{ orderId: string; value: DeliveryStatus } | null>(null);
+
+  const STATUS_OPTIONS = [
+    {
+      value: OrderStatus.PAID,
+      label: t('order.paid'),
+      icon: <MdPaid size={20} className='text-green-500' />,
+    },
+    {
+      value: OrderStatus.PENDING,
+      label: t('order.pending'),
+      icon: <MdPending size={20} className='text-yellow-500' />,
+    },
+    {
+      value: OrderStatus.CANCELLED,
+      label: t('order.cancelled'),
+      icon: <MdCancel size={20} className='text-red-500' />,
+    },
+  ];
 
   const DELIVERY_STATUS_OPTIONS = [
     {
@@ -179,7 +197,14 @@ const DataTable = (props: PropType) => {
           key='status'
           minWidth={200}
           render={(_, record) => {
-            return <span>{t(`order.${get(record, 'status', '').toLowerCase()}`)}</span>;
+            const status = STATUS_OPTIONS.find((s) => s.value === get(record, 'status', ''));
+
+            return (
+              <div className='flex items-center gap-2'>
+                {get(status, 'icon', null)}
+                <span>{get(status, 'label', '')}</span>
+              </div>
+            );
           }}
         />
         <Column

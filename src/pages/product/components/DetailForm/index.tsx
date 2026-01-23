@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Avatar, Button, Divider } from 'antd';
+import { Avatar, Button, Divider, Rate } from 'antd';
 import { Product } from '@/types/product';
 import { formatCurrency } from '@/+core/helpers';
 import colors from '@/+core/themes/colors';
@@ -30,6 +30,8 @@ const ProductDetailForm = (props: PropType) => {
   const handleRedirectEdit = (id: string) => {
     navigate(`/admin/product/edit/${id}`);
   };
+
+  console.log(product);
 
   return (
     <div className='block__container flex flex-col gap-5'>
@@ -94,6 +96,24 @@ const ProductDetailForm = (props: PropType) => {
           <div className='flex flex-col gap-3'>
             <Label title={t('stock')} />
             <span className='text-[0.85rem] text-zinc-700'>{get(product, 'stock', 0)}</span>
+          </div>
+
+          <div className='flex flex-col gap-3'>
+            <Label title={t('product.sold')} />
+            <span className='text-[0.85rem] text-zinc-700'>{get(product, 'soldCount', 0)}</span>
+          </div>
+
+          <div className='flex flex-col gap-3'>
+            <Label title={t('product.review')} />
+            <div className='flex items-center gap-2'>
+              <Rate value={1} count={1} disabled />
+              <span className='text-[0.85rem] text-zinc-700'>{get(product, 'ratingAvg', 0)}</span>
+            </div>
+          </div>
+
+          <div className='flex flex-col gap-3'>
+            <Label title={t('product.rating_count')} />
+            <span className='text-[0.85rem] text-zinc-700'>{get(product, 'ratingCount', 0)}</span>
           </div>
 
           <div className='flex flex-col gap-3 whitespace-pre-line col-span-full'>
