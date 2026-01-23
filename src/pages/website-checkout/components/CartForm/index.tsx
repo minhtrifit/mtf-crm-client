@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { removeFromCart, updateCartQuantity } from '@/store/actions/cart.action';
 import { formatCurrency } from '@/+core/helpers';
+import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useScrollToId } from '@/hooks/useScrollToId';
 import { isPaymentStep, PAYMENT_STEP } from '../Step';
 import QuantityInput from '@/components/ui/QuantityInput/QuantityInput';
+import CartEmpty from '../CartEmpty';
 import { FiShoppingBag } from 'react-icons/fi';
 import { FaTrash } from 'react-icons/fa';
 
@@ -28,7 +30,7 @@ const CartForm = () => {
 
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 5,
+    pageSize: DEFAULT_PAGE_SIZE,
   });
 
   const handleUpdateStep = (value: PAYMENT_STEP) => {
@@ -72,6 +74,8 @@ const CartForm = () => {
 
     return TABLE_DATA?.slice(start, end);
   }, [TABLE_DATA, pagination.current, pagination.pageSize]);
+
+  if (carts?.length === 0) return <CartEmpty />;
 
   return (
     <Card
@@ -122,6 +126,7 @@ const CartForm = () => {
                       <div className='flex items-center gap-5'>
                         <QuantityInput
                           min={1}
+                          max={get(record, 'stock', 0)}
                           value={get(record, 'quantity', 0)}
                           onChange={(value: number) =>
                             handleUpdateQuantity(get(record, 'id', ''), value)
@@ -153,24 +158,30 @@ const CartForm = () => {
               })}
             </div>
 
-            <Pagination
-              className='mx-auto'
-              showSizeChanger={false}
-              current={pagination.current}
-              pageSize={pagination.pageSize}
-              total={carts?.length}
-              onChange={(value) => handleChangePage(value)}
-            />
+            {carts?.length > DEFAULT_PAGE_SIZE && (
+              <Pagination
+                className='mx-auto'
+                showSizeChanger={false}
+                current={pagination.current}
+                pageSize={pagination.pageSize}
+                total={carts?.length}
+                onChange={(value) => handleChangePage(value)}
+              />
+            )}
           </div>
         ) : (
           <Table
             dataSource={TABLE_DATA}
-            pagination={{
-              ...pagination,
-              total: carts?.length,
-              showSizeChanger: false,
-              onChange: (value) => setPagination({ ...pagination, current: value }),
-            }}
+            pagination={
+              carts?.length <= DEFAULT_PAGE_SIZE
+                ? false
+                : {
+                    ...pagination,
+                    total: carts?.length,
+                    showSizeChanger: false,
+                    onChange: (value) => setPagination({ ...pagination, current: value }),
+                  }
+            }
           >
             <Column
               title='#'
@@ -217,6 +228,7 @@ const CartForm = () => {
                   <div className='flex items-center gap-5'>
                     <QuantityInput
                       min={1}
+                      max={get(record, 'stock', 0)}
                       value={get(record, 'quantity', 0)}
                       onChange={(value: number) =>
                         handleUpdateQuantity(get(record, 'id', ''), value)
@@ -267,6 +279,7 @@ const CartForm = () => {
 
             <Button
               type='primary'
+              disabled={carts?.length === 0}
               onClick={() => {
                 handleUpdateStep(PAYMENT_STEP.CHECKOUT);
               }}

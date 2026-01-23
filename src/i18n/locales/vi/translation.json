@@ -72,7 +72,7 @@
   "upload_image": "Tải ảnh lên",
   "invalid_slug": "Slug không hợp lệ",
   "price": "Giá tiền",
-  "stock": "Tồn kho",
+  "stock": "Kho",
   "back": "Quay lại",
   "description": "Mô tả",
   "no_data": "Không có dữ liệu",
@@ -126,6 +126,9 @@
   "over": "Trên",
   "send": "Gửi",
   "comment_placeholder": "Nhập bình luận của bạn",
+  "reviews": "Đánh giá",
+  "cart_empty": "Opps! Bạn chưa có sản phẩm nào trong giỏ hàng",
+  "go_to_shop": "Mua hàng ngay",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",
@@ -143,7 +146,8 @@
     "update_status": "Cập nhật trạng thái cho sản phẩm này?",
     "delete": "Xóa sản phẩm",
     "review": "Đánh giá sản phẩm",
-    "quality": "Chất lượng sản phẩm"
+    "quality": "Chất lượng sản phẩm",
+    "sold": "Đã bán"
   },
   "order": {
     "default": "Đơn hàng",

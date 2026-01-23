@@ -6,7 +6,7 @@ import { Order } from '@/types/order';
 import { Payment, PaymentFilterType } from '@/types/payment';
 import { useNavigate, useParams } from 'react-router-dom';
 import Label from '@/components/ui/Label/Label';
-import { formatCurrency, formatDateTime } from '@/+core/helpers';
+import { formatCurrency, formatDateTime, formatNumber } from '@/+core/helpers';
 import { FiShoppingBag } from 'react-icons/fi';
 import { FaEye, FaPen } from 'react-icons/fa';
 import { PagingType } from '@/types';
@@ -253,7 +253,7 @@ const DetailForm = (props: PropType) => {
             key='quantity'
             width={100}
             render={(_, record) => {
-              return <span>{formatCurrency(get(record, 'quantity', 0))}</span>;
+              return <span>{formatNumber(get(record, 'quantity', 0))}</span>;
             }}
           />
           <Column

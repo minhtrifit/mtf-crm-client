@@ -15,6 +15,7 @@ import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { formatCurrency } from '@/+core/helpers';
 import { Button, Card, Input, notification, Radio, Typography } from 'antd';
 import Label from '@/components/ui/Label/Label';
+import CartEmpty from '../CartEmpty';
 import { FaTruck } from 'react-icons/fa';
 import { OrderPayload } from '@/types/order';
 
@@ -131,6 +132,8 @@ const InformationForm = () => {
     const firstErrorKey = Object.keys(errors)[0];
     setFocus(firstErrorKey as any);
   };
+
+  if (carts?.length === 0) return <CartEmpty />;
 
   return (
     <form
@@ -319,7 +322,12 @@ const InformationForm = () => {
             }}
           />
 
-          <Button htmlType='submit' type='primary' loading={codLoading || vnPayLoading}>
+          <Button
+            disabled={carts?.length === 0}
+            htmlType='submit'
+            type='primary'
+            loading={codLoading || vnPayLoading}
+          >
             {t('place_order')}
           </Button>
         </div>

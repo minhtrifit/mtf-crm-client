@@ -126,6 +126,9 @@
   "over": "Over",
   "send": "Send",
   "comment_placeholder": "Type your comment",
+  "reviews": "Reviews",
+  "cart_empty": "Opps! Your cart is empty",
+  "go_to_shop": "Go to shop",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -143,7 +146,8 @@
     "update_status": "Update this product status?",
     "delete": "Delete product",
     "review": "Product review",
-    "quality": "Product quality"
+    "quality": "Product quality",
+    "sold": "Sold"
   },
   "order": {
     "default": "Order",

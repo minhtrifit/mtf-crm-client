@@ -6,7 +6,7 @@ import { RootState } from '@/store/store';
 import { addToCart } from '@/store/actions/cart.action';
 import { Button, Card, Image, notification, Rate, Tooltip } from 'antd';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
-import { formatCurrency } from '@/+core/helpers';
+import { formatCurrency, formatNumber } from '@/+core/helpers';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Product } from '@/types/product';
 import styles from './styles.module.scss';
@@ -69,7 +69,7 @@ const ProductCard = (props: PropType) => {
         />
       }
     >
-      <div className='flex flex-col gap-5'>
+      <div className='flex flex-col gap-2'>
         <span
           className='text-[1rem] min-h-[50px] line-clamp-2 hover:cursor-pointer'
           onClick={() => {
@@ -86,16 +86,28 @@ const ProductCard = (props: PropType) => {
           >
             {formatCurrency(get(product, 'price', ''))}
           </span>
-
-          <Rate value={5} disabled />
         </div>
 
         <div className='w-full flex items-center justify-between gap-5'>
-          <div className='opacity-0'>action</div>
+          <div className='flex items-center gap-2'>
+            {get(product, 'ratingAvg', 0) !== 0 && (
+              <div className='flex items-center gap-1'>
+                <Rate count={1} value={1} disabled />
+                <span className='text-[0.8rem]'>{get(product, 'ratingAvg', 0)}</span>
+              </div>
+            )}
+
+            {get(product, 'ratingAvg', 0) !== 0 && <div className='w-[1px] h-[20px] bg-zinc-200' />}
+
+            <span className='text-[0.8rem]'>
+              {t('product.sold')} {formatNumber(get(product, 'soldCount', 0))}
+            </span>
+          </div>
 
           <Tooltip title={t('add_to_cart')}>
             <Button
               type='primary'
+              disabled={get(product, 'stock', 0) === 0}
               onClick={(e) => {
                 handleAddToCard();
               }}

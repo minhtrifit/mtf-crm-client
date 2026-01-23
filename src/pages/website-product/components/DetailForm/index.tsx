@@ -12,7 +12,7 @@ import { useGetReviews } from '../../hooks/useGetReviews';
 import { useCreateReview } from '../../hooks/useCreateReview';
 import { Avatar, Button, Card, Divider, Empty, notification, Rate, Tag } from 'antd';
 import { CommentType, Product, ProductReviewPayload } from '@/types/product';
-import { formatCurrency } from '@/+core/helpers';
+import { formatCurrency, formatNumber } from '@/+core/helpers';
 import ImageGallery from '@/components/ui/ImageGallery/ImageGallery';
 import QuantityInput from '@/components/ui/QuantityInput/QuantityInput';
 import { CommentSkeleton } from '../Skeleton';
@@ -138,7 +138,26 @@ const DetailForm = (props: PropType) => {
             <div className='flex flex-col gap-5'>
               <h3 className='my-0 text-[1.5rem]'>{get(product, 'name', '')}</h3>
 
-              <Rate value={5} disabled />
+              <div className='flex items-center gap-3'>
+                <div className='flex items-center gap-1'>
+                  <Rate count={1} value={1} disabled />
+                  <span className='text-[0.9rem]'>{get(product, 'ratingAvg', 0)}</span>
+                </div>
+
+                <div className='w-[1px] h-[20px] bg-zinc-200' />
+
+                <span className='text-[0.9rem]'>
+                  <span className='text-zinc-500'>{t('product.sold')}</span>{' '}
+                  {formatNumber(get(product, 'soldCount', 0))}
+                </span>
+
+                <div className='w-[1px] h-[20px] bg-zinc-200' />
+
+                <span className='text-[0.9rem]'>
+                  <span className='text-zinc-500'>{t('reviews')}</span>{' '}
+                  {formatNumber(get(product, 'reviews', [])?.length)}
+                </span>
+              </div>
 
               <div className='w-full bg-[#fafafa] p-4 rounded-md'>
                 <span
@@ -151,13 +170,24 @@ const DetailForm = (props: PropType) => {
             </div>
 
             <div>
-              <QuantityInput value={quantity} onChange={(value: number) => setQuantity(value)} />
+              <QuantityInput
+                disabled={get(product, 'stock', 0) === 0}
+                value={quantity}
+                max={get(product, 'stock', 0)}
+                onChange={(value: number) => setQuantity(value)}
+              />
             </div>
 
             <div className='mt-5 w-full max-w-[400px] grid grid-cols-2 gap-3'>
-              <Button onClick={handleAddToCard}>{t('add_to_cart')}</Button>
-              <Button type='primary' onClick={handleBuyNow}>
-                {t('buy_now')}
+              <Button disabled={get(product, 'stock', 0) === 0} onClick={handleAddToCard}>
+                {t('add_to_cart')}
+              </Button>
+              <Button
+                disabled={get(product, 'stock', 0) === 0}
+                type='primary'
+                onClick={handleBuyNow}
+              >
+                {t(`${get(product, 'stock', 0) === 0 ? 'out_stock' : 'buy_now'}`)}
               </Button>
             </div>
           </div>
@@ -210,10 +240,14 @@ const DetailForm = (props: PropType) => {
             </div>
 
             <div className='grid grid-cols-[110px_1fr] md:grid-cols-[150px_1fr] gap-5'>
-              <span className='text-zinc-700 font-semibold my-auto'>{t('status')}</span>
+              <span className='text-zinc-700 font-semibold my-auto'>{t('stock')}</span>
 
               <div className='flex'>
-                <Tag color='green'>{getStatus(get(product, 'stock', 0))}</Tag>
+                {get(product, 'stock') === 0 ? (
+                  <Tag color='red'>{t('out_stock')}</Tag>
+                ) : (
+                  <span className='font-bold'>{get(product, 'stock', 0)}</span>
+                )}
               </div>
             </div>
           </div>

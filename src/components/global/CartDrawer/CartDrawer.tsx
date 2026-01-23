@@ -126,6 +126,7 @@ const CartDrawer = (props: PropType) => {
                 <div className='flex items-center justify-between gap-5'>
                   <QuantityInput
                     min={0}
+                    max={get(product, 'stock', 0)}
                     value={get(item, 'quantity', 0)}
                     onChange={(value: number) =>
                       handleUpdateQuantity(get(product, 'id', ''), value)

@@ -15,6 +15,9 @@ export interface Product {
   updatedAt: string;
   categoryId: string;
   category: Category;
+  ratingAvg: number;
+  ratingCount: number;
+  soldCount: number;
 }
 
 export interface CreateProductPayload {
