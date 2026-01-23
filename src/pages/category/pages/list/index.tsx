@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { message } from 'antd';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useList } from '../../hooks/useList';
@@ -25,6 +25,7 @@ const CategoryListPage = () => {
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
   const q = searchParams.get('q') ?? '';
   const isActive = searchParams.get('isActive') ?? '';
+  const open = searchParams.get('open') ?? '';
 
   const [filter, setFilter] = useState<FilterType>({
     page: page,
@@ -114,6 +115,7 @@ const CategoryListPage = () => {
   const handleCloseModal = () => {
     setModal({ open: false, mode: null });
     setCategory(null);
+    updateParams({ open: '' });
   };
 
   const handleConfirmModal = async (mode: 'add' | 'edit' | 'detail', data: Category) => {
@@ -143,6 +145,16 @@ const CategoryListPage = () => {
       }
     }
   };
+
+  // Auto open detail
+  useEffect(() => {
+    const handleAutoOpenDetail = async (id: string) => {
+      const res = await detailFetchData(id);
+      handleOpenModal('detail', res);
+    };
+
+    if (open) handleAutoOpenDetail(open);
+  }, [open]);
 
   if (!loading && error) {
     return <Error />;

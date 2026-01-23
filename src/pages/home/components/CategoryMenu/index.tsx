@@ -4,17 +4,22 @@ import { Category } from '@/types/category';
 import { useNavigate } from 'react-router-dom';
 
 interface PropType {
+  isAdmin?: boolean;
   loading: boolean;
   data: Category[];
 }
 
 const CategoryMenu = (props: PropType) => {
-  const { loading, data } = props;
+  const { isAdmin = false, loading, data } = props;
 
   const navigate = useNavigate();
 
   const handleNavigateSlug = (slug: string) => {
     navigate(`/danh-muc/${slug}`);
+  };
+
+  const handleNavigateDetail = (id: string) => {
+    navigate(`/admin/category?open=${id}`);
   };
 
   return (
@@ -44,7 +49,8 @@ const CategoryMenu = (props: PropType) => {
                 key={get(category, 'id', '')}
                 className='flex items-center gap-3 p-2 hover:cursor-pointer hover:bg-blue-100 group'
                 onClick={() => {
-                  handleNavigateSlug(get(category, 'slug', ''));
+                  if (!isAdmin) handleNavigateSlug(get(category, 'slug', ''));
+                  else handleNavigateDetail(get(category, 'id', ''));
                 }}
               >
                 <Avatar src={get(category, 'imageUrl', '')} size={50} />

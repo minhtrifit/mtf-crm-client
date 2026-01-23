@@ -12,6 +12,7 @@ import OrderEditPage from '@/pages/order/pages/edit';
 import WebsiteTemplatePage from '@/pages/website-template/pages/list';
 import CreateWebsiteTemplatePage from '@/pages/website-template/pages/create';
 import EditWebsiteTemplatePage from '@/pages/website-template/pages/edit';
+import DetailWebsiteTemplatePage from '@/pages/website-template/pages/detail';
 
 export const adminRoutes = {
   path: '/admin',
@@ -71,7 +72,7 @@ export const adminRoutes = {
       children: [
         { index: true, element: <WebsiteTemplatePage /> },
         { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_ADD, element: <CreateWebsiteTemplatePage /> },
-        { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_DETAIL, element: <div>Category detail page</div> },
+        { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_DETAIL, element: <DetailWebsiteTemplatePage /> },
         { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_EDIT, element: <EditWebsiteTemplatePage /> },
       ],
     },
