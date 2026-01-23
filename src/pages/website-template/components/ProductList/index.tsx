@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
-import { Avatar, Button, Empty, Select, Tooltip, Typography } from 'antd';
+import { Avatar, Button, Empty, Input, Select, Tooltip, Typography } from 'antd';
 import { get } from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { useGetAll } from '@/pages/product/hooks/useAll';
 import { Product } from '@/types/product';
@@ -48,6 +48,14 @@ export const ProductList = ({ sectionIndex }: Props) => {
     setSelectedProduct(null);
   };
 
+  const isExistedInSection = (productId: string, sectionField: Record<string, string>[]) => {
+    const product = sectionField?.find((item) => item?.productId === productId);
+
+    if (product) return true;
+
+    return false;
+  };
+
   const productOptions = useMemo(() => {
     if (!products) return [];
 
@@ -62,133 +70,170 @@ export const ProductList = ({ sectionIndex }: Props) => {
 
   return (
     <div className='flex flex-col gap-5'>
-      <div className='flex flex-wrap items-end gap-3'>
-        <div className='flex flex-col gap-3'>
-          <Label title={t('product.default')} />
-          <Select
-            style={{ width: 280 }}
-            disabled={productsLoading}
-            placeholder={t('product.default')}
-            showSearch
-            allowClear
-            optionFilterProp='label'
-            filterOption={(input, option) => {
-              const label = option?.label;
+      <div className='grid grid-cols-2 items-start gap-5'>
+        <Controller
+          control={control}
+          name={`sections.${sectionIndex}.title`}
+          render={({ field, fieldState }) => {
+            return (
+              <div className='w-full flex flex-col gap-2'>
+                <Label title={t('website_template.section_name')} required />
 
-              if (typeof label !== 'string') return false;
+                <Input
+                  {...field}
+                  placeholder={t('website_template.section_name')}
+                  status={fieldState.error ? 'error' : ''}
+                />
 
-              return label.toLowerCase().includes(input.toLowerCase());
-            }}
-            value={selectedProduct?.id !== '' ? selectedProduct?.id : null}
-            onChange={(value) => {
-              const product = products?.find((p) => p?.id === value);
+                {fieldState.error && (
+                  <Text type='danger' style={{ fontSize: 12 }}>
+                    {fieldState.error.message}
+                  </Text>
+                )}
+              </div>
+            );
+          }}
+        />
 
-              setSelectedProduct(product as Product);
-            }}
-          >
-            {productOptions?.map((po) => {
-              return (
-                <Option
-                  key={`co-${get(po, 'value', '')}`}
-                  value={get(po, 'value', '')}
-                  label={get(po, 'label', '')}
-                >
-                  <div className='flex items-center gap-3'>
-                    <Avatar size={30} src={get(po, 'image', '')} icon={<MdCategory />} />
+        <div className='flex items-end gap-3'>
+          <div className='w-full flex flex-col gap-2'>
+            <Label title={t('product.default')} />
+            <div className='w-full'>
+              <Select
+                style={{ width: '100%' }}
+                disabled={productsLoading}
+                placeholder={t('product.default')}
+                showSearch
+                allowClear
+                optionFilterProp='label'
+                filterOption={(input, option) => {
+                  const label = option?.label;
 
-                    <span className='max-w-[180px] truncate text-[0.85rem] text-zinc-700'>
-                      {get(po, 'label', '')}
-                    </span>
-                  </div>
-                </Option>
-              );
-            })}
-          </Select>
-        </div>
+                  if (typeof label !== 'string') return false;
 
-        <Button
-          type='primary'
-          htmlType='button'
-          disabled={!selectedProduct}
-          onClick={handleAddProduct}
-        >
-          {t('add')}
-        </Button>
-      </div>
+                  return label.toLowerCase().includes(input.toLowerCase());
+                }}
+                value={selectedProduct?.id !== '' ? selectedProduct?.id : null}
+                onChange={(value) => {
+                  const product = products?.find((p) => p?.id === value);
 
-      {fields.length === 0 && (
-        <div className='w-full flex items-center justify-center'>
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-        </div>
-      )}
+                  setSelectedProduct(product as Product);
+                }}
+              >
+                {productOptions?.map((po) => {
+                  const isExisted = isExistedInSection(po?.value, fields);
 
-      <Droppable
-        droppableId={`products-${sectionIndex}`}
-        type={`PRODUCT-${sectionIndex}`}
-        direction='horizontal'
-      >
-        {(provided) => (
-          <div
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            className='flex gap-3 overflow-x-auto pb-2'
-          >
-            {fields.map((field, productIndex) => (
-              <Draggable key={field.id} draggableId={field.id} index={productIndex}>
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    className='w-[300px] min-w-[300px] bg-gray-50 border rounded p-2 flex flex-col gap-2 shadow-md'
-                  >
-                    {/* DRAG HANDLE */}
-                    <div
-                      {...provided.dragHandleProps}
-                      className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
+                  if (isExisted) return null;
+
+                  return (
+                    <Option
+                      key={`co-${get(po, 'value', '')}`}
+                      value={get(po, 'value', '')}
+                      label={get(po, 'label', '')}
                     >
-                      <MdDragHandle size={20} />
-                    </div>
+                      <div className='flex items-center gap-3'>
+                        <Avatar size={30} src={get(po, 'image', '')} icon={<MdCategory />} />
 
-                    <div className='flex gap-3'>
-                      <Avatar
-                        size={100}
-                        shape='square'
-                        src={get(field, 'product.imagesUrl[0]', '')}
-                        icon={<MdCategory />}
-                      />
-
-                      <div className='flex flex-col gap-3'>
-                        <span className='min-h-[30px] text-[0.8rem] text-zinc-700'>
-                          {get(field, 'product.name', '')}
-                        </span>
-
-                        <span className='text-[0.8rem] text-zinc-700 font-semibold'>
-                          {formatCurrency(get(field, 'product.price', 0))}
+                        <span className='max-w-[180px] truncate text-[0.85rem] text-zinc-700'>
+                          {get(po, 'label', '')}
                         </span>
                       </div>
-                    </div>
-
-                    <Tooltip title={t('product.delete')}>
-                      <Button
-                        danger
-                        htmlType='button'
-                        onClick={() => remove(productIndex)}
-                        className='ml-auto'
-                      >
-                        <FaTrash />
-                      </Button>
-                    </Tooltip>
-                  </div>
-                )}
-              </Draggable>
-            ))}
-
-            {provided.placeholder}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </div>
           </div>
-        )}
-      </Droppable>
 
-      {error && error[sectionIndex] && (
+          <Button
+            type='primary'
+            htmlType='button'
+            disabled={!selectedProduct}
+            onClick={handleAddProduct}
+          >
+            {t('add')}
+          </Button>
+        </div>
+      </div>
+
+      {fields.length === 0 ? (
+        <div
+          style={{
+            border: error && error?.[sectionIndex] ? '1px dashed red' : undefined,
+          }}
+          className='w-full flex items-center justify-center rounded-md'
+        >
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        </div>
+      ) : (
+        <Droppable
+          droppableId={`products-${sectionIndex}`}
+          type={`PRODUCT-${sectionIndex}`}
+          direction='horizontal'
+        >
+          {(provided) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              className='flex gap-3 overflow-x-auto pb-2'
+            >
+              {fields.map((field, productIndex) => (
+                <Draggable key={field.id} draggableId={field.id} index={productIndex}>
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      className='w-[300px] min-w-[300px] bg-gray-50 border rounded p-2 flex flex-col gap-2 shadow-md'
+                    >
+                      {/* DRAG HANDLE */}
+                      <div
+                        {...provided.dragHandleProps}
+                        className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
+                      >
+                        <MdDragHandle size={20} />
+                      </div>
+
+                      <div className='flex gap-3'>
+                        <Avatar
+                          size={100}
+                          shape='square'
+                          src={get(field, 'product.imagesUrl[0]', '')}
+                          icon={<MdCategory />}
+                        />
+
+                        <div className='flex flex-col gap-3'>
+                          <span className='min-h-[30px] text-[0.8rem] text-zinc-700'>
+                            {get(field, 'product.name', '')}
+                          </span>
+
+                          <span className='text-[0.8rem] text-zinc-700 font-semibold'>
+                            {formatCurrency(get(field, 'product.price', 0))}
+                          </span>
+                        </div>
+                      </div>
+
+                      <Tooltip title={t('product.delete')}>
+                        <Button
+                          danger
+                          htmlType='button'
+                          onClick={() => remove(productIndex)}
+                          className='ml-auto'
+                        >
+                          <FaTrash />
+                        </Button>
+                      </Tooltip>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      )}
+
+      {error && error?.[sectionIndex] && (
         <Text type='danger' style={{ fontSize: 12 }}>
           {error[sectionIndex]?.items?.message}
         </Text>

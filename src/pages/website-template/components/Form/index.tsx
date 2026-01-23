@@ -398,7 +398,12 @@ const WebsiteTemplateForm = (props: PropType) => {
               </section>
             </Panel>
 
-            <Panel header={t('website_template.section_content')} key='section-information'>
+            <Panel
+              header={`${t('website_template.section_content')} ${
+                fields?.length !== 0 ? `(${fields?.length})` : ''
+              }`}
+              key='section-information'
+            >
               <DragDropContext onDragEnd={handleDragEnd}>
                 <SectionList
                   sectionFieldArray={

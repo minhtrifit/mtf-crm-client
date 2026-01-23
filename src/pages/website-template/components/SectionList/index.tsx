@@ -64,7 +64,7 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
                       <MdDragHandle size={20} />
                     </div>
 
-                    <Controller
+                    {/* <Controller
                       control={control}
                       name={`sections.${index}.title`}
                       render={({ field, fieldState }) => {
@@ -86,7 +86,7 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
                           </div>
                         );
                       }}
-                    />
+                    /> */}
 
                     <div className='max-w-[calc(100vw-400px)] xl:max-w-[calc(100vw-850px)]'>
                       <ProductList sectionIndex={index} />
