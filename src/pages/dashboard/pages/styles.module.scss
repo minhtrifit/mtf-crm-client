@@ -1,0 +1,24 @@
+.section__1__wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  justify-content: space-between;
+
+  @media (min-width: 1900px) {
+    grid-template-columns: 1fr 25%;
+  }
+}
+
+.section__2__wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  > * {
+    min-width: 0;
+  }
+
+  @media (min-width: 1900px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}

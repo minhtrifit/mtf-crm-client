@@ -112,6 +112,7 @@
   "revenue": "Revenue",
   "overview": "Overview",
   "year": "Year",
+  "quarter": "Quarter",
   "delivery_statistics": "Delivery status statistics",
   "invalid_value": "Invalid value",
   "save_and_apply": "Save & apply",
@@ -129,6 +130,9 @@
   "reviews": "Reviews",
   "cart_empty": "Opps! Your cart is empty",
   "go_to_shop": "Go to shop",
+  "top_selling_product": "Top selling products",
+  "recent_orders": "Recent orders",
+  "week": "Week",
   "category": {
     "default": "Category",
     "name": "Category Name",

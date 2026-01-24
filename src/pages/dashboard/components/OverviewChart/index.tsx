@@ -1,3 +1,7 @@
+import { useMemo } from 'react';
+import { get } from 'lodash';
+import dayjs, { Dayjs } from 'dayjs';
+import { DatePicker, Select } from 'antd';
 import {
   ComposedChart,
   Area,
@@ -9,33 +13,82 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { formatCompactNumber, formatNumber } from '@/+core/helpers';
+import { quarterData, yearData } from '../../mock';
+import {
+  OvertQuarterChartType,
+  OvertYearChartType,
+  OverviewTotalType,
+  ViewType,
+} from '@/types/stats';
 import { useTranslation } from 'react-i18next';
-import { formatCurrency, formatNumber } from '@/+core/helpers';
+import { OverviewFilterType } from '../../pages/DashboardPage';
 
-const OverviewChart = () => {
+interface PropType {
+  overviewStats: OverviewTotalType | null;
+  chartData: OvertYearChartType | OvertQuarterChartType | null;
+  filter: OverviewFilterType;
+  handleChangeFilter: (name: 'type' | 'year', value: ViewType | number) => void;
+}
+
+const OverviewChart = (props: PropType) => {
+  const { overviewStats, chartData, filter, handleChangeFilter } = props;
+
   const { t } = useTranslation();
 
-  const data = [
-    { month: '1', orders: 5000, users: 2050, revenue: 3000 },
-    { month: '2', orders: 3000, users: 430, revenue: 5050 },
-    { month: '3', orders: 4000, users: 610, revenue: 1650 },
-    { month: '4', orders: 3000, users: 5030, revenue: 4050 },
-    { month: '5', orders: 2000, users: 840, revenue: 2550 },
-    { month: '6', orders: 500, users: 890, revenue: 2950 },
-    { month: '7', orders: 4000, users: 860, revenue: 4750 },
-    { month: '8', orders: 2000, users: 940, revenue: 3250 },
-    { month: '9', orders: 2000, users: 880, revenue: 2850 },
-    { month: '10', orders: 3000, users: 980, revenue: 3450 },
-    { month: '11', orders: 2000, users: 1000, revenue: 3700 },
-    { month: '12', orders: 5000, users: 2130, revenue: 4450 },
+  // Total Stats
+  const items = [
+    {
+      value: get(overviewStats, 'total_products', 0),
+      label: t('product.default'),
+      format: formatNumber,
+    },
+    {
+      value: get(overviewStats, 'total_orders', 0),
+      label: t('order.default'),
+      format: formatNumber,
+    },
+    {
+      value: get(overviewStats, 'total_revenue', 0),
+      label: t('revenue'),
+      format: formatCompactNumber,
+    },
+    { value: get(overviewStats, 'total_users', 0), label: t('user.default'), format: formatNumber },
   ];
 
-  const items = [
-    { value: 300, label: t('product.default'), format: formatNumber },
-    { value: 15000, label: t('order.default'), format: formatNumber },
-    { value: 10500000000, label: t('revenue'), format: formatCurrency },
-    { value: 1200, label: t('user.default'), format: formatNumber },
-  ];
+  const chartConfig = useMemo(() => {
+    if (!chartData) {
+      return {
+        year: {
+          data: [],
+          xKey: 'month',
+          formatLabel: (v: string) => t(`month.${v}`),
+        },
+        quarter: {
+          data: [],
+          xKey: 'label',
+          formatLabel: (v: string) => v,
+        },
+      };
+    }
+
+    return {
+      year: {
+        data: chartData,
+        // data: yearData,
+        xKey: 'month',
+        formatLabel: (v: string) => t(`month.${v}`),
+      },
+      quarter: {
+        data: chartData,
+        // data: quarterData
+        xKey: 'label',
+        formatLabel: (v: string) => v,
+      },
+    };
+  }, [chartData]);
+
+  const { data, formatLabel, xKey } = chartConfig[filter.type];
 
   const RenderLegend = ({ payload }: any) => {
     return (
@@ -59,7 +112,31 @@ const OverviewChart = () => {
 
   return (
     <div className='block__container flex flex-col gap-3'>
-      <h3 className='text-[16px] text-[#495057]'>{t('overview')}</h3>
+      <div className='flex items-center justify-between'>
+        <h3 className='text-[16px] text-[#495057] whitespace-nowrap'>{t('overview')}</h3>
+
+        <div className='w-full flex items-center justify-end gap-3'>
+          <DatePicker
+            picker='year'
+            allowClear={false}
+            value={dayjs(filter.year.toString(), 'YYYY')}
+            onChange={(value: Dayjs) => {
+              const year = value?.year();
+              handleChangeFilter('year', year as number);
+            }}
+          />
+
+          <Select
+            value={filter.type}
+            onChange={(value: string) => handleChangeFilter('type', value as ViewType)}
+            className='w-[130px]'
+            options={[
+              { value: ViewType.YEAR, label: t('year') },
+              { value: ViewType.QUARTER, label: t('quarter') },
+            ]}
+          />
+        </div>
+      </div>
 
       <div
         className='w-full h-[70px] bg-[#f9fbfc] grid grid-cols-4
@@ -89,12 +166,18 @@ const OverviewChart = () => {
 
       <div className='w-full h-[350px]'>
         <ResponsiveContainer width='100%' height='100%'>
-          <ComposedChart data={data} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
+          <ComposedChart data={data as any} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
             <CartesianGrid stroke='#f5f5f5' />
 
+            <Tooltip
+              labelFormatter={(label) => (filter.type === 'year' ? t(`month.${label}`) : label)}
+            />
+
+            <Legend content={<RenderLegend />} />
+
             <XAxis
-              dataKey='month'
-              tickFormatter={(value) => t(`month.${value}`)}
+              dataKey={xKey}
+              tickFormatter={(value) => formatLabel(value)}
               tick={{ fill: '#9ca3af', fontSize: 11 }}
               axisLine={false}
               tickLine={false}
@@ -102,19 +185,39 @@ const OverviewChart = () => {
             />
 
             <YAxis
+              yAxisId='left'
               tick={{ fill: '#9ca3af', fontSize: 11 }}
               axisLine={false}
               tickLine={false}
               width={40}
             />
 
-            <Tooltip labelFormatter={(label) => t(`month.${label}`)} />
+            <YAxis
+              yAxisId='right'
+              orientation='right'
+              tick={{ fill: '#9ca3af', fontSize: 11 }}
+              axisLine={false}
+              tickLine={false}
+              width={50}
+              tickFormatter={(v) => formatCompactNumber(v)}
+            />
 
-            <Legend content={<RenderLegend />} />
-
-            <Bar dataKey='orders' barSize={18} fill='#405189' name={t('order.default')} />
-            <Bar dataKey='users' barSize={18} fill='#0ab39c' name={t('user.default')} />
+            <Bar
+              yAxisId='left'
+              dataKey='orders'
+              barSize={18}
+              fill='#405189'
+              name={t('order.default')}
+            />
+            <Bar
+              yAxisId='left'
+              dataKey='users'
+              barSize={18}
+              fill='#0ab39c'
+              name={t('user.default')}
+            />
             <Area
+              yAxisId='right'
               type='monotone'
               dataKey='revenue'
               fill='#fef8ed'

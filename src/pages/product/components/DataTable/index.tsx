@@ -6,7 +6,7 @@ import { Avatar, Button, Pagination, Popconfirm, Switch, Table, Tooltip } from '
 import { Product } from '@/types/product';
 import { PagingType } from '@/types';
 import { FilterType } from '../../pages/list';
-import { formatCurrency, formatDateTime } from '@/+core/helpers';
+import { formatCurrency, formatDateTime, formatNumber } from '@/+core/helpers';
 import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
 import { FaEye, FaPen } from 'react-icons/fa';
 import { FiShoppingBag } from 'react-icons/fi';
@@ -107,7 +107,7 @@ const DataTable = (props: PropType) => {
           key='stock'
           width={120}
           render={(_, record) => {
-            return <span>{get(record, 'stock', 0)}</span>;
+            return <span>{formatNumber(get(record, 'stock', 0))}</span>;
           }}
         />
         <Column

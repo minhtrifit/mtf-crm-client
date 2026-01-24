@@ -112,6 +112,7 @@
   "revenue": "Doanh thu",
   "overview": "Tổng quan",
   "year": "Năm",
+  "quarter": "Quý",
   "delivery_statistics": "Thống kê trạng thái giao hàng",
   "invalid_value": "Giá trị không hợp lệ",
   "save_and_apply": "Lưu & áp dụng",
@@ -129,6 +130,9 @@
   "reviews": "Đánh giá",
   "cart_empty": "Opps! Bạn chưa có sản phẩm nào trong giỏ hàng",
   "go_to_shop": "Mua hàng ngay",
+  "top_selling_product": "Sản phẩm bán chạy",
+  "recent_orders": "Đơn hàng gần đây",
+  "week": "Tuần",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",

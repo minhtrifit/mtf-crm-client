@@ -1,6 +1,6 @@
 import AdminLayout from '@/components/global/layout/AdminLayout';
 import { ADMIN_ROUTE } from './route.constant';
-import DashboardPage from '@/pages/dashboard/DashboardPage';
+import DashboardPage from '@/pages/dashboard/pages/DashboardPage';
 import CategoryListPage from '@/pages/category/pages/list';
 import ProductListPage from '@/pages/product/pages/list';
 import ProductCreatePage from '@/pages/product/pages/create';
