@@ -196,7 +196,9 @@
     "vnpay": "Thanh toán VNPay"
   },
   "user": {
-    "default": "Người dùng"
+    "default": "Người dùng",
+    "name_placeholder": "Tìm kiếm theo họ tên, email, SĐT",
+    "update_status": "Cập nhật trạng thái cho người dùng này?"
   },
   "customer": {
     "default": "Khách hàng"

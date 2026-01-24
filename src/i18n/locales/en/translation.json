@@ -196,7 +196,9 @@
     "vnpay": "VNPay payment"
   },
   "user": {
-    "default": "User"
+    "default": "User",
+    "name_placeholder": "Search by name, email, phone",
+    "update_status": "Update this user status?"
   },
   "customer": {
     "default": "Customer"

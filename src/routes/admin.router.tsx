@@ -13,6 +13,7 @@ import WebsiteTemplatePage from '@/pages/website-template/pages/list';
 import CreateWebsiteTemplatePage from '@/pages/website-template/pages/create';
 import EditWebsiteTemplatePage from '@/pages/website-template/pages/edit';
 import DetailWebsiteTemplatePage from '@/pages/website-template/pages/detail';
+import UserListPage from '@/pages/user/pages/list';
 
 export const adminRoutes = {
   path: '/admin',
@@ -52,7 +53,7 @@ export const adminRoutes = {
     {
       path: ADMIN_ROUTE.USER,
       children: [
-        { index: true, element: <div>User list page</div> },
+        { index: true, element: <UserListPage /> },
         { path: ADMIN_ROUTE.USER_ADD, element: <div>User add page</div> },
         { path: ADMIN_ROUTE.USER_DETAIL, element: <div>User detail page</div> },
         { path: ADMIN_ROUTE.USER_EDIT, element: <div>User edit page</div> },

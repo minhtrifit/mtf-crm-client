@@ -2,6 +2,17 @@ import axiosInstance from './api.instance';
 import { UpdatePayload } from '@/types/auth';
 
 export const userApi = {
+  getList: async (params?: Record<string, any>) => {
+    try {
+      const response = await axiosInstance.get('/users', {
+        params,
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   getDetail: async (id: string) => {
     try {
       const response = await axiosInstance.get(`/users/profile/${id}`);
