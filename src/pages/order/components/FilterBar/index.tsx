@@ -1,8 +1,9 @@
 import { FormEvent, useState } from 'react';
 import dayjs from 'dayjs';
 import { get } from 'lodash';
-import { Button, Input, Select, DatePicker, Drawer } from 'antd';
+import { Button, Input, Select, DatePicker, Drawer, Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { useQueryParams } from '@/hooks/useQueryParams';
 import { FilterType } from '../../pages/list';
 import { SearchOutlined } from '@ant-design/icons';
 import Label from '@/components/ui/Label/Label';
@@ -23,6 +24,10 @@ interface PropType {
 
 const FilterBar = (props: PropType) => {
   const { filter, handleChangeFilter, handleApplyFilter, handleClearAdvanceFilter } = props;
+
+  const { searchParams, updateParams } = useQueryParams();
+
+  const is_filter_advance = searchParams.get('is_filter_advance') ?? '';
 
   const { t } = useTranslation();
 
@@ -112,6 +117,7 @@ const FilterBar = (props: PropType) => {
           onSubmit={(e) => {
             handleApplyFilter(e);
             setOpenFilterDrawer(false);
+            updateParams({ is_filter_advance: 'true' });
           }}
           className='flex flex-col gap-5'
         >
@@ -255,7 +261,21 @@ const FilterBar = (props: PropType) => {
           />
         </div>
 
-        <Button icon={<FaFilter />} onClick={() => setOpenFilterDrawer(true)} />
+        {is_filter_advance === 'true' && (
+          <Button
+            danger
+            icon={<FaTrash />}
+            onClick={() => {
+              if (handleClearAdvanceFilter) handleClearAdvanceFilter();
+            }}
+          >
+            {t('clear_advance_filter')}
+          </Button>
+        )}
+
+        <Tooltip title={t('advance_filter')}>
+          <Button icon={<FaFilter />} onClick={() => setOpenFilterDrawer(true)} />
+        </Tooltip>
 
         <Button htmlType='submit' color='primary' variant='solid' icon={<SearchOutlined />}>
           {t('search')}

@@ -1,10 +1,12 @@
 import { get } from 'lodash';
 import { Pagination, Table } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Payment, PaymentFilterType } from '@/types/payment';
 import { PagingType } from '@/types';
 import { formatCurrency, formatTimezone } from '@/+core/helpers';
-import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
+import { DEFAULT_PAGE_SIZE, PaymentMethod } from '@/+core/constants/commons.constant';
+import { FaTruck } from 'react-icons/fa';
 
 const { Column } = Table;
 
@@ -13,12 +15,27 @@ interface PropType {
   data: Payment[];
   paging: PagingType | null;
   handlePageChange: (page: number) => void;
+  isShowOrderCode?: boolean;
 }
 
 const DataTable = (props: PropType) => {
-  const { filter, data, paging, handlePageChange } = props;
+  const { filter, data, paging, handlePageChange, isShowOrderCode = false } = props;
 
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const PAYMENT_OPTIONS = [
+    {
+      value: PaymentMethod.COD,
+      label: t('payment.cod'),
+      icon: <FaTruck size={20} />,
+    },
+    {
+      value: PaymentMethod.VNPAY,
+      label: t('payment.vnpay'),
+      icon: <img className='w-[20px]' src='/assets/icons/icon-vnpay.png' alt='vnpay-icon' />,
+    },
+  ];
 
   return (
     <section className='w-full flex flex-col gap-[20px]'>
@@ -30,13 +47,42 @@ const DataTable = (props: PropType) => {
           align='center'
           render={(_, __, index) => (filter.page - 1) * DEFAULT_PAGE_SIZE + index + 1}
         />
+        {isShowOrderCode && (
+          <Column
+            title={t('order.code')}
+            dataIndex='orderCode'
+            key='orderCode'
+            width={100}
+            minWidth={150}
+            render={(_, record) => {
+              return (
+                <span
+                  className='text-primary font-semibold text-[0.8rem] hover:underline hover:cursor-pointer'
+                  onClick={() => {
+                    navigate(`/admin/order/detail/${record?.order?.id}`);
+                  }}
+                >
+                  {get(record, 'order.orderCode', '')}
+                </span>
+              );
+            }}
+          />
+        )}
         <Column
           title={t('order.payment_method')}
           dataIndex='payment_method'
           key='payment_method'
           width={200}
+          minWidth={250}
           render={(_, record) => {
-            return <span>{t(`payment.${get(record, 'method', '').toLowerCase()}`)}</span>;
+            const method = PAYMENT_OPTIONS.find((p) => p.value === get(record, 'method', ''));
+
+            return (
+              <div className='flex items-center gap-3'>
+                {get(method, 'icon', null)}
+                <span>{get(method, 'label', '')}</span>
+              </div>
+            );
           }}
         />
         <Column
@@ -44,6 +90,7 @@ const DataTable = (props: PropType) => {
           dataIndex='amount'
           key='amount'
           width={120}
+          minWidth={150}
           render={(_, record) => {
             return <span>{formatCurrency(get(record, 'amount', 0))}</span>;
           }}
@@ -53,6 +100,7 @@ const DataTable = (props: PropType) => {
           dataIndex='paidAt'
           key='paidAt'
           width={100}
+          minWidth={200}
           render={(_, record) => {
             return <span>{formatTimezone(get(record, 'paidAt', ''))}</span>;
           }}

@@ -124,6 +124,7 @@ const OrderListPage = () => {
       deliveryStatus: '',
       fromPaidTime: '',
       toPaidTime: '',
+      is_filter_advance: '',
     });
   };
 

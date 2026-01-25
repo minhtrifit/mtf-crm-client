@@ -14,6 +14,7 @@ import CreateWebsiteTemplatePage from '@/pages/website-template/pages/create';
 import EditWebsiteTemplatePage from '@/pages/website-template/pages/edit';
 import DetailWebsiteTemplatePage from '@/pages/website-template/pages/detail';
 import UserListPage from '@/pages/user/pages/list';
+import PaymentListPage from '@/pages/payment/pages/list';
 
 export const adminRoutes = {
   path: '/admin',
@@ -48,6 +49,15 @@ export const adminRoutes = {
         { path: ADMIN_ROUTE.ORDER_ADD, element: <div>Order add page</div> },
         { path: ADMIN_ROUTE.ORDER_DETAIL, element: <OrderDetailPage /> },
         { path: ADMIN_ROUTE.ORDER_EDIT, element: <OrderEditPage /> },
+      ],
+    },
+    {
+      path: ADMIN_ROUTE.PAYMENT,
+      children: [
+        { index: true, element: <PaymentListPage /> },
+        { path: ADMIN_ROUTE.ORDER_ADD, element: <div>Payment add page</div> },
+        { path: ADMIN_ROUTE.ORDER_DETAIL, element: <div>Payment detail page</div> },
+        { path: ADMIN_ROUTE.ORDER_EDIT, element: <div>Payment edit page</div> },
       ],
     },
     {

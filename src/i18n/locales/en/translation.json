@@ -37,6 +37,7 @@
     "categories": "Categories",
     "products": "Products",
     "orders": "Orders",
+    "payments": "Payments",
     "accounts": "Accounts",
     "users": "Users",
     "customers": "Customers"
@@ -133,6 +134,7 @@
   "top_selling_product": "Top selling products",
   "recent_orders": "Recent orders",
   "week": "Week",
+  "clear_advance_filter": "Clear advance filter",
   "category": {
     "default": "Category",
     "name": "Category Name",

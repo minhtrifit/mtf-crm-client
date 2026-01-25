@@ -37,6 +37,7 @@
     "categories": "Danh mục",
     "products": "Sản phẩm",
     "orders": "Đơn hàng",
+    "payments": "Thanh toán",
     "accounts": "Tài khoản",
     "users": "Người dùng",
     "customers": "Khách hàng"
@@ -133,6 +134,7 @@
   "top_selling_product": "Sản phẩm bán chạy",
   "recent_orders": "Đơn hàng gần đây",
   "week": "Tuần",
+  "clear_advance_filter": "Xóa tìm kiếm nâng cao",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",

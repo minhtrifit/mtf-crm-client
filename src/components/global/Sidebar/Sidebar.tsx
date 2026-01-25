@@ -13,6 +13,7 @@ import { MdCategory } from 'react-icons/md';
 import { HiUsers, HiTemplate } from 'react-icons/hi';
 import { LuUserCog } from 'react-icons/lu';
 import { FaUserTie } from 'react-icons/fa6';
+import { RiMoneyDollarCircleFill } from 'react-icons/ri';
 
 import styles from './styles.module.scss';
 
@@ -69,6 +70,11 @@ const Sidebar = (props: PropType) => {
           key: '/admin/order',
           icon: <AiOutlineShoppingCart size={20} />,
           label: t('sidebar.orders'),
+        },
+        {
+          key: '/admin/payment',
+          icon: <RiMoneyDollarCircleFill size={20} />,
+          label: t('sidebar.payments'),
         },
       ],
     },

@@ -1,19 +1,15 @@
 import { FormEvent, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useList } from '@/pages/payment/hooks/useList';
-import { useDetail } from '../../hooks/useDetail';
 import { useQueryParams } from '@/hooks/useQueryParams';
-import { PaymentFilterType } from '@/types/payment';
+import { useList } from '../../hooks/useList';
 import { DEFAULT_PAGE_SIZE, PaymentMethod } from '@/+core/constants/commons.constant';
+import { PaymentFilterType } from '@/types/payment';
 import Error from '@/components/ui/Error/Error';
+import FilterBar from '../../components/FilterBar';
 import DataLoading from '@/components/ui/DataLoading/DataLoading';
-import DetailForm from '../../components/DetailForm';
+import DataTable from '../../components/DataTable';
 
-const OrderDetailPage = () => {
-  const params = useParams();
+const PaymentListPage = () => {
   const { searchParams, updateParams } = useQueryParams();
-
-  const id = params?.id ?? '';
 
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
   const q = searchParams.get('q') ?? '';
@@ -33,18 +29,16 @@ const OrderDetailPage = () => {
     toPaidTime: toPaidTime,
   });
 
-  const { data, loading, error } = useDetail(id);
-
   const {
     data: payments,
     paging: paymentPaging,
     loading: paymentLoading,
+    error: paymentError,
     params: paymentParams,
     setParams: setPaymentParams,
   } = useList({
     page: filter.page,
     q: filter.q,
-    orderId: id, // DEFAULT
     method: filter.method,
     fromAmount: filter.fromAmount,
     toAmount: filter.toAmount,
@@ -53,24 +47,23 @@ const OrderDetailPage = () => {
     limit: DEFAULT_PAGE_SIZE,
   });
 
-  const handlePagePaymentChange = (page: number) => {
+  const handlePageChange = (page: number) => {
     setFilter({ ...filter, page: page });
     setPaymentParams({
       ...paymentParams,
-      orderId: id, // DEFAULT
       page: page,
     });
     updateParams({ page: page.toString() });
   };
 
-  const handleChangePaymentFilter = (key: string, value: string | number) => {
+  const handleChangeFilter = (key: string, value: string | number) => {
     setFilter((prev) => ({
       ...prev,
       [key]: value,
     }));
   };
 
-  const handleApplyPaymentFilter = (e: FormEvent<HTMLFormElement>) => {
+  const handleApplyFilter = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     console.log('APPLY FILTER:', filter);
@@ -80,7 +73,6 @@ const OrderDetailPage = () => {
     setPaymentParams({
       page: 1,
       q: filter.q,
-      orderId: id, // DEFAULT
       method: filter.method,
       fromAmount: filter.fromAmount,
       toAmount: filter.toAmount,
@@ -100,28 +92,75 @@ const OrderDetailPage = () => {
     });
   };
 
-  if (!loading && !paymentLoading && error) {
+  const handleClearAdvanceFilter = () => {
+    setFilter({
+      ...filter,
+      page: 1,
+      q: filter.q,
+      method: '' as PaymentMethod,
+      fromAmount: null,
+      toAmount: null,
+      fromPaidTime: '',
+      toPaidTime: '',
+    });
+
+    setPaymentParams({
+      page: 1,
+      q: filter.q,
+      method: '' as PaymentMethod,
+      fromAmount: null,
+      toAmount: null,
+      fromPaidTime: '',
+      toPaidTime: '',
+      limit: DEFAULT_PAGE_SIZE,
+    });
+
+    updateParams({
+      page: '1',
+      q: filter.q,
+      method: '',
+      fromAmount: '',
+      toAmount: '',
+      fromPaidTime: '',
+      toPaidTime: '',
+      is_filter_advance: '',
+    });
+  };
+
+  if (!paymentLoading && paymentError) {
     return <Error />;
   }
 
   return (
-    <>
-      {(loading || paymentLoading) && <DataLoading size='large' />}
-      {!loading && data && (
-        <DetailForm
-          data={data}
-          paymentData={{
-            filter: filter,
-            data: payments,
-            paging: paymentPaging,
-            handleChangeFilter: handleChangePaymentFilter,
-            handleApplyFilter: handleApplyPaymentFilter,
-            handlePageChange: handlePagePaymentChange,
-          }}
+    <div className='flex flex-col gap-5'>
+      <div className='block__container'>
+        <FilterBar
+          filter={filter}
+          handleChangeFilter={handleChangeFilter}
+          handleApplyFilter={handleApplyFilter}
+          isShowOrderCode={true}
+          advancedMod={true}
+          handleClearAdvanceFilter={handleClearAdvanceFilter}
         />
+      </div>
+
+      {paymentLoading ? (
+        <div className='mt-10'>
+          <DataLoading size='large' />
+        </div>
+      ) : (
+        <div className='block__container'>
+          <DataTable
+            filter={filter}
+            data={payments}
+            paging={paymentPaging}
+            handlePageChange={handlePageChange}
+            isShowOrderCode={true}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
-export default OrderDetailPage;
+export default PaymentListPage;
