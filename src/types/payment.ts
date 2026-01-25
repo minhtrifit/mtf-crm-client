@@ -1,4 +1,5 @@
 import { PaymentMethod } from '@/+core/constants/commons.constant';
+import { Order } from './order';
 
 export interface PaymentFilterType {
   page: number;
@@ -25,4 +26,11 @@ export interface PaymentBase {
 export interface Payment extends PaymentBase {
   id: string;
   paidAt: string;
+  order: Order;
+}
+
+export interface UpdatePaymentPayload {
+  orderId: string;
+  amount?: number;
+  method?: PaymentMethod;
 }

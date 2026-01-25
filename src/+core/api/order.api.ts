@@ -13,6 +13,17 @@ export const orderApi = {
       throw error;
     }
   },
+  getSearchList: async (params?: Record<string, any>) => {
+    try {
+      const response = await axiosInstance.get('/order/search', {
+        params,
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   getDetail: async (id: string) => {
     try {
       const response = await axiosInstance.get(`/order/detail/${id}`);

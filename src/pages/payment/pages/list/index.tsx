@@ -1,12 +1,16 @@
 import { FormEvent, useState } from 'react';
+import { message } from 'antd';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useList } from '../../hooks/useList';
+import { useCreate } from '../../hooks/useCreate';
+import { useEdit } from '../../hooks/useEdit';
 import { DEFAULT_PAGE_SIZE, PaymentMethod } from '@/+core/constants/commons.constant';
-import { PaymentFilterType } from '@/types/payment';
+import { Payment, PaymentFilterType, PaymentPayload, UpdatePaymentPayload } from '@/types/payment';
 import Error from '@/components/ui/Error/Error';
 import FilterBar from '../../components/FilterBar';
 import DataLoading from '@/components/ui/DataLoading/DataLoading';
 import DataTable from '../../components/DataTable';
+import PaymentFormModal from '../../components/FormModal';
 
 const PaymentListPage = () => {
   const { searchParams, updateParams } = useQueryParams();
@@ -28,6 +32,8 @@ const PaymentListPage = () => {
     fromPaidTime: fromPaidTime,
     toPaidTime: toPaidTime,
   });
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [payment, setPayment] = useState<Payment | null>(null);
 
   const {
     data: payments,
@@ -36,6 +42,7 @@ const PaymentListPage = () => {
     error: paymentError,
     params: paymentParams,
     setParams: setPaymentParams,
+    fetchData: fetchPayment,
   } = useList({
     page: filter.page,
     q: filter.q,
@@ -46,6 +53,9 @@ const PaymentListPage = () => {
     toPaidTime: filter.toPaidTime,
     limit: DEFAULT_PAGE_SIZE,
   });
+
+  const { mutate: createMutate, loading: createLoading } = useCreate();
+  const { mutate: editMutate, loading: editLoading } = useEdit();
 
   const handlePageChange = (page: number) => {
     setFilter({ ...filter, page: page });
@@ -127,12 +137,69 @@ const PaymentListPage = () => {
     });
   };
 
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setPayment(null);
+  };
+
+  const handleActionItem = async (name: string, value: any) => {
+    if (name === 'edit') {
+      setPayment(value);
+      setOpenModal(true);
+    }
+  };
+
+  const handleSumitForm = async (
+    mode: 'add' | 'edit' | 'detail',
+    payload: PaymentPayload | UpdatePaymentPayload,
+    handleResetValue: () => void,
+  ) => {
+    if (mode === 'add') {
+      const res = await createMutate(payload as PaymentPayload);
+
+      if (res.success) {
+        message.success(res.message);
+        setFilter({ ...filter, page: 1 });
+        fetchPayment({ ...paymentParams, page: 1 });
+        updateParams({ page: '1' });
+        handleCloseModal();
+        handleResetValue();
+      }
+    }
+
+    if (mode === 'edit') {
+      const res = await editMutate(payment?.id as string, payload as UpdatePaymentPayload);
+
+      if (res.success) {
+        message.success(res.message);
+        setFilter({ ...filter, page: 1 });
+        fetchPayment({ ...paymentParams, page: 1 });
+        updateParams({ page: '1' });
+        handleCloseModal();
+        handleResetValue();
+      }
+    }
+  };
+
   if (!paymentLoading && paymentError) {
     return <Error />;
   }
 
   return (
     <div className='flex flex-col gap-5'>
+      <PaymentFormModal
+        mode={!payment ? 'add' : 'edit'}
+        defaultValue={payment}
+        open={openModal}
+        loading={createLoading || editLoading}
+        onClose={handleCloseModal}
+        onOk={handleSumitForm}
+      />
+
       <div className='block__container'>
         <FilterBar
           filter={filter}
@@ -141,6 +208,8 @@ const PaymentListPage = () => {
           isShowOrderCode={true}
           advancedMod={true}
           handleClearAdvanceFilter={handleClearAdvanceFilter}
+          isAddNew={true}
+          handleOpenModal={handleOpenModal}
         />
       </div>
 
@@ -156,6 +225,7 @@ const PaymentListPage = () => {
             paging={paymentPaging}
             handlePageChange={handlePageChange}
             isShowOrderCode={true}
+            handleActionItem={handleActionItem}
           />
         </div>
       )}

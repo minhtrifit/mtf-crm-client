@@ -5,7 +5,7 @@ import { Button, DatePicker, Drawer, Input, InputNumber, Select, Space, Tooltip 
 import { PaymentFilterType } from '@/types/payment';
 import { useTranslation } from 'react-i18next';
 import { useQueryParams } from '@/hooks/useQueryParams';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import Label from '@/components/ui/Label/Label';
 import { PaymentMethod } from '@/+core/constants/commons.constant';
 import { FaFilter, FaTrash, FaTruck } from 'react-icons/fa';
@@ -20,6 +20,8 @@ interface PropType {
   isShowOrderCode?: boolean;
   advancedMod?: boolean;
   handleClearAdvanceFilter?: () => void;
+  isAddNew?: boolean;
+  handleOpenModal?: () => void;
 }
 
 const FilterBar = (props: PropType) => {
@@ -30,6 +32,8 @@ const FilterBar = (props: PropType) => {
     isShowOrderCode,
     advancedMod,
     handleClearAdvanceFilter,
+    isAddNew,
+    handleOpenModal,
   } = props;
 
   const { searchParams, updateParams } = useQueryParams();
@@ -340,6 +344,18 @@ const FilterBar = (props: PropType) => {
           {t('search')}
         </Button>
       </form>
+
+      {isAddNew && handleOpenModal && (
+        <Button
+          htmlType='button'
+          color='primary'
+          variant='solid'
+          icon={<PlusOutlined />}
+          onClick={handleOpenModal}
+        >
+          {t('add')}
+        </Button>
+      )}
     </section>
   );
 };

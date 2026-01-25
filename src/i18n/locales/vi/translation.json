@@ -52,6 +52,7 @@
     "order": "Đơn hàng",
     "user": "Người dùng",
     "customer": "Khách hàng",
+    "payment": "Thanh toán",
     "website-template": "Mẫu thiết kế website"
   },
   "add": "Thêm mới",
@@ -135,6 +136,9 @@
   "recent_orders": "Đơn hàng gần đây",
   "week": "Tuần",
   "clear_advance_filter": "Xóa tìm kiếm nâng cao",
+  "remain": "Còn lại",
+  "paid_complete": "Hoàn tất thanh toán",
+  "amount_exceed_remain": "Giá trị vượt quá còn lại",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",
@@ -172,7 +176,10 @@
     "user_placeholder": "Tìm kiếm theo tên, email, SĐT",
     "change_delivery_status_confirm": "Bạn có chắc muốn thay đổi trạng thái giao hàng?",
     "product_list": "Danh sách sản phẩm",
-    "payment_list": "Lịch sử thanh toán"
+    "payment_list": "Lịch sử thanh toán",
+    "search": "Tìm kiếm đơn hàng",
+    "choose_to_continue": "Chọn đơn hàng để tiếp tục",
+    "not_found": "Không tìm thấy đơn hàng"
   },
   "vnpay_code": {
     "00": "Giao dịch thành công",
@@ -199,7 +206,9 @@
   "payment": {
     "method": "Phương thức thanh toán",
     "cod": "Thanh toán khi nhận hàng",
-    "vnpay": "Thanh toán VNPay"
+    "vnpay": "Thanh toán VNPay",
+    "search_placeholder": "Tìm kiếm theo mã đơn hàng, email, SĐT",
+    "not_found": "Không tìm thấy thanh toán"
   },
   "user": {
     "default": "Người dùng",

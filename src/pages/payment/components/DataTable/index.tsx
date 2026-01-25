@@ -1,12 +1,13 @@
+import { useMemo } from 'react';
 import { get } from 'lodash';
-import { Pagination, Table } from 'antd';
+import { Button, Pagination, Table, Tooltip } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Payment, PaymentFilterType } from '@/types/payment';
 import { PagingType } from '@/types';
 import { formatCurrency, formatTimezone } from '@/+core/helpers';
 import { DEFAULT_PAGE_SIZE, PaymentMethod } from '@/+core/constants/commons.constant';
-import { FaTruck } from 'react-icons/fa';
+import { FaPen, FaTruck } from 'react-icons/fa';
 
 const { Column } = Table;
 
@@ -16,10 +17,18 @@ interface PropType {
   paging: PagingType | null;
   handlePageChange: (page: number) => void;
   isShowOrderCode?: boolean;
+  handleActionItem?: (name: string, value: any) => Promise<void>;
 }
 
 const DataTable = (props: PropType) => {
-  const { filter, data, paging, handlePageChange, isShowOrderCode = false } = props;
+  const {
+    filter,
+    data,
+    paging,
+    handlePageChange,
+    isShowOrderCode = false,
+    handleActionItem,
+  } = props;
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -37,9 +46,17 @@ const DataTable = (props: PropType) => {
     },
   ];
 
+  const TABLE_DATA = useMemo(() => {
+    if (!data) return [];
+
+    return data?.map((item) => {
+      return { ...item, key: item?.id };
+    });
+  }, [data]);
+
   return (
     <section className='w-full flex flex-col gap-[20px]'>
-      <Table dataSource={data} pagination={false} bordered scroll={{ x: 'max-content' }}>
+      <Table dataSource={TABLE_DATA} pagination={false} bordered scroll={{ x: 'max-content' }}>
         <Column
           title='#'
           key='index'
@@ -105,6 +122,30 @@ const DataTable = (props: PropType) => {
             return <span>{formatTimezone(get(record, 'paidAt', ''))}</span>;
           }}
         />
+        {handleActionItem && (
+          <Column
+            title={t('action')}
+            key='action'
+            width={100}
+            fixed='right'
+            render={(_, record) => {
+              return (
+                <div className='flex items-center gap-2'>
+                  <Tooltip title={t('edit')}>
+                    <Button
+                      color='gold'
+                      variant='solid'
+                      icon={<FaPen />}
+                      onClick={() => {
+                        handleActionItem('edit', record);
+                      }}
+                    />
+                  </Tooltip>
+                </div>
+              );
+            }}
+          />
+        )}
       </Table>
 
       <div className='flex items-center justify-between'>

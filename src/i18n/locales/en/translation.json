@@ -52,6 +52,7 @@
     "order": "Order",
     "user": "User",
     "customer": "Customer",
+    "payment": "Payment",
     "website-template": "Website Template"
   },
   "add": "Add new",
@@ -135,6 +136,9 @@
   "recent_orders": "Recent orders",
   "week": "Week",
   "clear_advance_filter": "Clear advance filter",
+  "remain": "Remain",
+  "paid_complete": "Paid complete",
+  "amount_exceed_remain": "Amount exceeded remain",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -172,7 +176,10 @@
     "user_placeholder": "Search by full name, email, phone",
     "change_delivery_status_confirm": "Are you sure to change delivery status?",
     "product_list": "Product list",
-    "payment_list": "Payment history"
+    "payment_list": "Payment history",
+    "search": "Search order",
+    "choose_to_continue": "Choose order to continue",
+    "not_found": "Order not found"
   },
   "vnpay_code": {
     "00": "Transaction successful",
@@ -199,7 +206,9 @@
   "payment": {
     "method": "Payment method",
     "cod": "Cash On Delivery",
-    "vnpay": "VNPay payment"
+    "vnpay": "VNPay payment",
+    "search_placeholder": "Search by order code, email, phone",
+    "not_found": "Payment not found"
   },
   "user": {
     "default": "User",
