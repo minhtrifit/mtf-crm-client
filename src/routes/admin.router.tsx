@@ -7,6 +7,7 @@ import ProductCreatePage from '@/pages/product/pages/create';
 import ProductDetailPage from '@/pages/product/pages/detail';
 import ProductEditPage from '@/pages/product/pages/edit';
 import OrderListPage from '@/pages/order/pages/list';
+import OrderCreatePage from '@/pages/order/pages/add';
 import OrderDetailPage from '@/pages/order/pages/detail';
 import OrderEditPage from '@/pages/order/pages/edit';
 import WebsiteTemplatePage from '@/pages/website-template/pages/list';
@@ -46,7 +47,7 @@ export const adminRoutes = {
       path: ADMIN_ROUTE.ORDER,
       children: [
         { index: true, element: <OrderListPage /> },
-        { path: ADMIN_ROUTE.ORDER_ADD, element: <div>Order add page</div> },
+        { path: ADMIN_ROUTE.ORDER_ADD, element: <OrderCreatePage /> },
         { path: ADMIN_ROUTE.ORDER_DETAIL, element: <OrderDetailPage /> },
         { path: ADMIN_ROUTE.ORDER_EDIT, element: <OrderEditPage /> },
       ],

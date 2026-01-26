@@ -1,4 +1,4 @@
-import { DeliveryStatus, OrderStatus } from '@/+core/constants/commons.constant';
+import { DeliveryStatus, OrderStatus, PaymentMethod } from '@/+core/constants/commons.constant';
 import { UserType } from './auth';
 import { Product } from './product';
 import { Payment } from './payment';
@@ -46,4 +46,11 @@ export interface UpdateOrderPayload {
   deliveryAddress?: string;
   status?: OrderStatus;
   deliveryStatus?: DeliveryStatus;
+}
+
+export interface AdminOrderPayload extends OrderPayload {
+  amount: number;
+  method: PaymentMethod;
+  status: OrderStatus;
+  deliveryStatus: DeliveryStatus;
 }

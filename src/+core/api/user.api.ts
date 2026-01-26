@@ -13,6 +13,17 @@ export const userApi = {
       throw error;
     }
   },
+  getSearchList: async (params?: Record<string, any>) => {
+    try {
+      const response = await axiosInstance.get('/users/search', {
+        params,
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   getDetail: async (id: string) => {
     try {
       const response = await axiosInstance.get(`/users/profile/${id}`);

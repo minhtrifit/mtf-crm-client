@@ -85,7 +85,7 @@ const OrderForm = (props: PropType) => {
 
   const FormSchema = z.object({
     note: z.string(),
-    deliveryAddress: z.string(),
+    deliveryAddress: z.string().min(1, { message: t('this_field_is_required') }),
     status: z.string().refine((val) => orderStatusValues.includes(val as OrderStatus), {
       message: t('invalid_value'),
     }),

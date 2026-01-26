@@ -139,6 +139,7 @@
   "remain": "Còn lại",
   "paid_complete": "Hoàn tất thanh toán",
   "amount_exceed_remain": "Giá trị vượt quá còn lại",
+  "amount_exceed_total": "Giá trị vượt quá tổng tiền",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",
@@ -158,7 +159,8 @@
     "review": "Đánh giá sản phẩm",
     "quality": "Chất lượng sản phẩm",
     "sold": "Đã bán",
-    "rating_count": "Số lượt đánh giá"
+    "rating_count": "Số lượt đánh giá",
+    "cart_required": "Vui lòng chọn sản phẩm"
   },
   "order": {
     "default": "Đơn hàng",
@@ -179,7 +181,8 @@
     "payment_list": "Lịch sử thanh toán",
     "search": "Tìm kiếm đơn hàng",
     "choose_to_continue": "Chọn đơn hàng để tiếp tục",
-    "not_found": "Không tìm thấy đơn hàng"
+    "not_found": "Không tìm thấy đơn hàng",
+    "general_information": "Thông tin chung"
   },
   "vnpay_code": {
     "00": "Giao dịch thành công",

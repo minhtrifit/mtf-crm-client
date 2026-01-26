@@ -1,5 +1,5 @@
 import axiosInstance from './api.instance';
-import { OrderPayload, UpdateOrderPayload } from '@/types/order';
+import { AdminOrderPayload, OrderPayload, UpdateOrderPayload } from '@/types/order';
 
 export const orderApi = {
   getList: async (params?: Record<string, any>) => {
@@ -56,6 +56,15 @@ export const orderApi = {
   createVnPay: async (data: OrderPayload) => {
     try {
       const response = await axiosInstance.post('/order/create-vnpay-order', data);
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  createAdmin: async (data: AdminOrderPayload) => {
+    try {
+      const response = await axiosInstance.post('/order/create-admin-order', data);
 
       return response;
     } catch (error) {

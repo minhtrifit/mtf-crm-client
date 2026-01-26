@@ -139,6 +139,7 @@
   "remain": "Remain",
   "paid_complete": "Paid complete",
   "amount_exceed_remain": "Amount exceeded remain",
+  "amount_exceed_total": "Amount exceeded total",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -158,7 +159,8 @@
     "review": "Product review",
     "quality": "Product quality",
     "sold": "Sold",
-    "rating_count": "Rating count"
+    "rating_count": "Rating count",
+    "cart_required": "Please choose product"
   },
   "order": {
     "default": "Order",
@@ -179,7 +181,8 @@
     "payment_list": "Payment history",
     "search": "Search order",
     "choose_to_continue": "Choose order to continue",
-    "not_found": "Order not found"
+    "not_found": "Order not found",
+    "general_information": "General Information"
   },
   "vnpay_code": {
     "00": "Transaction successful",

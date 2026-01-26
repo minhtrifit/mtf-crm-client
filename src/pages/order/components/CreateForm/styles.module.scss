@@ -1,0 +1,28 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: 20px;
+
+  @media (min-width: 1360px) {
+    grid-template-columns: 65% 1fr;
+  }
+
+  @media (min-width: 1900px) {
+    grid-template-columns: 70% 1fr;
+  }
+}
+
+.general__container {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.25rem;
+
+  @media (min-width: 1360px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1900px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

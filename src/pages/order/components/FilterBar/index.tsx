@@ -3,11 +3,13 @@ import dayjs from 'dayjs';
 import { get } from 'lodash';
 import { Button, Input, Select, DatePicker, Drawer, Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { FilterType } from '../../pages/list';
-import { SearchOutlined } from '@ant-design/icons';
-import Label from '@/components/ui/Label/Label';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { DeliveryStatus, OrderStatus } from '@/+core/constants/commons.constant';
+import { ADMIN_ROUTE } from '@/routes/route.constant';
+import Label from '@/components/ui/Label/Label';
 import { MdCancel, MdOutlineBookmarkAdded, MdPaid, MdPending } from 'react-icons/md';
 import { FaFilter, FaRegCheckCircle, FaRegCreditCard, FaTrash, FaTruck } from 'react-icons/fa';
 import { PiPackageBold } from 'react-icons/pi';
@@ -26,6 +28,7 @@ const FilterBar = (props: PropType) => {
   const { filter, handleChangeFilter, handleApplyFilter, handleClearAdvanceFilter } = props;
 
   const { searchParams, updateParams } = useQueryParams();
+  const navigate = useNavigate();
 
   const is_filter_advance = searchParams.get('is_filter_advance') ?? '';
 
@@ -281,6 +284,18 @@ const FilterBar = (props: PropType) => {
           {t('search')}
         </Button>
       </form>
+
+      <Button
+        htmlType='button'
+        color='primary'
+        variant='solid'
+        icon={<PlusOutlined />}
+        onClick={() => {
+          navigate(ADMIN_ROUTE.ORDER_ADD);
+        }}
+      >
+        {t('add')}
+      </Button>
     </section>
   );
 };
