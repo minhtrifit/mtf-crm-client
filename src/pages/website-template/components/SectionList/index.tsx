@@ -88,9 +88,7 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
                       }}
                     /> */}
 
-                    <div className='max-w-[calc(100vw-400px)] xl:max-w-[calc(100vw-850px)]'>
-                      <ProductList sectionIndex={index} />
-                    </div>
+                    <ProductList sectionIndex={index} />
 
                     <Popconfirm
                       title={t('confirm')}

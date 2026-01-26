@@ -10,6 +10,7 @@ import Label from '@/components/ui/Label/Label';
 import { MdCategory, MdDragHandle } from 'react-icons/md';
 import { formatCurrency } from '@/+core/helpers';
 import { FaTrash } from 'react-icons/fa';
+import styles from './styles.module.scss';
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -166,71 +167,73 @@ export const ProductList = ({ sectionIndex }: Props) => {
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         </div>
       ) : (
-        <Droppable
-          droppableId={`products-${sectionIndex}`}
-          type={`PRODUCT-${sectionIndex}`}
-          direction='horizontal'
-        >
-          {(provided) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              className='flex gap-3 overflow-x-auto pb-2'
-            >
-              {fields.map((field, productIndex) => (
-                <Draggable key={field.id} draggableId={field.id} index={productIndex}>
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      className='w-[300px] min-w-[300px] bg-gray-50 border rounded p-2 flex flex-col gap-2 shadow-md'
-                    >
-                      {/* DRAG HANDLE */}
+        <div className={styles.product__list__container}>
+          <Droppable
+            droppableId={`products-${sectionIndex}`}
+            type={`PRODUCT-${sectionIndex}`}
+            direction='horizontal'
+          >
+            {(provided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className='flex gap-3 overflow-x-auto pb-2'
+              >
+                {fields.map((field, productIndex) => (
+                  <Draggable key={field.id} draggableId={field.id} index={productIndex}>
+                    {(provided) => (
                       <div
-                        {...provided.dragHandleProps}
-                        className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        className='w-[300px] min-w-[300px] bg-gray-50 border rounded p-2 flex flex-col gap-2 shadow-md'
                       >
-                        <MdDragHandle size={20} />
-                      </div>
-
-                      <div className='flex gap-3'>
-                        <Avatar
-                          size={100}
-                          shape='square'
-                          src={get(field, 'product.imagesUrl[0]', '')}
-                          icon={<MdCategory />}
-                        />
-
-                        <div className='flex flex-col gap-3'>
-                          <span className='min-h-[30px] text-[0.8rem] text-zinc-700'>
-                            {get(field, 'product.name', '')}
-                          </span>
-
-                          <span className='text-[0.8rem] text-zinc-700 font-semibold'>
-                            {formatCurrency(get(field, 'product.price', 0))}
-                          </span>
-                        </div>
-                      </div>
-
-                      <Tooltip title={t('product.delete')}>
-                        <Button
-                          danger
-                          htmlType='button'
-                          onClick={() => remove(productIndex)}
-                          className='ml-auto'
+                        {/* DRAG HANDLE */}
+                        <div
+                          {...provided.dragHandleProps}
+                          className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
                         >
-                          <FaTrash />
-                        </Button>
-                      </Tooltip>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
+                          <MdDragHandle size={20} />
+                        </div>
 
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+                        <div className='flex gap-3'>
+                          <Avatar
+                            size={100}
+                            shape='square'
+                            src={get(field, 'product.imagesUrl[0]', '')}
+                            icon={<MdCategory />}
+                          />
+
+                          <div className='flex flex-col gap-3'>
+                            <span className='min-h-[30px] text-[0.8rem] text-zinc-700'>
+                              {get(field, 'product.name', '')}
+                            </span>
+
+                            <span className='text-[0.8rem] text-zinc-700 font-semibold'>
+                              {formatCurrency(get(field, 'product.price', 0))}
+                            </span>
+                          </div>
+                        </div>
+
+                        <Tooltip title={t('product.delete')}>
+                          <Button
+                            danger
+                            htmlType='button'
+                            onClick={() => remove(productIndex)}
+                            className='ml-auto'
+                          >
+                            <FaTrash />
+                          </Button>
+                        </Tooltip>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
       )}
 
       {error && error?.[sectionIndex] && (
