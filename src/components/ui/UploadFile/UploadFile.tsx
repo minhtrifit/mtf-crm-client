@@ -4,6 +4,32 @@ import uploadApi from '@/+core/api/upload.api';
 import { RiUpload2Fill } from 'react-icons/ri';
 import { IoClose } from 'react-icons/io5';
 
+export enum UploadFileType {
+  IMAGE = 'image',
+  PDF = 'pdf',
+  WORD = 'word',
+  EXCEL = 'excel',
+  POWERPOINT = 'powerpoint',
+  TEXT = 'text',
+}
+
+const UPLOAD_ACCEPT_MAP: Record<UploadFileType, string> = {
+  [UploadFileType.IMAGE]: 'image/*',
+
+  [UploadFileType.PDF]: 'application/pdf',
+
+  [UploadFileType.WORD]:
+    'application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+
+  [UploadFileType.EXCEL]:
+    'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+
+  [UploadFileType.POWERPOINT]:
+    'application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation',
+
+  [UploadFileType.TEXT]: 'text/plain',
+};
+
 interface PropType {
   mode?: 'single' | 'multiple';
   value?: string | string[];
@@ -14,6 +40,7 @@ interface PropType {
     width: number;
     height: number;
   };
+  fileTypes?: UploadFileType[];
 }
 
 const validateImageDimension = (
@@ -60,12 +87,49 @@ const validateImageDimension = (
   });
 };
 
+const validateFileType = (file: File, accept?: string) => {
+  if (!accept) return;
+
+  const accepted = accept.split(',');
+
+  const isValid = accepted.some((type) => {
+    if (type.endsWith('/*')) {
+      return file.type.startsWith(type.replace('/*', ''));
+    }
+
+    return file.type === type;
+  });
+
+  if (!isValid) {
+    throw {
+      response: {
+        data: {
+          message: `File type not allowed: ${file.name}`,
+        },
+      },
+    };
+  }
+};
+
 const UploadFile = (props: PropType) => {
-  const { mode = 'single', value, error, onChange, disabled = false, dimension, ...rest } = props;
+  const {
+    mode = 'single',
+    value,
+    error,
+    onChange,
+    disabled = false,
+    dimension,
+    fileTypes,
+    ...rest
+  } = props;
 
   const { t } = useTranslation();
 
   const urls = Array.isArray(value) ? value : value ? [value] : [];
+
+  const accept = fileTypes?.length
+    ? fileTypes.map((t) => UPLOAD_ACCEPT_MAP[t]).join(',')
+    : undefined;
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) return;
@@ -80,7 +144,12 @@ const UploadFile = (props: PropType) => {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
 
-        await validateImageDimension(file, dimension);
+        validateFileType(file, accept);
+
+        // Validate dimension when type is IMAGE
+        if (file.type.startsWith('image/')) {
+          await validateImageDimension(file, dimension);
+        }
 
         const res = await uploadApi.single(file);
         uploadedUrls.push(res.data.file.url);
@@ -126,6 +195,7 @@ const UploadFile = (props: PropType) => {
           <input
             {...rest}
             type='file'
+            accept={accept}
             multiple={mode === 'multiple'}
             onChange={handleFileChange}
             className='hidden'

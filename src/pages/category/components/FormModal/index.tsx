@@ -7,7 +7,7 @@ import { Category } from '@/types/category';
 import { useTranslation } from 'react-i18next';
 import { SLUG_REGEX } from '@/+core/constants/commons.constant';
 import Label from '@/components/ui/Label/Label';
-import UploadFile from '@/components/ui/UploadFile/UploadFile';
+import UploadFile, { UploadFileType } from '@/components/ui/UploadFile/UploadFile';
 import { LuSend } from 'react-icons/lu';
 
 const { Text } = Typography;
@@ -160,6 +160,7 @@ const FormModal = (props: PropType) => {
                   mode='single'
                   disabled={mode === 'detail'}
                   error={fieldState.error ? true : false}
+                  fileTypes={[UploadFileType.IMAGE]}
                 />
 
                 {errors.imageUrl && (

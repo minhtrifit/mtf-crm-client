@@ -16,7 +16,7 @@ import { LuSend } from 'react-icons/lu';
 import { FaRandom } from 'react-icons/fa';
 import { MdCategory } from 'react-icons/md';
 import Label from '@/components/ui/Label/Label';
-import UploadFile from '@/components/ui/UploadFile/UploadFile';
+import UploadFile, { UploadFileType } from '@/components/ui/UploadFile/UploadFile';
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -453,6 +453,7 @@ const ProductForm = (props: PropType) => {
                   mode='multiple'
                   disabled={mode === 'detail'}
                   error={fieldState.error ? true : false}
+                  fileTypes={[UploadFileType.IMAGE]}
                 />
 
                 {errors.imagesUrl && (

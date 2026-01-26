@@ -10,7 +10,7 @@ import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { ProductReviewPayload } from '@/types/product';
 import { AiOutlineComment } from 'react-icons/ai';
 import { Button, Input, Rate, Typography } from 'antd';
-import UploadFile from '@/components/ui/UploadFile/UploadFile';
+import UploadFile, { UploadFileType } from '@/components/ui/UploadFile/UploadFile';
 import Label from '@/components/ui/Label/Label';
 import { LuSend } from 'react-icons/lu';
 
@@ -155,7 +155,12 @@ const CommentBox = (props: PropType) => {
           render={({ field, fieldState }) => {
             return (
               <div className='w-full flex flex-col gap-2'>
-                <UploadFile {...field} mode='multiple' error={fieldState.error ? true : false} />
+                <UploadFile
+                  {...field}
+                  mode='multiple'
+                  error={fieldState.error ? true : false}
+                  fileTypes={[UploadFileType.IMAGE]}
+                />
 
                 {errors.imagesUrl && (
                   <Text type='danger' style={{ fontSize: 12 }}>

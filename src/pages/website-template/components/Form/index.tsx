@@ -12,7 +12,7 @@ import {
 } from '@/types/website_template';
 import { Button, Collapse, Input, message, Typography } from 'antd';
 import Label from '@/components/ui/Label/Label';
-import UploadFile from '@/components/ui/UploadFile/UploadFile';
+import UploadFile, { UploadFileType } from '@/components/ui/UploadFile/UploadFile';
 import ColorPicker from '../ColorPicker';
 import { LuSend } from 'react-icons/lu';
 import PreviewForm from '../PreviewForm';
@@ -263,6 +263,7 @@ const WebsiteTemplateForm = (props: PropType) => {
                           {...field}
                           disabled={mode === 'detail'}
                           error={fieldState.error ? true : false}
+                          fileTypes={[UploadFileType.IMAGE]}
                         />
 
                         {errors.logoUrl && (
@@ -309,6 +310,7 @@ const WebsiteTemplateForm = (props: PropType) => {
                           disabled={mode === 'detail'}
                           error={fieldState.error ? true : false}
                           dimension={{ width: 1440, height: 600 }}
+                          fileTypes={[UploadFileType.IMAGE]}
                         />
 
                         {errors.bannersUrl && (
