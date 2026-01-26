@@ -162,22 +162,30 @@ const PreviewForm = (props: PropType) => {
                   <Slider {...productSlideSettings}>
                     {section?.items?.map((item: SectionItemType) => (
                       <div key={get(item, 'id', '')} className='px-1'>
-                        <div className='flex flex-col gap-3 mb-1 rounded-md p-2 shadow-md'>
+                        <div
+                          className='flex flex-col rounded-md mb-1'
+                          style={{
+                            borderTop: '1px solid #f5f5f5',
+                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                          }}
+                        >
                           <img
                             src={get(item, 'product.imagesUrl[0]', '')}
-                            className='w-full rounded-md'
+                            className='w-full rounded-t-md'
                           />
 
-                          <span className='min-h-[20px] text-[0.5rem] line-clamp-2'>
-                            {get(item, 'product.name', '')}
-                          </span>
+                          <div className='w-full p-2 rounded-b-md flex flex-col gap-2'>
+                            <span className='min-h-[20px] text-[0.5rem] line-clamp-2'>
+                              {get(item, 'product.name', '')}
+                            </span>
 
-                          <span
-                            style={{ color: primaryColor }}
-                            className='text-[0.55rem] font-semibold'
-                          >
-                            {formatCurrency(get(item, 'product.price', 0))}
-                          </span>
+                            <span
+                              style={{ color: primaryColor }}
+                              className='text-[0.55rem] font-semibold'
+                            >
+                              {formatCurrency(get(item, 'product.price', 0))}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     ))}
