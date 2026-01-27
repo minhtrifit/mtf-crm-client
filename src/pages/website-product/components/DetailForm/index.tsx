@@ -10,8 +10,9 @@ import { useTranslation } from 'react-i18next';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useGetReviews } from '../../hooks/useGetReviews';
 import { useCreateReview } from '../../hooks/useCreateReview';
+import { useCheckIsReviewed } from '../../hooks/useCheckIsReviewed';
 import { Avatar, Button, Card, Divider, Empty, notification, Rate, Tag } from 'antd';
-import { CommentType, Product, ProductReviewPayload } from '@/types/product';
+import { Product, ProductReviewPayload } from '@/types/product';
 import { formatCurrency, formatNumber } from '@/+core/helpers';
 import ImageGallery from '@/components/ui/ImageGallery/ImageGallery';
 import QuantityInput from '@/components/ui/QuantityInput/QuantityInput';
@@ -47,6 +48,7 @@ const DetailForm = (props: PropType) => {
   } = useGetReviews(product?.id, {
     rate: rate,
   });
+  const { isReviewed, loading: isReviewedLoading } = useCheckIsReviewed(user?.id, product?.id);
   const { mutate: reviewMutate, loading: reviewLoading } = useCreateReview();
 
   const comments = get(review, 'comments', []);
@@ -55,12 +57,6 @@ const DetailForm = (props: PropType) => {
     rate: rate,
   });
   const [quantity, setQuantity] = useState<number>(1);
-
-  const getStatus = (stock: number) => {
-    if (stock === 0) return t('out_stock');
-
-    return t('in_stock');
-  };
 
   const handleRedirectDetailCategory = (slug: string) => {
     navigate(`/danh-muc/${slug}`);
@@ -110,14 +106,6 @@ const DetailForm = (props: PropType) => {
 
       fetchData(product?.id, params); // Refetch review
     }
-  };
-
-  const checkIsUserReviewed = (userId: string, comments: CommentType[]) => {
-    const comment = comments?.find((c) => c.userId === userId);
-
-    if (comment) return true;
-
-    return false;
   };
 
   return (
@@ -278,13 +266,13 @@ const DetailForm = (props: PropType) => {
             </h3>
           </div>
 
-          {loading ? (
+          {loading || isReviewedLoading ? (
             <CommentSkeleton />
           ) : (
             <div className='w-full flex flex-col gap-5'>
               <CommentFilterBar review={review} rate={filter.rate} handleRate={handleRate} />
 
-              {!checkIsUserReviewed(get(user, 'id', ''), comments) && (
+              {!isReviewed && (
                 <CommentBox
                   productId={product?.id}
                   loading={reviewLoading}
@@ -292,7 +280,7 @@ const DetailForm = (props: PropType) => {
                 />
               )}
 
-              {!checkIsUserReviewed(get(user, 'id', ''), comments) && <Divider className='my-0' />}
+              {!isReviewed && <Divider className='my-0' />}
 
               {comments?.length === 0 ? (
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />

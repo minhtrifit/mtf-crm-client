@@ -98,6 +98,19 @@ export const productApi = {
       throw error;
     }
   },
+  checkIsReviewed: async (userId: string, productId: string) => {
+    try {
+      const response = await axiosInstance.get(`/product/check-is-reviewed/${productId}`, {
+        params: {
+          userId,
+        },
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   createReview: async (data: ProductReviewPayload) => {
     try {
       const response = await axiosInstance.post('/product/create-review', data);
