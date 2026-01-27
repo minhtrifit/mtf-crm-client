@@ -43,15 +43,15 @@ const WebsiteSearchPage = () => {
     scrollToId('search-products-list', { offset: 150 });
   };
 
-  if (!loading && error) {
-    return <Error />;
-  }
-
   useEffect(() => {
     if (!q) return;
 
     setParams({ ...params, q });
   }, [q]);
+
+  if (!loading && error) {
+    return <Error />;
+  }
 
   return (
     <div className='w-full flex-1'>
