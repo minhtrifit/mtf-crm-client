@@ -3,21 +3,19 @@ import { useMemo } from 'react';
 import { Avatar, Button, Input, Select } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useGetAll } from '@/pages/category/hooks/useAll';
-import { SearchOutlined } from '@ant-design/icons';
 import { FilterType } from '@/pages/product/pages/list';
-import { MdCategory } from 'react-icons/md';
 import Label from '@/components/ui/Label/Label';
+import { MdCategory } from 'react-icons/md';
 
 const { Option } = Select;
 
 interface PropType {
   filter: FilterType;
   handleChangeFilter: (key: string, value: string) => void;
-  onApply: () => void;
 }
 
 const ProductFilterBar = (props: PropType) => {
-  const { filter, handleChangeFilter, onApply } = props;
+  const { filter, handleChangeFilter } = props;
 
   const { t } = useTranslation();
 
@@ -112,10 +110,6 @@ const ProductFilterBar = (props: PropType) => {
             }}
           />
         </div>
-
-        <Button type='primary' icon={<SearchOutlined />} onClick={onApply}>
-          {t('search')}
-        </Button>
       </div>
     </section>
   );

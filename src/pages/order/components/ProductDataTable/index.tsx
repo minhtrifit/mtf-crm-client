@@ -5,8 +5,8 @@ import { Button, Card, Pagination, Tooltip, Image, Tag, Empty } from 'antd';
 import { Product } from '@/types/product';
 import { PagingType } from '@/types';
 import { FilterType } from '@/pages/product/pages/list';
+import { PAGE_SIZE } from '../CreateForm';
 import { formatCurrency, formatNumber } from '@/+core/helpers';
-import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import styles from './styles.module.scss';
 
@@ -32,7 +32,7 @@ const ProductDataTable = (props: PropType) => {
   }, [data]);
 
   return (
-    <section className='block__container flex flex-col gap-[20px]'>
+    <section id='order-product-list' className='block__container flex flex-col gap-[20px]'>
       {TABLE_DATA?.length === 0 ? (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
       ) : (
@@ -102,7 +102,7 @@ const ProductDataTable = (props: PropType) => {
           <Pagination
             showSizeChanger={false}
             current={filter.page}
-            pageSize={DEFAULT_PAGE_SIZE}
+            pageSize={PAGE_SIZE}
             total={get(paging, 'total', 0)}
             onChange={handlePageChange}
           />

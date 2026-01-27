@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { Avatar, Button, Collapse, Input, InputNumber, message, Select, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { useScrollToId } from '@/hooks/useScrollToId';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useSearchList } from '@/pages/user/hooks/useSearchList';
 import { useList } from '@/pages/product/hooks/useList';
@@ -36,6 +37,8 @@ const { Option } = Select;
 const { TextArea } = Input;
 const { Panel } = Collapse;
 
+export const PAGE_SIZE = 6;
+
 interface PropType {
   loading: boolean;
   handleSubmitForm: (payload: AdminOrderPayload) => Promise<void>;
@@ -46,9 +49,8 @@ const OrderCreateForm = (props: PropType) => {
 
   const { searchParams, updateParams } = useQueryParams();
 
-  const PAGE_SIZE = 6;
-
   const navigate = useNavigate();
+  const scrollToId = useScrollToId();
   const { t } = useTranslation();
 
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
@@ -87,6 +89,7 @@ const OrderCreateForm = (props: PropType) => {
     categoryId: categoryId,
     isActive: isActive,
   });
+  const productSearch = useDebounce(productFilter.q, 500);
 
   const { cartItems, totalPrice, addToCart, updateQuantity, removeFromCart, clearCart } = useCart();
 
@@ -261,6 +264,7 @@ const OrderCreateForm = (props: PropType) => {
     setFocus,
     setValue,
     trigger,
+    clearErrors,
   } = useForm<FormType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -289,42 +293,44 @@ const OrderCreateForm = (props: PropType) => {
   };
 
   const handleChangeProductFilter = (key: string, value: string) => {
-    setProductFilter({
-      ...productFilter,
-      [key]: value,
-    });
+    if (key === 'q') {
+      setProductFilter({
+        ...productFilter,
+        [key]: value,
+      });
+    }
+
+    if (key !== 'q') {
+      setProductFilter({
+        ...productFilter,
+        [key]: value,
+        page: 1,
+      });
+
+      setProductParams({
+        ...productPararms,
+        page: 1,
+        [key]: value,
+      });
+
+      updateParams({
+        page: '1',
+        [key]: value,
+      });
+    }
   };
 
   const handleProductPageChange = (page: number) => {
     setProductFilter({ ...productFilter, page: page });
     setProductParams({ ...productPararms, page: page });
     updateParams({ page: page.toString() });
-  };
-
-  const handleApplyProductFilter = () => {
-    console.log('APPLY FILTER:', productFilter);
-
-    setProductFilter({ ...productFilter, page: 1 });
-
-    setProductParams({
-      page: 1,
-      q: productFilter.q,
-      categoryId: productFilter.categoryId,
-      isActive: productFilter.isActive,
-      limit: PAGE_SIZE,
-    });
-
-    updateParams({
-      page: '1',
-      q: productFilter.q,
-      categoryId: productFilter.categoryId,
-      isActive: productFilter.isActive,
-    });
+    scrollToId('order-product-list', { offset: 150 });
   };
 
   const handleActionProductItem = async (name: string, value: any) => {
     if (name === 'add_to_cart') {
       addToCart(value, 1);
+      clearErrors('amount');
     }
   };
 
@@ -378,6 +384,20 @@ const OrderCreateForm = (props: PropType) => {
       shouldValidate: cartItems.length > 0,
     });
   }, [cartItems, setValue]);
+
+  // Product search debounce
+  useEffect(() => {
+    setProductParams({
+      ...productPararms,
+      page: 1,
+      q: productSearch,
+    });
+
+    updateParams({
+      page: '1',
+      q: productSearch,
+    });
+  }, [productSearch]);
 
   return (
     <form className={styles.container} onSubmit={handleSubmit(onFormSubmit, onError)}>
@@ -705,7 +725,6 @@ const OrderCreateForm = (props: PropType) => {
               <ProductFilterBar
                 filter={productFilter}
                 handleChangeFilter={handleChangeProductFilter}
-                onApply={handleApplyProductFilter}
               />
 
               {!productsLoading && productError && <Error />}
