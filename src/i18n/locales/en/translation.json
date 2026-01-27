@@ -140,6 +140,11 @@
   "paid_complete": "Paid complete",
   "amount_exceed_remain": "Amount exceeded remain",
   "amount_exceed_total": "Amount exceeded total",
+  "total_search_result": "Find {{ total }} results",
+  "popular_keywords": "Popular keywords",
+  "what_find": "What do you want to find?",
+  "no_search_result": "No search result",
+  "search_result_for_keyword": "Search results for '{{ keyword }}'",
   "category": {
     "default": "Category",
     "name": "Category Name",

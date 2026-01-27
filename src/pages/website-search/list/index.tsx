@@ -1,77 +1,46 @@
-import { FormEvent, useState } from 'react';
-import { Divider } from 'antd';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useScrollToId } from '@/hooks/useScrollToId';
 import { useList } from '@/pages/product/hooks/useList';
 import Error from '@/components/ui/Error/Error';
 import { ProductListSkeleton } from '@/components/ui/Skeleton';
-import FilterBar from '../components/FilterBar';
 import ProductList from '@/components/ui/ProductList';
 
 export interface FilterType {
   page: number;
   q: string;
-  categorySlug: string;
 }
 
-const WebsiteProductPage = () => {
+const WebsiteSearchPage = () => {
   const { searchParams, updateParams } = useQueryParams();
+  const { config } = useAppConfig();
   const scrollToId = useScrollToId();
+  const { t } = useTranslation();
 
   const PRODUCT_LIMIT = 12;
 
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
   const q = searchParams.get('q') ?? '';
-  const categorySlug = searchParams.get('categorySlug') ?? '';
 
   const [filter, setFilter] = useState<FilterType>({
     page: page,
     q: q,
-    categorySlug: categorySlug,
   });
 
   const { data, loading, error, paging, params, setParams } = useList({
     page: filter.page,
     q: filter.q,
-    categorySlug: filter.categorySlug,
     isActive: true,
     limit: PRODUCT_LIMIT,
   });
-
-  const handleChangeFilter = (key: string, value: string) => {
-    setFilter({
-      ...filter,
-      [key]: value,
-    });
-  };
 
   const handlePageChange = (page: number) => {
     setFilter({ ...filter, page: page });
     setParams({ ...params, page: page });
     updateParams({ page: page.toString() });
-    scrollToId('all-products-list', { offset: 150 });
-  };
-
-  const handleApplyFilter = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    console.log('APPLY FILTER:', filter);
-
-    setFilter({ ...filter, page: 1 });
-
-    setParams({
-      page: 1,
-      q: filter.q,
-      categorySlug: filter.categorySlug,
-      isActive: true,
-      limit: PRODUCT_LIMIT,
-    });
-
-    updateParams({
-      page: '1',
-      q: filter.q,
-      categorySlug: filter.categorySlug,
-    });
+    scrollToId('search-products-list', { offset: 150 });
   };
 
   if (!loading && error) {
@@ -81,15 +50,13 @@ const WebsiteProductPage = () => {
   return (
     <div className='w-full flex-1'>
       <div className='max-w-[1200px] mx-auto px-[20px] py-[50px] flex flex-col gap-8'>
-        <FilterBar
-          filter={filter}
-          handleChangeFilter={handleChangeFilter}
-          handleApplyFilter={handleApplyFilter}
-        />
+        <h3 style={{ color: config?.websitePrimaryColor }} className='my-0 text-[1.5rem]'>
+          {t('search_result_for_keyword', {
+            keyword: q,
+          })}
+        </h3>
 
-        <Divider className='my-0' />
-
-        <section id='all-products-list' className='w-full'>
+        <section id='search-products-list' className='w-full'>
           {loading ? (
             <ProductListSkeleton />
           ) : (
@@ -107,4 +74,4 @@ const WebsiteProductPage = () => {
   );
 };
 
-export default WebsiteProductPage;
+export default WebsiteSearchPage;

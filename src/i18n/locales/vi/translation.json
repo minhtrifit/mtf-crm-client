@@ -140,6 +140,11 @@
   "paid_complete": "Hoàn tất thanh toán",
   "amount_exceed_remain": "Giá trị vượt quá còn lại",
   "amount_exceed_total": "Giá trị vượt quá tổng tiền",
+  "total_search_result": "Tìm thấy {{ total }} kết quả",
+  "popular_keywords": "Từ khóa phổ biến",
+  "what_find": "Bạn muốn tìm gì?",
+  "no_search_result": "Không có kết quả tìm kiếm",
+  "search_result_for_keyword": "Kết quả tìm kiếm cho '{{ keyword }}'",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",

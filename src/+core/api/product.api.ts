@@ -13,6 +13,17 @@ export const productApi = {
       throw error;
     }
   },
+  getWebsiteSearchList: async (params?: Record<string, any>) => {
+    try {
+      const response = await axiosInstance.get('/product/website-search', {
+        params,
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   getAll: async (params?: Record<string, any>) => {
     try {
       const response = await axiosInstance.get('/product/all', {

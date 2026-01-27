@@ -9,6 +9,7 @@ export const WEBSITE_ROUTE = {
   CHECKOUT: '/thanh-toan',
   PROFILE: '/ho-so',
   ORDERS: '/ho-so/don-hang',
+  SEARCH: '/tim-kiem',
 };
 
 export const ADMIN_ROUTE = {

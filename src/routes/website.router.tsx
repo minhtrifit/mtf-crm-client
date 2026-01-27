@@ -8,6 +8,7 @@ import WebsiteCheckoutPage from '@/pages/website-checkout';
 import ProfileLayout from '@/pages/profile/pages/layout';
 import UserProfilePage from '@/pages/profile/pages/profile';
 import UserOrderPage from '@/pages/profile/pages/orders';
+import WebsiteSearchPage from '@/pages/website-search/list';
 
 export const websiteRoutes = {
   path: '/',
@@ -32,6 +33,10 @@ export const websiteRoutes = {
     {
       path: WEBSITE_ROUTE.CHECKOUT,
       element: <WebsiteCheckoutPage />,
+    },
+    {
+      path: WEBSITE_ROUTE.SEARCH,
+      element: <WebsiteSearchPage />,
     },
     {
       path: WEBSITE_ROUTE.PROFILE,

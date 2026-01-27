@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useDebounce } from '@/hooks/useDebounce';
+import { useSearch } from '@/pages/website-product/hooks/useSearch';
 import { RootState } from '@/store/store';
 import { clearUser, toggleMenuDrawer } from '@/store/actions/user.action';
 import { clearCart, toggleCartModal } from '@/store/actions/cart.action';
 import type { MenuProps } from 'antd';
-import { Badge, Button, Dropdown, Input, Spin } from 'antd';
+import { Avatar, Badge, Button, Dropdown, Empty, Input, Skeleton, Spin } from 'antd';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { FiShoppingBag } from 'react-icons/fi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -18,6 +19,7 @@ import { FaChevronDown, FaSearch } from 'react-icons/fa';
 import { IoMdMenu } from 'react-icons/io';
 import { LuUserRound } from 'react-icons/lu';
 import { FaArrowTrendUp } from 'react-icons/fa6';
+import { IoClose } from 'react-icons/io5';
 import LanguageToggle from '../LanguageToggle/LanguageToggle';
 
 interface SearchResult {
@@ -37,11 +39,18 @@ const Header = () => {
   const isOpenCartModal = useSelector((state: RootState) => state.carts.isOpenModal);
   const carts = useSelector((state: RootState) => state.carts.items);
 
+  const {
+    data: products,
+    total: totalProducts,
+    setData: setProducts,
+    loading: productLoading,
+    error: productError,
+    fetchData: fetchProductData,
+  } = useSearch();
+
   const [search, setSearch] = useState('');
-  const debouncedSearch = useDebounce(search, 500);
+  const debouncedSearch = useDebounce(search, 700);
   const [openSearch, setOpenSearch] = useState(false);
-  const [loadingSearch, setLoadingSearch] = useState(false);
-  const [searchResult, setSearchResult] = useState<SearchResult[]>([]);
 
   const searchRef = useRef<HTMLFormElement>(null);
 
@@ -80,8 +89,16 @@ const Header = () => {
     return location.pathname === WEBSITE_ROUTE.CHECKOUT;
   };
 
+  const handleNavigateDetailProduct = (slug: string) => {
+    navigate(`/san-pham/${slug}`);
+    setOpenSearch(false);
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!search) return;
+
     navigate(`/tim-kiem?q=${search}`);
     setOpenSearch(false);
   };
@@ -98,27 +115,19 @@ const Header = () => {
 
   useEffect(() => {
     if (!debouncedSearch) {
-      setSearchResult([]);
+      setProducts([]);
       return;
     }
 
-    setLoadingSearch(true);
-
-    // 🔥 Replace bằng API thật
-    setTimeout(() => {
-      setSearchResult([
-        { id: '1', name: `product 1` },
-        { id: '2', name: `product 2` },
-        { id: '3', name: `product 3` },
-      ]);
-      setLoadingSearch(false);
-    }, 400);
+    fetchProductData({
+      q: debouncedSearch,
+    });
   }, [debouncedSearch]);
 
   const renderSearchBox = () => (
     <div
       className={`
-                  absolute top-full left-0 mt-1 w-full
+                  absolute top-full left-0 mt-1 w-full max-h-[400px] overflow-y-auto
                   bg-[#FFF] shadow-lg transition-all duration-200 ease-out
                   ${
                     openSearch
@@ -127,29 +136,86 @@ const Header = () => {
                   }
                 `}
     >
-      {loadingSearch ? (
-        <div className='p-4 text-center'>
-          <Spin />
+      <div className='flex flex-col'>
+        <h3 className='ml-4 my-3 text-[0.8rem] text-zinc-500 uppercase'>{t('popular_keywords')}</h3>
+
+        <div className='flex flex-col'>
+          <div className='p-3 text-zinc-700 flex items-center gap-3 hover:bg-blue-100 hover:cursor-pointer group'>
+            <FaArrowTrendUp size={18} className='group-hover:text-blue-700' />
+            <span className='text-[0.9rem] font-semibold group-hover:text-blue-700'>
+              {t('recommend_search')}
+            </span>
+          </div>
+
+          <div className='p-3 text-zinc-700 flex items-center gap-3 hover:bg-blue-100 hover:cursor-pointer group'>
+            <FaArrowTrendUp size={18} className='group-hover:text-blue-700' />
+            <span className='text-[0.9rem] font-semibold group-hover:text-blue-700'>
+              {t('recommend_search')}
+            </span>
+          </div>
         </div>
-      ) : searchResult.length ? (
-        searchResult.map((item) => (
-          <div
-            key={item.id}
-            className='px-4 py-2 hover:bg-gray-100 cursor-pointer text-[#000]'
-            onClick={() => {
-              navigate(`/product/${item.id}`);
-              setOpenSearch(false);
-            }}
-          >
-            {item.name}
+      </div>
+
+      {productLoading ? (
+        <div className='p-4 flex flex-col gap-5'>
+          <div className='flex items-start gap-5'>
+            <Skeleton.Avatar active size={60} />
+
+            <div className='w-full flex flex-col gap-1'>
+              <Skeleton.Node active style={{ height: 20, width: '100%' }} />
+              <Skeleton.Node active style={{ height: 20, width: '80%' }} />
+            </div>
           </div>
-        ))
+
+          <div className='flex items-start gap-5'>
+            <Skeleton.Avatar active size={60} />
+
+            <div className='w-full flex flex-col gap-1'>
+              <Skeleton.Node active style={{ height: 20, width: '100%' }} />
+              <Skeleton.Node active style={{ height: 20, width: '80%' }} />
+            </div>
+          </div>
+        </div>
       ) : (
-        <div className='p-4 text-[#000]'>
-          <div className='text-zinc-700 flex items-center gap-3'>
-            <FaArrowTrendUp size={15} />
-            <span className='text-[0.8rem] font-semibold'>{t('recommend_search')}</span>
-          </div>
+        <div className='flex flex-col gap-5'>
+          {products?.length === 0 ? (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description={t(`${!search ? 'what_find' : 'no_search_result'}`)}
+            />
+          ) : (
+            <div className='flex flex-col'>
+              <h3 className='ml-4 my-3 text-[0.8rem] text-zinc-500 uppercase'>
+                {t('total_search_result', {
+                  total: totalProducts,
+                })}
+              </h3>
+
+              {products?.map((product) => {
+                return (
+                  <div
+                    key={get(product, 'id', '')}
+                    className='p-3 flex items-start gap-5 hover:bg-blue-100 hover:cursor-pointer group'
+                    onClick={() => handleNavigateDetailProduct(get(product, 'slug', ''))}
+                  >
+                    <Avatar
+                      shape='circle'
+                      size={60}
+                      src={get(product, 'imagesUrl[0]', '')}
+                      icon={<FiShoppingBag />}
+                      className='shrink-0'
+                    />
+
+                    <div>
+                      <span className='text-[0.8rem] text-zinc-700 group-hover:text-blue-700'>
+                        {get(product, 'name', '')}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -173,11 +239,22 @@ const Header = () => {
           <form ref={searchRef} onSubmit={handleSubmit} className='w-[500px] relative'>
             <Input
               placeholder={t('what_look_for')}
-              className='pr-[80px]'
+              className='pr-[110px]'
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onFocus={() => setOpenSearch(true)}
             />
+
+            {search && (
+              <Button
+                shape='circle'
+                className='absolute right-[70px] top-1/2 -translate-y-1/2'
+                size='small'
+                icon={<IoClose />}
+                htmlType='button'
+                onClick={() => setSearch('')}
+              />
+            )}
 
             <Button
               className='absolute h-[30px] right-[10px] top-1/2 -translate-y-1/2'
