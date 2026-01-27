@@ -7,11 +7,13 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useSearch } from '@/pages/website-product/hooks/useSearch';
+import { useCreateKeyword } from '@/pages/website-product/hooks/useCreateKeyword';
+import { useGetKeywords } from '@/pages/website-product/hooks/useGetKeywords';
 import { RootState } from '@/store/store';
 import { clearUser, toggleMenuDrawer } from '@/store/actions/user.action';
 import { clearCart, toggleCartModal } from '@/store/actions/cart.action';
 import type { MenuProps } from 'antd';
-import { Avatar, Badge, Button, Dropdown, Empty, Input, Skeleton, Spin } from 'antd';
+import { Avatar, Badge, Button, Dropdown, Empty, Input, Skeleton } from 'antd';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { FiShoppingBag } from 'react-icons/fi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -20,12 +22,8 @@ import { IoMdMenu } from 'react-icons/io';
 import { LuUserRound } from 'react-icons/lu';
 import { FaArrowTrendUp } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
+import Error from '@/components/ui/Error/Error';
 import LanguageToggle from '../LanguageToggle/LanguageToggle';
-
-interface SearchResult {
-  id: string;
-  name: string;
-}
 
 const Header = () => {
   const { t } = useTranslation();
@@ -47,6 +45,12 @@ const Header = () => {
     error: productError,
     fetchData: fetchProductData,
   } = useSearch();
+
+  const { data: keywords, loading: keywordsLoading } = useGetKeywords({
+    limit: 5,
+  });
+
+  const { mutate: createKeywordMutate } = useCreateKeyword();
 
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 700);
@@ -94,12 +98,22 @@ const Header = () => {
     setOpenSearch(false);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!search) return;
 
+    await createKeywordMutate({ title: search });
+
     navigate(`/tim-kiem?q=${search}`);
+    setOpenSearch(false);
+  };
+
+  const handleNavigateKeyword = async (title: string) => {
+    await createKeywordMutate({ title: title });
+
+    navigate(`/tim-kiem?q=${title}`);
+    setSearch(title);
     setOpenSearch(false);
   };
 
@@ -136,25 +150,52 @@ const Header = () => {
                   }
                 `}
     >
-      <div className='flex flex-col'>
-        <h3 className='ml-4 my-3 text-[0.8rem] text-zinc-500 uppercase'>{t('popular_keywords')}</h3>
+      {keywordsLoading && (
+        <div className='p-4 flex flex-col gap-5'>
+          <div className='flex items-center gap-5'>
+            <Skeleton.Avatar active size={30} />
 
-        <div className='flex flex-col'>
-          <div className='p-3 text-zinc-700 flex items-center gap-3 hover:bg-blue-100 hover:cursor-pointer group'>
-            <FaArrowTrendUp size={18} className='group-hover:text-blue-700' />
-            <span className='text-[0.9rem] font-semibold group-hover:text-blue-700'>
-              {t('recommend_search')}
-            </span>
+            <div className='w-full flex flex-col gap-1'>
+              <Skeleton.Node active style={{ height: 15, width: '100%' }} />
+            </div>
           </div>
 
-          <div className='p-3 text-zinc-700 flex items-center gap-3 hover:bg-blue-100 hover:cursor-pointer group'>
-            <FaArrowTrendUp size={18} className='group-hover:text-blue-700' />
-            <span className='text-[0.9rem] font-semibold group-hover:text-blue-700'>
-              {t('recommend_search')}
-            </span>
+          <div className='flex items-center gap-5'>
+            <Skeleton.Avatar active size={30} />
+
+            <div className='w-full flex flex-col gap-1'>
+              <Skeleton.Node active style={{ height: 15, width: '100%' }} />
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
+      {!keywordsLoading && keywords?.length !== 0 && (
+        <div className='flex flex-col'>
+          <h3 className='ml-4 my-3 text-[0.8rem] text-zinc-500 uppercase'>
+            {t('popular_keywords')}
+          </h3>
+
+          <div className='flex flex-col'>
+            {keywords?.map((kw) => {
+              return (
+                <div
+                  key={get(kw, 'id', '')}
+                  className='p-3 text-zinc-700 flex items-center gap-3 hover:bg-blue-100 hover:cursor-pointer group'
+                  onClick={() => handleNavigateKeyword(get(kw, 'title', ''))}
+                >
+                  <FaArrowTrendUp size={18} className='group-hover:text-blue-700' />
+                  <span className='text-[0.9rem] font-semibold group-hover:text-blue-700'>
+                    {get(kw, 'title', '')}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {!productLoading && productError && <Error />}
 
       {productLoading ? (
         <div className='p-4 flex flex-col gap-5'>

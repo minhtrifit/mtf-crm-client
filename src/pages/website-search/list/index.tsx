@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useQueryParams } from '@/hooks/useQueryParams';
@@ -46,6 +46,12 @@ const WebsiteSearchPage = () => {
   if (!loading && error) {
     return <Error />;
   }
+
+  useEffect(() => {
+    if (!q) return;
+
+    setParams({ ...params, q });
+  }, [q]);
 
   return (
     <div className='w-full flex-1'>

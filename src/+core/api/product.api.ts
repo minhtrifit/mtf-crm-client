@@ -1,5 +1,10 @@
 import axiosInstance from './api.instance';
-import { CreateProductPayload, ProductReviewPayload, UpdateProductPayload } from '@/types/product';
+import {
+  CreateProductPayload,
+  ProductReviewPayload,
+  SearchKeywordPayload,
+  UpdateProductPayload,
+} from '@/types/product';
 
 export const productApi = {
   getList: async (params?: Record<string, any>) => {
@@ -96,6 +101,26 @@ export const productApi = {
   createReview: async (data: ProductReviewPayload) => {
     try {
       const response = await axiosInstance.post('/product/create-review', data);
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  getSearchKeywords: async (params?: Record<string, any>) => {
+    try {
+      const response = await axiosInstance.get('/product/search-keywords', {
+        params,
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  createSeachKeyword: async (data: SearchKeywordPayload) => {
+    try {
+      const response = await axiosInstance.post('/product/create-search-keyword', data);
 
       return response;
     } catch (error) {

@@ -72,3 +72,14 @@ export interface ProductReview {
   };
   comments: CommentType[];
 }
+
+export interface SearchKeyword {
+  id: string;
+  title: string;
+  count: string;
+  createdAt: string;
+}
+
+export interface SearchKeywordPayload {
+  title: string;
+}
