@@ -181,51 +181,67 @@ export const ProductList = ({ sectionIndex }: Props) => {
               >
                 {fields.map((field, productIndex) => (
                   <Draggable key={field.id} draggableId={field.id} index={productIndex}>
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        className='w-[300px] min-w-[300px] bg-gray-50 border rounded p-2 flex flex-col gap-2 shadow-md'
-                      >
-                        {/* DRAG HANDLE */}
+                    {(provided) => {
+                      const style = provided.draggableProps.style;
+
+                      let transform = style?.transform;
+                      if (transform) {
+                        const match = transform.match(/translate\(([^,]+),\s*([^)]+)\)/);
+                        if (match) {
+                          transform = `translate(${match[1]}, 0px)`;
+                        }
+                      }
+
+                      return (
                         <div
-                          {...provided.dragHandleProps}
-                          className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          style={{
+                            ...style,
+                            transform,
+                          }}
+                          className='w-[300px] min-w-[300px] bg-gray-50 border rounded p-2 flex flex-col gap-2 shadow-md'
                         >
-                          <MdDragHandle size={20} />
-                        </div>
-
-                        <div className='flex gap-3'>
-                          <Avatar
-                            size={100}
-                            shape='square'
-                            src={get(field, 'product.imagesUrl[0]', '')}
-                            icon={<MdCategory />}
-                          />
-
-                          <div className='flex flex-col gap-3'>
-                            <span className='min-h-[30px] text-[0.8rem] text-zinc-700'>
-                              {get(field, 'product.name', '')}
-                            </span>
-
-                            <span className='text-[0.8rem] text-zinc-700 font-semibold'>
-                              {formatCurrency(get(field, 'product.price', 0))}
-                            </span>
-                          </div>
-                        </div>
-
-                        <Tooltip title={t('product.delete')}>
-                          <Button
-                            danger
-                            htmlType='button'
-                            onClick={() => remove(productIndex)}
-                            className='ml-auto'
+                          {/* DRAG HANDLE */}
+                          <div
+                            {...provided.dragHandleProps}
+                            className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
                           >
-                            <FaTrash />
-                          </Button>
-                        </Tooltip>
-                      </div>
-                    )}
+                            <MdDragHandle size={20} />
+                          </div>
+
+                          <div className='flex gap-3'>
+                            <Avatar
+                              size={100}
+                              shape='square'
+                              src={get(field, 'product.imagesUrl[0]', '')}
+                              icon={<MdCategory />}
+                            />
+
+                            <div className='flex flex-col gap-3'>
+                              <span className='min-h-[30px] text-[0.8rem] text-zinc-700'>
+                                {get(field, 'product.name', '')}
+                              </span>
+
+                              <span className='text-[0.8rem] text-zinc-700 font-semibold'>
+                                {formatCurrency(get(field, 'product.price', 0))}
+                              </span>
+                            </div>
+                          </div>
+
+                          <Tooltip title={t('product.delete')}>
+                            <Button
+                              danger
+                              htmlType='button'
+                              onClick={() => remove(productIndex)}
+                              className='ml-auto'
+                            >
+                              <FaTrash />
+                            </Button>
+                          </Tooltip>
+                        </div>
+                      );
+                    }}
                   </Draggable>
                 ))}
 

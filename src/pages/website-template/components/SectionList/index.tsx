@@ -49,22 +49,37 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {fields.map((field, index) => (
               <Draggable key={field.id} draggableId={field.id} index={index}>
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    className='p-3 mb-2 flex flex-col gap-5 bg-[#FFF]
-                                border-[1px] border-solid border-zinc-100 shadow-md'
-                  >
-                    {/* DRAG HANDLE */}
-                    <div
-                      {...provided.dragHandleProps}
-                      className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
-                    >
-                      <MdDragHandle size={20} />
-                    </div>
+                {(provided) => {
+                  const style = provided.draggableProps.style;
 
-                    {/* <Controller
+                  let transform = style?.transform;
+                  if (transform) {
+                    const match = transform.match(/translate\(([^,]+),\s*([^)]+)\)/);
+                    if (match) {
+                      transform = `translate(0px, ${match[2]})`;
+                    }
+                  }
+
+                  return (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      style={{
+                        ...style,
+                        transform,
+                      }}
+                      className='p-3 mb-2 flex flex-col gap-5 bg-[#FFF]
+                                border-[1px] border-solid border-zinc-100 shadow-md'
+                    >
+                      {/* DRAG HANDLE */}
+                      <div
+                        {...provided.dragHandleProps}
+                        className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
+                      >
+                        <MdDragHandle size={20} />
+                      </div>
+
+                      {/* <Controller
                       control={control}
                       name={`sections.${index}.title`}
                       render={({ field, fieldState }) => {
@@ -88,21 +103,22 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
                       }}
                     /> */}
 
-                    <ProductList sectionIndex={index} />
+                      <ProductList sectionIndex={index} />
 
-                    <Popconfirm
-                      title={t('confirm')}
-                      description={t('website_template.remove_section_confirm')}
-                      onConfirm={() => remove(index)}
-                      okText={t('yes')}
-                      cancelText={t('cancel')}
-                    >
-                      <Button danger type='primary' htmlType='button' className='ml-auto'>
-                        {t('website_template.remove_section')}
-                      </Button>
-                    </Popconfirm>
-                  </div>
-                )}
+                      <Popconfirm
+                        title={t('confirm')}
+                        description={t('website_template.remove_section_confirm')}
+                        onConfirm={() => remove(index)}
+                        okText={t('yes')}
+                        cancelText={t('cancel')}
+                      >
+                        <Button danger type='primary' htmlType='button' className='ml-auto'>
+                          {t('website_template.remove_section')}
+                        </Button>
+                      </Popconfirm>
+                    </div>
+                  );
+                }}
               </Draggable>
             ))}
             {provided.placeholder}
