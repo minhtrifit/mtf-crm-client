@@ -2,10 +2,11 @@ import { useMemo } from 'react';
 import { get } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Avatar, Button, Pagination, Popconfirm, Switch, Table, Tooltip } from 'antd';
-import { UserRole, UserType } from '@/types/auth';
+import { Avatar, Button, Pagination, Table, Tooltip } from 'antd';
+import { UserRole } from '@/types/auth';
+import { Customer } from '@/types/customer';
 import { PagingType } from '@/types';
-import { FilterType } from '../../pages/list';
+import { FilterType } from '../../page/list';
 import { formatDateTime } from '@/+core/helpers';
 import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
 import { FaEye, FaPen, FaUser } from 'react-icons/fa';
@@ -14,7 +15,7 @@ const { Column } = Table;
 
 interface PropType {
   filter: FilterType;
-  data: UserType[];
+  data: Customer[];
   paging: PagingType | null;
   handlePageChange: (page: number) => void;
   handleActionItem: (name: string, value: any) => Promise<void>;
@@ -45,7 +46,7 @@ const DataTable = (props: PropType) => {
           render={(_, __, index) => (filter.page - 1) * DEFAULT_PAGE_SIZE + index + 1}
         />
         <Column
-          title={t('user.default')}
+          title={t('customer.default')}
           dataIndex='user'
           key='user'
           render={(_, record) => {
@@ -66,19 +67,19 @@ const DataTable = (props: PropType) => {
           }}
         />
         <Column
-          title={t('auth.email')}
-          dataIndex='email'
-          key='email'
-          render={(_, record) => {
-            return <span>{get(record, 'email', 0)}</span>;
-          }}
-        />
-        <Column
           title={t('auth.phone')}
           dataIndex='phone'
           key='phone'
           render={(_, record) => {
             return <span>{get(record, 'phone', 0)}</span>;
+          }}
+        />
+        <Column
+          title={t('auth.email')}
+          dataIndex='email'
+          key='email'
+          render={(_, record) => {
+            return <span>{get(record, 'email', 0)}</span>;
           }}
         />
         <Column
@@ -106,38 +107,6 @@ const DataTable = (props: PropType) => {
           }}
         />
         <Column
-          title={t('status')}
-          dataIndex='status'
-          key='status'
-          render={(_, record) => {
-            const isAdmin = get(record, 'role', '') === UserRole.ADMIN;
-
-            return (
-              <Popconfirm
-                title={t('confirm')}
-                disabled={isAdmin}
-                description={t('user.update_status')}
-                onConfirm={() => {
-                  handleActionItem('status', {
-                    id: get(record, 'id', null),
-                    value: !get(record, 'isActive', false),
-                  });
-                }}
-                okText={t('yes')}
-                cancelText={t('cancel')}
-              >
-                <span className='inline-flex cursor-pointer'>
-                  <Switch
-                    disabled={isAdmin}
-                    checked={get(record, 'isActive', false)}
-                    style={{ pointerEvents: 'none' }}
-                  />
-                </span>
-              </Popconfirm>
-            );
-          }}
-        />
-        {/* <Column
           title={t('action')}
           key='action'
           width={100}
@@ -145,7 +114,7 @@ const DataTable = (props: PropType) => {
           render={(_, record) => {
             return (
               <div className='flex items-center gap-2'>
-                <Tooltip title={t('detail')}>
+                {/* <Tooltip title={t('detail')}>
                   <Button
                     color='primary'
                     variant='solid'
@@ -154,7 +123,7 @@ const DataTable = (props: PropType) => {
                       navigate(`detail/${record?.id}`);
                     }}
                   />
-                </Tooltip>
+                </Tooltip> */}
 
                 <Tooltip title={t('edit')}>
                   <Button
@@ -162,14 +131,15 @@ const DataTable = (props: PropType) => {
                     variant='solid'
                     icon={<FaPen />}
                     onClick={() => {
-                      navigate(`edit/${record?.id}`);
+                      //   navigate(`edit/${record?.id}`);
+                      handleActionItem('edit', record);
                     }}
                   />
                 </Tooltip>
               </div>
             );
           }}
-        /> */}
+        />
       </Table>
 
       <div className='flex items-center justify-between'>
