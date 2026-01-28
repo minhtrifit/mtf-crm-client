@@ -85,6 +85,7 @@ const OrderForm = (props: PropType) => {
 
   const FormSchema = z.object({
     note: z.string(),
+    phone: z.string().min(1, { message: t('this_field_is_required') }),
     deliveryAddress: z.string().min(1, { message: t('this_field_is_required') }),
     status: z.string().refine((val) => orderStatusValues.includes(val as OrderStatus), {
       message: t('invalid_value'),
@@ -110,12 +111,14 @@ const OrderForm = (props: PropType) => {
     defaultValues: defaultValues
       ? {
           note: defaultValues.note as string | undefined,
+          phone: defaultValues.phone as string | undefined,
           deliveryAddress: defaultValues.deliveryAddress as string | undefined,
           status: defaultValues.status,
           deliveryStatus: defaultValues.deliveryStatus,
         }
       : {
           note: '',
+          phone: '',
           deliveryAddress: '',
           status: OrderStatus.PENDING,
           deliveryStatus: DeliveryStatus.ORDERED,
@@ -169,158 +172,185 @@ const OrderForm = (props: PropType) => {
 
       <Divider className='my-0' />
 
-      <section className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
-        <Controller
-          control={control}
-          name='deliveryAddress'
-          render={({ field }) => {
-            return (
-              <div className='w-full flex flex-col gap-2'>
-                <Label title={t('delivery_address')} required />
+      <section className='grid grid-cols-1 md:grid-cols-[1fr_600px] gap-5'>
+        <div className='grid grid-cols-1 xl:grid-cols-2 gap-5'>
+          <Controller
+            control={control}
+            name='phone'
+            render={({ field }) => {
+              return (
+                <div className='w-full flex flex-col gap-2'>
+                  <Label title={t('auth.phone')} required />
 
-                <Input
-                  {...field}
-                  disabled={mode === 'detail'}
-                  placeholder={t('delivery_address')}
-                  status={errors.deliveryAddress ? 'error' : ''}
-                />
+                  <Input
+                    {...field}
+                    disabled={mode === 'detail'}
+                    placeholder={t('auth.phone')}
+                    status={errors.phone ? 'error' : ''}
+                  />
 
-                {errors.deliveryAddress && (
-                  <Text type='danger' style={{ fontSize: 12 }}>
-                    {errors.deliveryAddress.message}
-                  </Text>
-                )}
-              </div>
-            );
-          }}
-        />
+                  {errors.phone && (
+                    <Text type='danger' style={{ fontSize: 12 }}>
+                      {errors.phone.message}
+                    </Text>
+                  )}
+                </div>
+              );
+            }}
+          />
 
-        <Controller
-          control={control}
-          name='status'
-          render={({ field }) => {
-            return (
-              <div className='w-full flex flex-col gap-2'>
-                <Label title={t('status')} required />
+          <Controller
+            control={control}
+            name='deliveryAddress'
+            render={({ field }) => {
+              return (
+                <div className='w-full flex flex-col gap-2'>
+                  <Label title={t('delivery_address')} required />
 
-                <Select
-                  {...field}
-                  placeholder={t('status')}
-                  showSearch
-                  optionFilterProp='label'
-                  status={errors.status ? 'error' : ''}
-                  onClear={() => {
-                    setValue('status', OrderStatus.PENDING);
-                    trigger('status');
-                  }}
-                  onChange={(value) => {
-                    setValue('status', value ? value : OrderStatus.PENDING, {
-                      shouldValidate: true,
-                    });
-                  }}
-                  filterOption={(input, option) => {
-                    const label = option?.label;
+                  <Input
+                    {...field}
+                    disabled={mode === 'detail'}
+                    placeholder={t('delivery_address')}
+                    status={errors.deliveryAddress ? 'error' : ''}
+                  />
 
-                    if (typeof label !== 'string') return false;
+                  {errors.deliveryAddress && (
+                    <Text type='danger' style={{ fontSize: 12 }}>
+                      {errors.deliveryAddress.message}
+                    </Text>
+                  )}
+                </div>
+              );
+            }}
+          />
 
-                    return label.toLowerCase().includes(input.toLowerCase());
-                  }}
-                >
-                  {STATUS_OPTIONS.map((item) => {
-                    return (
-                      <Option
-                        key={`order-status-${get(item, 'value', '')}`}
-                        value={get(item, 'value', '')}
-                        label={get(item, 'label', '')}
-                      >
-                        <div className='flex items-center gap-3'>
-                          {get(item, 'icon', null)}
+          <Controller
+            control={control}
+            name='status'
+            render={({ field }) => {
+              return (
+                <div className='w-full flex flex-col gap-2'>
+                  <Label title={t('status')} required />
 
-                          <span className='max-w-[180px] truncate text-[0.85rem] text-zinc-700'>
-                            {get(item, 'label', '')}
-                          </span>
-                        </div>
-                      </Option>
-                    );
-                  })}
-                </Select>
+                  <Select
+                    {...field}
+                    placeholder={t('status')}
+                    showSearch
+                    optionFilterProp='label'
+                    status={errors.status ? 'error' : ''}
+                    onClear={() => {
+                      setValue('status', OrderStatus.PENDING);
+                      trigger('status');
+                    }}
+                    onChange={(value) => {
+                      setValue('status', value ? value : OrderStatus.PENDING, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    filterOption={(input, option) => {
+                      const label = option?.label;
 
-                {errors.status && (
-                  <Text type='danger' style={{ fontSize: 12 }}>
-                    {errors.status.message}
-                  </Text>
-                )}
-              </div>
-            );
-          }}
-        />
+                      if (typeof label !== 'string') return false;
 
-        <Controller
-          control={control}
-          name='deliveryStatus'
-          render={({ field }) => {
-            return (
-              <div className='w-full flex flex-col gap-2'>
-                <Label title={t('delivery_status')} required />
+                      return label.toLowerCase().includes(input.toLowerCase());
+                    }}
+                  >
+                    {STATUS_OPTIONS.map((item) => {
+                      return (
+                        <Option
+                          key={`order-status-${get(item, 'value', '')}`}
+                          value={get(item, 'value', '')}
+                          label={get(item, 'label', '')}
+                        >
+                          <div className='flex items-center gap-3'>
+                            {get(item, 'icon', null)}
 
-                <Select
-                  {...field}
-                  placeholder={t('delivery_status')}
-                  showSearch
-                  optionFilterProp='label'
-                  status={errors.deliveryStatus ? 'error' : ''}
-                  onClear={() => {
-                    setValue('deliveryStatus', DeliveryStatus.ORDERED);
-                    trigger('deliveryStatus');
-                  }}
-                  onChange={(value) => {
-                    setValue('deliveryStatus', value ? value : DeliveryStatus.ORDERED, {
-                      shouldValidate: true,
-                    });
-                  }}
-                  filterOption={(input, option) => {
-                    const label = option?.label;
+                            <span className='max-w-[180px] truncate text-[0.85rem] text-zinc-700'>
+                              {get(item, 'label', '')}
+                            </span>
+                          </div>
+                        </Option>
+                      );
+                    })}
+                  </Select>
 
-                    if (typeof label !== 'string') return false;
+                  {errors.status && (
+                    <Text type='danger' style={{ fontSize: 12 }}>
+                      {errors.status.message}
+                    </Text>
+                  )}
+                </div>
+              );
+            }}
+          />
 
-                    return label.toLowerCase().includes(input.toLowerCase());
-                  }}
-                >
-                  {DELIVERY_STATUS_OPTIONS.map((item) => {
-                    return (
-                      <Option
-                        key={`delivery-status-${get(item, 'value', '')}`}
-                        value={get(item, 'value', '')}
-                        label={get(item, 'label', '')}
-                      >
-                        <div className='flex items-center gap-3'>
-                          {get(item, 'icon', null)}
+          <Controller
+            control={control}
+            name='deliveryStatus'
+            render={({ field }) => {
+              return (
+                <div className='w-full flex flex-col gap-2'>
+                  <Label title={t('delivery_status')} required />
 
-                          <span className='max-w-[180px] truncate text-[0.85rem] text-zinc-700'>
-                            {get(item, 'label', '')}
-                          </span>
-                        </div>
-                      </Option>
-                    );
-                  })}
-                </Select>
+                  <Select
+                    {...field}
+                    placeholder={t('delivery_status')}
+                    showSearch
+                    optionFilterProp='label'
+                    status={errors.deliveryStatus ? 'error' : ''}
+                    onClear={() => {
+                      setValue('deliveryStatus', DeliveryStatus.ORDERED);
+                      trigger('deliveryStatus');
+                    }}
+                    onChange={(value) => {
+                      setValue('deliveryStatus', value ? value : DeliveryStatus.ORDERED, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    filterOption={(input, option) => {
+                      const label = option?.label;
 
-                {errors.deliveryStatus && (
-                  <Text type='danger' style={{ fontSize: 12 }}>
-                    {errors.deliveryStatus.message}
-                  </Text>
-                )}
-              </div>
-            );
-          }}
-        />
+                      if (typeof label !== 'string') return false;
+
+                      return label.toLowerCase().includes(input.toLowerCase());
+                    }}
+                  >
+                    {DELIVERY_STATUS_OPTIONS.map((item) => {
+                      return (
+                        <Option
+                          key={`delivery-status-${get(item, 'value', '')}`}
+                          value={get(item, 'value', '')}
+                          label={get(item, 'label', '')}
+                        >
+                          <div className='flex items-center gap-3'>
+                            {get(item, 'icon', null)}
+
+                            <span className='max-w-[180px] truncate text-[0.85rem] text-zinc-700'>
+                              {get(item, 'label', '')}
+                            </span>
+                          </div>
+                        </Option>
+                      );
+                    })}
+                  </Select>
+
+                  {errors.deliveryStatus && (
+                    <Text type='danger' style={{ fontSize: 12 }}>
+                      {errors.deliveryStatus.message}
+                    </Text>
+                  )}
+                </div>
+              );
+            }}
+          />
+        </div>
 
         <Controller
           control={control}
           name='note'
           render={({ field }) => {
             return (
-              <div className='w-full flex flex-col gap-2 col-span-full'>
+              <div className='w-full flex flex-col gap-2'>
                 <Label title={t('note')} />
 
                 <TextArea

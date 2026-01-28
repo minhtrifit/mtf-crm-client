@@ -187,6 +187,7 @@ const OrderCreateForm = (props: PropType) => {
         invalid_type_error: t('this_field_is_required'),
       }),
       note: z.string(),
+      phone: z.string().min(1, { message: t('this_field_is_required') }),
       deliveryAddress: z.string().min(1, { message: t('this_field_is_required') }),
       status: z.string({
         required_error: t('this_field_is_required'),
@@ -265,11 +266,13 @@ const OrderCreateForm = (props: PropType) => {
     setValue,
     trigger,
     clearErrors,
+    watch,
   } = useForm<FormType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       userId: undefined,
       note: '',
+      phone: '',
       deliveryAddress: '',
       status: undefined,
       deliveryStatus: undefined,
@@ -341,6 +344,7 @@ const OrderCreateForm = (props: PropType) => {
       userId: data.userId,
       amount: data.amount,
       method: data.method as PaymentMethod,
+      phone: data.phone,
       deliveryAddress: data.deliveryAddress,
       status: data.status as OrderStatus,
       deliveryStatus: data.deliveryStatus as DeliveryStatus,
@@ -427,10 +431,15 @@ const OrderCreateForm = (props: PropType) => {
                       filterOption={false}
                       optionLabelProp='label' // QUAN TRỌNG
                       onSearch={(value) => setSearchKeyword(value)}
-                      onChange={(value) => field.onChange(value)}
+                      onChange={(value, option: any) => {
+                        field.onChange(value);
+                        setValue('phone', option.phone || '');
+                        clearErrors('phone');
+                      }}
                       onClear={() => {
                         field.onChange(undefined);
                         setSearchKeyword('');
+                        setValue('phone', '');
                       }}
                       status={errors.userId ? 'error' : ''}
                     >
@@ -445,6 +454,7 @@ const OrderCreateForm = (props: PropType) => {
                           <Select.Option
                             key={value}
                             value={value}
+                            phone={phone}
                             // Label CHỈ dùng khi đã chọn
                             label={
                               <div className='flex items-center gap-2'>
@@ -487,6 +497,30 @@ const OrderCreateForm = (props: PropType) => {
                     )}
                   </div>
                 )}
+              />
+
+              <Controller
+                control={control}
+                name='phone'
+                render={({ field }) => {
+                  return (
+                    <div className='w-full flex flex-col gap-2'>
+                      <Label title={t('auth.phone')} required />
+
+                      <Input
+                        {...field}
+                        placeholder={t('auth.phone')}
+                        status={errors.phone ? 'error' : ''}
+                      />
+
+                      {errors.phone && (
+                        <Text type='danger' style={{ fontSize: 12 }}>
+                          {errors.phone.message}
+                        </Text>
+                      )}
+                    </div>
+                  );
+                }}
               />
 
               <Controller

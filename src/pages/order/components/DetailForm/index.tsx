@@ -130,6 +130,11 @@ const DetailForm = (props: PropType) => {
           </div>
 
           <div className='flex flex-col gap-3'>
+            <Label title={t('auth.phone')} />
+            <span className='text-[0.85rem] text-zinc-700'>{get(data, 'phone', '')}</span>
+          </div>
+
+          <div className='flex flex-col gap-3'>
             <Label title={t('note')} />
             <span className='text-[0.85rem] text-zinc-700'>{get(data, 'note', '')}</span>
           </div>
@@ -156,11 +161,6 @@ const DetailForm = (props: PropType) => {
           <div className='flex flex-col gap-3'>
             <Label title={t('auth.email')} />
             <span className='text-[0.85rem] text-zinc-700'>{get(data, 'user.email', '')}</span>
-          </div>
-
-          <div className='flex flex-col gap-3'>
-            <Label title={t('auth.phone')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(data, 'user.phone', '')}</span>
           </div>
 
           <div className='flex flex-col gap-3'>

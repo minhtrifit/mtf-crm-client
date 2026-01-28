@@ -155,6 +155,11 @@ const DetailModal = (props: PropType) => {
           </div>
 
           <div className='flex flex-col gap-3'>
+            <Label title={t('auth.phone')} />
+            <span className='text-[0.85rem] text-zinc-700'>{get(order, 'phone', '')}</span>
+          </div>
+
+          <div className='flex flex-col gap-3'>
             <Label title={t('note')} />
             <span className='text-[0.85rem] text-zinc-700'>{get(order, 'note', '')}</span>
           </div>

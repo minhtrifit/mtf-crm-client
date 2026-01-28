@@ -38,6 +38,7 @@ const InformationForm = () => {
   const FormSchema = z
     .object({
       userId: z.string().min(1, { message: t('this_field_is_required') }),
+      phone: z.string().min(1, { message: t('this_field_is_required') }),
       deliveryAddress: z.string().min(1, { message: t('this_field_is_required') }),
       note: z.string(),
       paymentMethod: z.nativeEnum(PaymentMethod).nullable(),
@@ -66,6 +67,7 @@ const InformationForm = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       userId: user?.id,
+      phone: user?.phone ?? '',
       deliveryAddress: user?.address ?? '',
       note: '',
       paymentMethod: null,
@@ -79,6 +81,7 @@ const InformationForm = () => {
 
     const payload: OrderPayload = {
       userId: data.userId,
+      phone: data.phone,
       deliveryAddress: data.deliveryAddress,
       note: data.note,
       items: carts?.map((item) => {
@@ -168,11 +171,29 @@ const InformationForm = () => {
             <span className='text-zinc-700'>{get(user, 'address', '')}</span>
           </div>
 
-          <div className='w-full flex flex-col gap-2'>
-            <Label title={t('auth.phone')} />
+          <Controller
+            control={control}
+            name='phone'
+            render={({ field }) => {
+              return (
+                <div className='w-full flex flex-col gap-2'>
+                  <Label title={t('auth.phone')} required />
 
-            <span className='text-zinc-700'>{get(user, 'phone', '')}</span>
-          </div>
+                  <Input
+                    {...field}
+                    placeholder={t('auth.phone')}
+                    status={errors.phone ? 'error' : ''}
+                  />
+
+                  {errors.phone && (
+                    <Text type='danger' style={{ fontSize: 12 }}>
+                      {errors.phone.message}
+                    </Text>
+                  )}
+                </div>
+              );
+            }}
+          />
 
           <Controller
             control={control}
@@ -184,7 +205,7 @@ const InformationForm = () => {
 
                   <Input
                     {...field}
-                    placeholder={t('deliveryAddress')}
+                    placeholder={t('delivery_address')}
                     status={errors.deliveryAddress ? 'error' : ''}
                   />
 

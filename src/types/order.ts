@@ -8,6 +8,7 @@ export interface Order {
   orderCode: string;
   totalAmount: number;
   status: OrderStatus;
+  phone: string;
   deliveryAddress: string;
   note: string | null;
   deliveryStatus: DeliveryStatus;
@@ -31,6 +32,7 @@ export interface OrderItem {
 
 export interface OrderPayload {
   userId: string;
+  phone: string;
   deliveryAddress: string;
   note: string | null;
   items: OrderItemPayload[];

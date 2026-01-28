@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useOutletContext } from 'react-router-dom';
 import { ProfileLayoutContextType } from '../layout';
@@ -23,6 +23,8 @@ export interface FilterType {
 const UserOrderPage = () => {
   const { searchParams, updateParams } = useQueryParams();
   const { user } = useOutletContext<ProfileLayoutContextType>();
+
+  const orderId = searchParams.get('order_id') ?? '';
 
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
   const q = searchParams.get('q') ?? '';
@@ -56,10 +58,6 @@ const UserOrderPage = () => {
     limit: DEFAULT_PAGE_SIZE,
   });
   const { data: order, loading: orderLoading, fetchData: fetchDetailOrder } = useDetailOrder();
-
-  if (!loading && error) {
-    return <Error />;
-  }
 
   const handleChangeFilter = (key: string, value: string) => {
     setFilter((prev) => ({
@@ -139,7 +137,23 @@ const UserOrderPage = () => {
 
   const handleCloseDetailModal = () => {
     setOpenDetailModal(false);
+    updateParams({ order_id: '' });
   };
+
+  useEffect(() => {
+    if (orderId) {
+      const handleAutoViewDetail = async (id: string) => {
+        await fetchDetailOrder(id);
+        setOpenDetailModal(true);
+      };
+
+      handleAutoViewDetail(orderId);
+    }
+  }, [orderId]);
+
+  if (!loading && error) {
+    return <Error />;
+  }
 
   return (
     <div className='w-full flex flex-col gap-5'>
