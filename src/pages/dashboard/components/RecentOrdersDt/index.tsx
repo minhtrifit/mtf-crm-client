@@ -97,46 +97,24 @@ const RecentOrdersDataTable = (props: PropType) => {
           }}
         >
           <Column
-            title={`${t('user.default')} / ${t('customer.default')}`}
+            title={t('user.default')}
             dataIndex='user'
             key='user'
             minWidth={300}
             render={(_, record) => {
-              // User render
-              if (record?.user) {
-                return (
-                  <div className='flex items-center gap-3'>
-                    <Avatar
-                      size={50}
-                      src={get(record, 'user.avatar', '')}
-                      icon={<FaUser size={18} />}
-                      className={`${!get(record, 'user.avatar', '') && 'bg-primary'}`}
-                    />
-
-                    <div className='flex flex-col gap-1'>
-                      <span className='font-semibold'>{get(record, 'user.fullName', '')}</span>
-                      <span className='text-[0.8rem] text-zinc-700'>
-                        {get(record, 'user.email', '')}
-                      </span>
-                    </div>
-                  </div>
-                );
-              }
-
-              // Customer render
               return (
                 <div className='flex items-center gap-3'>
                   <Avatar
                     size={50}
-                    src={get(record, 'customer.fullName', '')}
+                    src={get(record, 'user.avatar', '')}
                     icon={<FaUser size={18} />}
-                    className='bg-primary'
+                    className={`${!get(record, 'user.avatar', '') && 'bg-primary'}`}
                   />
 
                   <div className='flex flex-col gap-1'>
-                    <span className='font-semibold'>{get(record, 'customer.fullName', '')}</span>
+                    <span className='font-semibold'>{get(record, 'user.fullName', '')}</span>
                     <span className='text-[0.8rem] text-zinc-700'>
-                      {get(record, 'customer.phone', '')}
+                      {get(record, 'user.email', '')}
                     </span>
                   </div>
                 </div>

@@ -13,7 +13,6 @@ export interface Order {
   note: string | null;
   deliveryStatus: DeliveryStatus;
   userId: string | null;
-  customerId: string | null;
   createdAt: string;
   updatedAt: string;
   user: UserType;

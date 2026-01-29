@@ -39,8 +39,7 @@
     "orders": "Orders",
     "payments": "Payments",
     "accounts": "Accounts",
-    "users": "Users",
-    "customers": "Customers"
+    "users": "Users"
   },
   "breadcrumb": {
     "add": "Add",
@@ -51,7 +50,6 @@
     "product": "Product",
     "order": "Order",
     "user": "User",
-    "customer": "Customer",
     "payment": "Payment",
     "website-template": "Website Template"
   },
@@ -222,9 +220,6 @@
     "default": "User",
     "name_placeholder": "Search by name, email, phone",
     "update_status": "Update this user status?"
-  },
-  "customer": {
-    "default": "Customer"
   },
   "dashboard": {
     "total_order": "Total orders",

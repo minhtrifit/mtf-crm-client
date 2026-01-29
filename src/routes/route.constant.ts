@@ -40,11 +40,6 @@ export const ADMIN_ROUTE = {
   USER_DETAIL: 'detail/:id',
   USER_EDIT: 'edit/:id',
 
-  CUSTOMER: 'customer',
-  CUSTOMER_ADD: 'add',
-  CUSTOMER_DETAIL: 'detail/:id',
-  CUSTOMER_EDIT: 'edit/:id',
-
   WEBSITE_TEMPLATE: 'website-template',
   WEBSITE_TEMPLATE_ADD: 'add',
   WEBSITE_TEMPLATE_DETAIL: 'detail/:id',

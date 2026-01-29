@@ -276,45 +276,25 @@ const PaymentFormModal = (props: PropType) => {
 
                           <div className='w-[1px] h-[50px] bg-zinc-200' />
 
-                          {get(order, 'user', null) ? (
-                            <div className='flex items-center gap-3'>
-                              <Avatar
-                                size={50}
-                                src={get(order, 'user.avatar', '')}
-                                icon={<FaUser size={18} />}
-                                className={`${
-                                  !get(order, 'user.avatar', '') && 'bg-primary'
-                                } shrink-0`}
-                              />
+                          <div className='flex items-center gap-3'>
+                            <Avatar
+                              size={50}
+                              src={get(order, 'user.avatar', '')}
+                              icon={<FaUser size={18} />}
+                              className={`${
+                                !get(order, 'user.avatar', '') && 'bg-primary'
+                              } shrink-0`}
+                            />
 
-                              <div className='flex flex-col gap-1'>
-                                <span className='font-semibold'>
-                                  {get(order, 'user.fullName', '')}
-                                </span>
-                                <span className='text-[0.8rem] text-zinc-700'>
-                                  {get(order, 'user.email', '')} | {get(order, 'user.phone', '')}
-                                </span>
-                              </div>
+                            <div className='flex flex-col gap-1'>
+                              <span className='font-semibold'>
+                                {get(order, 'user.fullName', '')}
+                              </span>
+                              <span className='text-[0.8rem] text-zinc-700'>
+                                {get(order, 'user.email', '')} | {get(order, 'user.phone', '')}
+                              </span>
                             </div>
-                          ) : (
-                            <div className='flex items-center gap-3'>
-                              <Avatar
-                                size={50}
-                                src={get(order, 'customer.fullName', '')}
-                                icon={<FaUser size={18} />}
-                                className='bg-primary shrink-0'
-                              />
-
-                              <div className='flex flex-col gap-1'>
-                                <span className='font-semibold'>
-                                  {get(order, 'customer.fullName', '')}
-                                </span>
-                                <span className='text-[0.8rem] text-zinc-700'>
-                                  {get(order, 'user.email', '')} | {get(order, 'user.phone', '')}
-                                </span>
-                              </div>
-                            </div>
-                          )}
+                          </div>
                         </div>
                       </Card>
                     );
@@ -336,45 +316,20 @@ const PaymentFormModal = (props: PropType) => {
               </span>
             </div>
 
-            {get(order, 'user', null) ? (
-              <div className='flex items-center gap-3'>
-                <Avatar
-                  size={50}
-                  src={get(order, 'user.avatar', '')}
-                  icon={<FaUser size={18} />}
-                  className={`${!get(order, 'user.avatar', '') && 'bg-primary'} shrink-0`}
-                />
+            <div className='flex items-center gap-3'>
+              <Avatar
+                size={50}
+                src={get(order, 'user.avatar', '')}
+                icon={<FaUser size={18} />}
+                className={`${!get(order, 'user.avatar', '') && 'bg-primary'} shrink-0`}
+              />
 
-                <div className='flex flex-col gap-1'>
-                  <span className='font-semibold'>{get(order, 'user.fullName', '')}</span>
-                  <span className='text-[0.8rem] text-zinc-700'>
-                    {get(order, 'user.email', '')}
-                  </span>
-                  <span className='text-[0.8rem] text-zinc-700'>
-                    {get(order, 'user.phone', '')}
-                  </span>
-                </div>
+              <div className='flex flex-col gap-1'>
+                <span className='font-semibold'>{get(order, 'user.fullName', '')}</span>
+                <span className='text-[0.8rem] text-zinc-700'>{get(order, 'user.email', '')}</span>
+                <span className='text-[0.8rem] text-zinc-700'>{get(order, 'user.phone', '')}</span>
               </div>
-            ) : (
-              <div className='flex items-center gap-3'>
-                <Avatar
-                  size={50}
-                  src={get(order, 'customer.fullName', '')}
-                  icon={<FaUser size={18} />}
-                  className='bg-primary shrink-0'
-                />
-
-                <div className='flex flex-col gap-1'>
-                  <span className='font-semibold'>{get(order, 'customer.fullName', '')}</span>
-                  <span className='text-[0.8rem] text-zinc-700'>
-                    {get(order, 'user.email', '')}
-                  </span>
-                  <span className='text-[0.8rem] text-zinc-700'>
-                    {get(order, 'user.phone', '')}
-                  </span>
-                </div>
-              </div>
-            )}
+            </div>
 
             <div className='col-span-full grid grid-cols-3 gap-5'>
               <div className='flex flex-col gap-1'>

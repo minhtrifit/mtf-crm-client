@@ -252,7 +252,7 @@ const FilterBar = (props: PropType) => {
         </div>
 
         <div className='flex flex-col gap-3'>
-          <Label title={`${t('user.default')} / ${t('customer.default')}`} />
+          <Label title={t('user.default')} />
           <Input
             style={{ width: 280 }}
             placeholder={t('order.user_placeholder')}

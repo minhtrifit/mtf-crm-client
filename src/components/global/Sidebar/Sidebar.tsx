@@ -12,7 +12,6 @@ import { FiShoppingBag } from 'react-icons/fi';
 import { MdCategory } from 'react-icons/md';
 import { HiUsers, HiTemplate } from 'react-icons/hi';
 import { LuUserCog } from 'react-icons/lu';
-import { FaUserTie } from 'react-icons/fa6';
 import { RiMoneyDollarCircleFill } from 'react-icons/ri';
 
 import styles from './styles.module.scss';
@@ -87,11 +86,6 @@ const Sidebar = (props: PropType) => {
           key: '/admin/user',
           icon: <LuUserCog size={20} />,
           label: t('sidebar.users'),
-        },
-        {
-          key: '/admin/customer',
-          icon: <FaUserTie size={20} />,
-          label: t('sidebar.customers'),
         },
       ],
     },

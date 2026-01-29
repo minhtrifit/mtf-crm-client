@@ -39,8 +39,7 @@
     "orders": "Đơn hàng",
     "payments": "Thanh toán",
     "accounts": "Tài khoản",
-    "users": "Người dùng",
-    "customers": "Khách hàng"
+    "users": "Người dùng"
   },
   "breadcrumb": {
     "add": "Thêm mới",
@@ -51,7 +50,6 @@
     "product": "Sản phẩm",
     "order": "Đơn hàng",
     "user": "Người dùng",
-    "customer": "Khách hàng",
     "payment": "Thanh toán",
     "website-template": "Mẫu thiết kế website"
   },
@@ -222,9 +220,6 @@
     "default": "Người dùng",
     "name_placeholder": "Tìm kiếm theo họ tên, email, SĐT",
     "update_status": "Cập nhật trạng thái cho người dùng này?"
-  },
-  "customer": {
-    "default": "Khách hàng"
   },
   "dashboard": {
     "total_order": "Tổng đơn hàng",
