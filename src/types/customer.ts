@@ -2,8 +2,8 @@ export interface Customer {
   id: string;
   email: string;
   fullName: string;
-  phone: string | null;
-  address: string | null;
+  phone: string;
+  address: string;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;

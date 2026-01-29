@@ -1,13 +1,16 @@
 import { FormEvent, useState } from 'react';
+import { message } from 'antd';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useList } from '../../hooks/useList';
 import { useDetail } from '../../hooks/useDetail';
+import { useEdit } from '../../hooks/useEdit';
 import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
 import { Customer } from '@/types/customer';
 import Error from '@/components/ui/Error/Error';
 import DataLoading from '@/components/ui/DataLoading/DataLoading';
 import FilterBar from '../../components/FilterBar';
 import DataTable from '../../components/DataTable';
+import FormModal from '../../components/FormModal';
 
 export interface FilterType {
   page: number;
@@ -28,7 +31,10 @@ const CustomerListPage = () => {
     isActive: isActive,
   });
   const [customer, setCustomer] = useState<Customer | null>(null);
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [modal, setModal] = useState<{ open: boolean; mode: 'add' | 'edit' | 'detail' | null }>({
+    open: false,
+    mode: null,
+  });
 
   const { data, loading, error, paging, params, setParams, fetchData } = useList({
     page: filter.page,
@@ -37,6 +43,7 @@ const CustomerListPage = () => {
     limit: DEFAULT_PAGE_SIZE,
   });
   const { fetchData: fetchDetailCustomer } = useDetail();
+  const { loading: editLoading, mutate: editMutate } = useEdit();
 
   const handleChangeFilter = (key: string, value: string) => {
     setFilter({
@@ -72,13 +79,35 @@ const CustomerListPage = () => {
     });
   };
 
+  const handleOpenModal = (mode: 'add' | 'edit' | 'detail', value: Customer | null) => {
+    setModal({ open: true, mode: mode });
+    setCustomer(value);
+  };
+
+  const handleCloseModal = () => {
+    setModal({ open: false, mode: null });
+    setCustomer(null);
+  };
+
+  const handleConfirmModal = async (mode: 'add' | 'edit' | 'detail', data: Customer) => {
+    if (mode === 'edit' && customer) {
+      const res = await editMutate(customer?.id, data);
+
+      if (res.success) {
+        message.success(res.message);
+        fetchData(params); // Refetch list API
+        handleCloseModal();
+      }
+    }
+  };
+
   const handleActionItem = async (name: string, value: any) => {
     if (name === 'edit') {
       const res = await fetchDetailCustomer(value?.id);
 
       if (res) {
         setCustomer(res);
-        setOpenModal(true);
+        handleOpenModal('edit', res);
       }
     }
   };
@@ -89,6 +118,15 @@ const CustomerListPage = () => {
 
   return (
     <div className='flex flex-col gap-5'>
+      <FormModal
+        open={modal.open}
+        defaultValues={customer}
+        mode={modal.mode as 'add' | 'edit' | 'detail'}
+        loading={editLoading}
+        onOk={handleConfirmModal}
+        onClose={handleCloseModal}
+      />
+
       <FilterBar
         filter={filter}
         handleChangeFilter={handleChangeFilter}

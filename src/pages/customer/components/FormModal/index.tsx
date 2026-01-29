@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Divider, Input, Modal, Typography } from 'antd';
+import { Button, Divider, Input, InputNumber, Modal, Typography } from 'antd';
 import { Customer } from '@/types/customer';
 import { useTranslation } from 'react-i18next';
 import Label from '@/components/ui/Label/Label';
@@ -26,12 +26,18 @@ const FormModal = (props: PropType) => {
 
   const FormSchema = z.object({
     fullName: z.string().min(1, { message: t('this_field_is_required') }),
+    phone: z.string().min(1, { message: t('this_field_is_required') }),
+    email: z.string(),
+    address: z.string(),
   });
 
   type FormType = z.infer<typeof FormSchema>;
 
   const emptyValue = {
     fullName: '',
+    phone: '',
+    email: '',
+    address: '',
   };
 
   const {
@@ -70,10 +76,10 @@ const FormModal = (props: PropType) => {
     <Modal
       title={
         <span className='text-xl text-primary font-bold'>
-          {t(`${mode}`)} {t('breadcrumb.category')}
+          {t(`${mode}`)} {t('breadcrumb.customer')}
         </span>
       }
-      width={500}
+      width={700}
       centered
       footer={null}
       open={open}
@@ -86,30 +92,107 @@ const FormModal = (props: PropType) => {
       <form onSubmit={handleSubmit(onSubmit, onError)} className='flex flex-col gap-5'>
         <Divider className='my-0' />
 
-        <Controller
-          control={control}
-          name='fullName'
-          render={({ field }) => {
-            return (
-              <div className='w-full flex flex-col gap-2'>
-                <Label title={t('category.name')} required />
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+          <Controller
+            control={control}
+            name='fullName'
+            render={({ field }) => {
+              return (
+                <div className='w-full flex flex-col gap-2'>
+                  <Label title={t('auth.fullName')} required />
 
-                <Input
-                  {...field}
-                  disabled={mode === 'detail'}
-                  placeholder={t('category.name')}
-                  status={errors.fullName ? 'error' : ''}
-                />
+                  <Input
+                    {...field}
+                    disabled={mode === 'detail'}
+                    placeholder={t('auth.fullName')}
+                    status={errors.fullName ? 'error' : ''}
+                  />
 
-                {errors.fullName && (
-                  <Text type='danger' style={{ fontSize: 12 }}>
-                    {errors.fullName.message}
-                  </Text>
-                )}
-              </div>
-            );
-          }}
-        />
+                  {errors.fullName && (
+                    <Text type='danger' style={{ fontSize: 12 }}>
+                      {errors.fullName.message}
+                    </Text>
+                  )}
+                </div>
+              );
+            }}
+          />
+
+          <Controller
+            control={control}
+            name='phone'
+            render={({ field }) => {
+              return (
+                <div className='w-full flex flex-col gap-2'>
+                  <Label title={t('auth.phone')} />
+
+                  <Input
+                    {...field}
+                    disabled={mode === 'detail'}
+                    placeholder={t('auth.phone')}
+                    status={errors.phone ? 'error' : ''}
+                  />
+
+                  {errors.phone && (
+                    <Text type='danger' style={{ fontSize: 12 }}>
+                      {errors.phone.message}
+                    </Text>
+                  )}
+                </div>
+              );
+            }}
+          />
+
+          <Controller
+            control={control}
+            name='email'
+            render={({ field }) => {
+              return (
+                <div className='w-full flex flex-col gap-2'>
+                  <Label title={t('auth.email')} />
+
+                  <Input
+                    {...field}
+                    disabled={mode === 'detail'}
+                    placeholder={t('auth.email')}
+                    status={errors.email ? 'error' : ''}
+                  />
+
+                  {errors.email && (
+                    <Text type='danger' style={{ fontSize: 12 }}>
+                      {errors.email.message}
+                    </Text>
+                  )}
+                </div>
+              );
+            }}
+          />
+
+          <Controller
+            control={control}
+            name='address'
+            render={({ field }) => {
+              return (
+                <div className='w-full flex flex-col gap-2'>
+                  <Label title={t('auth.address')} />
+
+                  <Input
+                    {...field}
+                    disabled={mode === 'detail'}
+                    placeholder={t('auth.address')}
+                    status={errors.email ? 'error' : ''}
+                  />
+
+                  {errors.address && (
+                    <Text type='danger' style={{ fontSize: 12 }}>
+                      {errors.address.message}
+                    </Text>
+                  )}
+                </div>
+              );
+            }}
+          />
+        </div>
 
         {mode !== 'detail' && (
           <section className='flex items-center justify-end gap-2'>
