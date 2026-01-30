@@ -7,7 +7,7 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { RootState } from '@/store/store';
 import { setSidebar, toggleSidebar } from '@/store/actions/user.action';
 import { IoHome } from 'react-icons/io5';
-import { AiFillAppstore, AiOutlineShoppingCart } from 'react-icons/ai';
+import { AiFillAppstore, AiOutlineShoppingCart, AiOutlineComment } from 'react-icons/ai';
 import { FiShoppingBag } from 'react-icons/fi';
 import { MdCategory } from 'react-icons/md';
 import { HiUsers, HiTemplate } from 'react-icons/hi';
@@ -86,6 +86,11 @@ const Sidebar = (props: PropType) => {
           key: '/admin/user',
           icon: <LuUserCog size={20} />,
           label: t('sidebar.users'),
+        },
+        {
+          key: '/admin/review',
+          icon: <AiOutlineComment size={20} />,
+          label: t('sidebar.reviews'),
         },
       ],
     },

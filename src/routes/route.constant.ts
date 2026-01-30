@@ -35,6 +35,11 @@ export const ADMIN_ROUTE = {
   PAYMENT_DETAIL: 'detail/:id',
   PAYMENT_EDIT: 'edit/:id',
 
+  REVIEW: 'review',
+  REVIEW_ADD: 'add',
+  REVIEW_DETAIL: 'detail/:id',
+  REVIEW_EDIT: 'edit/:id',
+
   USER: 'user',
   USER_ADD: 'add',
   USER_DETAIL: 'detail/:id',

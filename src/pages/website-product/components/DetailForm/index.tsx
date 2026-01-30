@@ -48,7 +48,11 @@ const DetailForm = (props: PropType) => {
   } = useGetReviews(product?.id, {
     rate: rate,
   });
-  const { isReviewed, loading: isReviewedLoading } = useCheckIsReviewed(user?.id, product?.id);
+  const {
+    isReviewed,
+    loading: isReviewedLoading,
+    checkReviewed,
+  } = useCheckIsReviewed(user?.id, product?.id);
   const { mutate: reviewMutate, loading: reviewLoading } = useCreateReview();
 
   const comments = get(review, 'comments', []);
@@ -104,6 +108,7 @@ const DetailForm = (props: PropType) => {
         placement: 'bottomLeft',
       });
 
+      checkReviewed(user?.id ?? '', product?.id);
       fetchData(product?.id, params); // Refetch review
     }
   };

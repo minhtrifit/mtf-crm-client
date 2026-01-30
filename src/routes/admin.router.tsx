@@ -16,6 +16,7 @@ import EditWebsiteTemplatePage from '@/pages/website-template/pages/edit';
 import DetailWebsiteTemplatePage from '@/pages/website-template/pages/detail';
 import UserListPage from '@/pages/user/pages/list';
 import PaymentListPage from '@/pages/payment/pages/list';
+import ReviewListPage from '@/pages/review/page/list';
 
 export const adminRoutes = {
   path: '/admin',
@@ -56,9 +57,18 @@ export const adminRoutes = {
       path: ADMIN_ROUTE.PAYMENT,
       children: [
         { index: true, element: <PaymentListPage /> },
-        { path: ADMIN_ROUTE.ORDER_ADD, element: <div>Payment add page</div> },
-        { path: ADMIN_ROUTE.ORDER_DETAIL, element: <div>Payment detail page</div> },
-        { path: ADMIN_ROUTE.ORDER_EDIT, element: <div>Payment edit page</div> },
+        { path: ADMIN_ROUTE.PAYMENT_ADD, element: <div>Payment add page</div> },
+        { path: ADMIN_ROUTE.PAYMENT_DETAIL, element: <div>Payment detail page</div> },
+        { path: ADMIN_ROUTE.PAYMENT_EDIT, element: <div>Payment edit page</div> },
+      ],
+    },
+    {
+      path: ADMIN_ROUTE.REVIEW,
+      children: [
+        { index: true, element: <ReviewListPage /> },
+        { path: ADMIN_ROUTE.REVIEW_ADD, element: <div>Review add page</div> },
+        { path: ADMIN_ROUTE.REVIEW_DETAIL, element: <div>Review detail page</div> },
+        { path: ADMIN_ROUTE.REVIEW_EDIT, element: <div>Review edit page</div> },
       ],
     },
     {

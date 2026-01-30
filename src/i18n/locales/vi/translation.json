@@ -39,6 +39,7 @@
     "orders": "Đơn hàng",
     "payments": "Thanh toán",
     "accounts": "Tài khoản",
+    "reviews": "Đánh giá",
     "users": "Người dùng"
   },
   "breadcrumb": {
@@ -51,6 +52,7 @@
     "order": "Đơn hàng",
     "user": "Người dùng",
     "payment": "Thanh toán",
+    "review": "Đánh giá",
     "website-template": "Mẫu thiết kế website"
   },
   "add": "Thêm mới",
@@ -261,5 +263,13 @@
     "three_star": "3 sao",
     "two_star": "2 sao",
     "one_star": "1 sao"
+  },
+  "review": {
+    "default": "Đánh giá",
+    "name_placeholder": "Tìm kiếm theo đánh giá, sản phẩm, người dùng",
+    "comment": "Bình luận",
+    "rate": "Đánh giá",
+    "delete": "Xóa đánh giá",
+    "delete_confirm": "Bạn có chắc muốn xóa đánh giá này?"
   }
 }

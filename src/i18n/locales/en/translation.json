@@ -39,6 +39,7 @@
     "orders": "Orders",
     "payments": "Payments",
     "accounts": "Accounts",
+    "reviews": "Reviews",
     "users": "Users"
   },
   "breadcrumb": {
@@ -51,6 +52,7 @@
     "order": "Order",
     "user": "User",
     "payment": "Payment",
+    "review": "Review",
     "website-template": "Website Template"
   },
   "add": "Add new",
@@ -261,5 +263,13 @@
     "three_star": "3 star",
     "two_star": "2 star",
     "one_star": "1 star"
+  },
+  "review": {
+    "default": "Review",
+    "name_placeholder": "Search by review, product, user",
+    "comment": "Comment",
+    "rate": "Rate",
+    "delete": "Delete review",
+    "delete_confirm": "Are you sure to delete this review?"
   }
 }

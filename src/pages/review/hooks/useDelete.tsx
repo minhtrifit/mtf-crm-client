@@ -1,17 +1,16 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import reviewApi from '@/+core/api/review.api';
-import { ProductReviewPayload } from '@/types/product';
 
-export const useCreateReview = () => {
+export const useDelete = () => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const mutate = async (payload: ProductReviewPayload) => {
+  const mutate = async (id: string) => {
     try {
       setLoading(true);
 
-      const response: any = await reviewApi.createReview(payload);
+      const response: any = await reviewApi.delete(id);
 
       return {
         success: true,
@@ -22,7 +21,7 @@ export const useCreateReview = () => {
       return {
         success: false,
         data: null,
-        message: err?.response?.data?.message || t('error'),
+        message: err.response.data.message || t('error'),
       };
     } finally {
       setLoading(false);
