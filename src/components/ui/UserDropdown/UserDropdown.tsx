@@ -41,7 +41,13 @@ const UserDropdown = () => {
         onClick={(e) => e.preventDefault()} // tránh nhảy trang
       >
         <Space>
-          <Avatar src='https://github.com/shadcn.png' />
+          <Avatar src={get(user, 'avatar', '')} className='bg-primary'>
+            {get(user, 'fullName', '')
+              .split(' ')
+              .map((w) => w[0])
+              .join('')
+              .toUpperCase()}
+          </Avatar>
           <Text strong>{get(user, 'fullName', '')}</Text>
 
           <DownOutlined className='ml-2' style={{ fontSize: '10px' }} />

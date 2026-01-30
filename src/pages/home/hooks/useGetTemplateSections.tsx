@@ -11,6 +11,11 @@ export const useGetTemplateSections = (id: string) => {
   const [error, setError] = useState<any>(null);
 
   const fetchData = async (id: string) => {
+    if (!id) {
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
 

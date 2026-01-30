@@ -42,6 +42,7 @@
     "redux-persist": "^6.0.0",
     "sass": "^1.69.5",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.8.3",
     "uuid": "^11.1.0",
     "yarn": "1.22.21",
     "yet-another-react-lightbox": "^3.28.0",

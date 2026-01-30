@@ -2,14 +2,19 @@ import Cookies from 'js-cookie';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { persistor } from '@/store/store';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { PaymentMethod } from '../constants/commons.constant';
 
 const APP_KEY = import.meta.env.VITE_APP_KEY;
 
+import 'dayjs/locale/vi';
+import 'dayjs/locale/en';
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(relativeTime);
 
 export const formatDateTime = (value?: string): string => {
   if (!value) return '';
@@ -98,4 +103,13 @@ export const formatTimezone = (value?: string) => {
 export const formatNumber = (value: number | string) => {
   if (value === null || value === undefined) return '';
   return new Intl.NumberFormat('vi-VN').format(Number(value));
+};
+
+export const formatRelativeTime = (
+  time: string | Date | null | undefined,
+  lang: 'vi' | 'en' = 'vi',
+): string => {
+  if (!time) return '';
+
+  return dayjs(time).locale(lang).fromNow();
 };

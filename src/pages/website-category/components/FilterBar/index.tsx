@@ -17,7 +17,10 @@ const FilterBar = (props: PropType) => {
   const { t } = useTranslation();
 
   return (
-    <section className='w-full flex flex-wrap items-end justify-between gap-3'>
+    <section
+      className='block__container w-full flex flex-wrap items-end justify-between gap-3
+                  border border-solid border-zinc-100'
+    >
       <form
         onSubmit={(e) => {
           handleApplyFilter(e);
@@ -37,9 +40,9 @@ const FilterBar = (props: PropType) => {
           />
         </div>
 
-        <Button htmlType='submit' color='primary' variant='solid' icon={<SearchOutlined />}>
+        {/* <Button htmlType='submit' color='primary' variant='solid' icon={<SearchOutlined />}>
           {t('search')}
-        </Button>
+        </Button> */}
       </form>
     </section>
   );

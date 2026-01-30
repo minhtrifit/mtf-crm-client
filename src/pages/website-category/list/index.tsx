@@ -1,9 +1,10 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { get } from 'lodash';
 import { Avatar } from 'antd';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useParams } from 'react-router-dom';
 import { useQueryParams } from '@/hooks/useQueryParams';
+import { useDebounce } from '@/hooks/useDebounce';
 import { useList } from '../hooks/useList';
 import { useDetailCategory } from '../hooks/useDetailCategory';
 import { useScrollToId } from '@/hooks/useScrollToId';
@@ -44,6 +45,7 @@ const WebsiteCategoryPage = () => {
     page: page,
     q: '',
   });
+  const productSearch = useDebounce(filter.q, 500);
 
   const handlePageChange = (page: number) => {
     setFilter({ ...filter, page: page });
@@ -53,10 +55,31 @@ const WebsiteCategoryPage = () => {
   };
 
   const handleChangeFilter = (key: string, value: string) => {
-    setFilter({
-      ...filter,
-      [key]: value,
-    });
+    if (key === 'q') {
+      setFilter({
+        ...filter,
+        [key]: value,
+      });
+    }
+
+    if (key !== 'q') {
+      setFilter({
+        ...filter,
+        [key]: value,
+        page: 1,
+      });
+
+      setParams({
+        ...params,
+        page: 1,
+        [key]: value,
+      });
+
+      updateParams({
+        page: '1',
+        [key]: value,
+      });
+    }
   };
 
   const handleApplyFilter = (e: FormEvent<HTMLFormElement>) => {
@@ -77,6 +100,21 @@ const WebsiteCategoryPage = () => {
       q: filter.q,
     });
   };
+
+  // Product search debounce
+  useEffect(() => {
+    setParams({
+      ...params,
+      page: 1,
+      q: productSearch,
+      limit: WEBSITE_PRODUCT_LIMIT,
+    });
+
+    updateParams({
+      page: '1',
+      q: productSearch,
+    });
+  }, [productSearch]);
 
   if (!loading && error) {
     return <Error />;

@@ -1,6 +1,6 @@
-import { FormEvent, useState } from 'react';
-import { Divider } from 'antd';
+import { FormEvent, useEffect, useState } from 'react';
 import { useQueryParams } from '@/hooks/useQueryParams';
+import { useDebounce } from '@/hooks/useDebounce';
 import { useScrollToId } from '@/hooks/useScrollToId';
 import { useList } from '@/pages/product/hooks/useList';
 import Error from '@/components/ui/Error/Error';
@@ -29,6 +29,7 @@ const WebsiteProductPage = () => {
     q: q,
     categorySlug: categorySlug,
   });
+  const productSearch = useDebounce(filter.q, 500);
 
   const { data, loading, error, paging, params, setParams } = useList({
     page: filter.page,
@@ -39,10 +40,31 @@ const WebsiteProductPage = () => {
   });
 
   const handleChangeFilter = (key: string, value: string) => {
-    setFilter({
-      ...filter,
-      [key]: value,
-    });
+    if (key === 'q') {
+      setFilter({
+        ...filter,
+        [key]: value,
+      });
+    }
+
+    if (key !== 'q') {
+      setFilter({
+        ...filter,
+        [key]: value,
+        page: 1,
+      });
+
+      setParams({
+        ...params,
+        page: 1,
+        [key]: value,
+      });
+
+      updateParams({
+        page: '1',
+        [key]: value,
+      });
+    }
   };
 
   const handlePageChange = (page: number) => {
@@ -74,6 +96,21 @@ const WebsiteProductPage = () => {
     });
   };
 
+  // Product search debounce
+  useEffect(() => {
+    setParams({
+      ...params,
+      page: 1,
+      q: productSearch,
+      limit: PRODUCT_LIMIT,
+    });
+
+    updateParams({
+      page: '1',
+      q: productSearch,
+    });
+  }, [productSearch]);
+
   if (!loading && error) {
     return <Error />;
   }
@@ -86,8 +123,6 @@ const WebsiteProductPage = () => {
           handleChangeFilter={handleChangeFilter}
           handleApplyFilter={handleApplyFilter}
         />
-
-        <Divider className='my-0' />
 
         <section id='all-products-list' className='w-full'>
           {loading ? (
