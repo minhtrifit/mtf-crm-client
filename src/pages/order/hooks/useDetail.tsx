@@ -30,7 +30,7 @@ export const useDetail = (id: string) => {
 
   useEffect(() => {
     fetchData(id);
-  }, []);
+  }, [id]);
 
   return {
     data,

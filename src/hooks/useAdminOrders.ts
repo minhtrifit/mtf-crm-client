@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSocket } from './useSocket';
 import { INotification } from '@/types';
 
-interface EventType {
+export interface EventType {
   message_vi: string;
   message_en: string;
   data: INotification;

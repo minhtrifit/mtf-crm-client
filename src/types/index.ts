@@ -26,3 +26,11 @@ export interface INotification {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface UpdateNotificationPayload {
+  type?: NotificationType;
+  itemId?: string;
+  message_vi?: string;
+  message_en?: string;
+  isSeen?: boolean;
+}
