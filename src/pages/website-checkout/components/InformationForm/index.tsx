@@ -103,13 +103,14 @@ const InformationForm = () => {
         const redirectPath = `${WEBSITE_ROUTE.CHECKOUT}${statusParams}`;
 
         navigate(redirectPath);
-      } else {
-        notification.error({
-          message: t('notification'),
-          description: res.message,
-          placement: 'bottomLeft',
-        });
       }
+      // else {
+      //   notification.error({
+      //     message: t('notification'),
+      //     description: res.message,
+      //     placement: 'bottomLeft',
+      //   });
+      // }
     }
 
     // Handle VNPay Payment
@@ -119,13 +120,14 @@ const InformationForm = () => {
       if (res.success) {
         dispatch(clearCart());
         window.location.href = res.data;
-      } else {
-        notification.error({
-          message: t('notification'),
-          description: res.message,
-          placement: 'bottomLeft',
-        });
       }
+      // else {
+      //   notification.error({
+      //     message: t('notification'),
+      //     description: res.message,
+      //     placement: 'bottomLeft',
+      //   });
+      // }
     }
   };
 
