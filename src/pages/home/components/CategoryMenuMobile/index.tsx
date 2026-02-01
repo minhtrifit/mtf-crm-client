@@ -3,6 +3,7 @@ import { Avatar, Skeleton } from 'antd';
 import Slider from 'react-slick';
 import { Category } from '@/types/category';
 import { useNavigate } from 'react-router-dom';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { useScreenWidth } from '@/hooks/useScreenWidth';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
@@ -38,6 +39,7 @@ const CategoryMenuMobile = (props: PropType) => {
   const { isAdmin = false, loading, data } = props;
 
   const navigate = useNavigate();
+  const isMobile = useIsMobile(1024);
   const screenWidth = useScreenWidth();
 
   const getSlidesToShow = (width: number) => {
@@ -62,7 +64,7 @@ const CategoryMenuMobile = (props: PropType) => {
     prevArrow: <PrevArrow />,
     responsive: [
       {
-        breakpoint: 1280,
+        breakpoint: 640,
         settings: {
           slidesToShow: 3,
         },
@@ -83,6 +85,18 @@ const CategoryMenuMobile = (props: PropType) => {
   const handleNavigateDetail = (id: string) => {
     navigate(`/admin/category?open=${id}`);
   };
+
+  if (loading) {
+    return (
+      <div className='grid grid-cols-3 lg:grid-cols-5 gap-5'>
+        <Skeleton.Input active style={{ width: '100%', height: 80 }} />
+        <Skeleton.Input active style={{ width: '100%', height: 80 }} />
+        <Skeleton.Input active style={{ width: '100%', height: 80 }} />
+        {!isMobile && <Skeleton.Input active style={{ width: '100%', height: 80 }} />}
+        {!isMobile && <Skeleton.Input active style={{ width: '100%', height: 80 }} />}
+      </div>
+    );
+  }
 
   return (
     <section className='w-full relative'>

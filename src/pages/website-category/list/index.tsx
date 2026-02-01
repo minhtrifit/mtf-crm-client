@@ -39,7 +39,11 @@ const WebsiteCategoryPage = () => {
     paging,
     params: productParams,
     setParams,
-  } = useList(slug, { page: page, limit: WEBSITE_PRODUCT_LIMIT });
+  } = useList(
+    slug,
+    { page: page, limit: WEBSITE_PRODUCT_LIMIT },
+    { delayLoading: true, delayTime: 700 },
+  );
 
   const [filter, setFilter] = useState<FilterType>({
     page: page,

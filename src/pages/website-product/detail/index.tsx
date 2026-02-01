@@ -9,7 +9,7 @@ const WebsiteDetailProductPage = () => {
 
   const slug = params?.slug ?? '';
 
-  const { data, loading, error } = useDetail(slug);
+  const { data, loading, error } = useDetail(slug, { delayLoading: true, delayTime: 700 });
 
   if (!loading && error) {
     return <Error />;

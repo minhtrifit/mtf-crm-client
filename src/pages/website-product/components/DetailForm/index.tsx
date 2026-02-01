@@ -45,9 +45,15 @@ const DetailForm = (props: PropType) => {
     params,
     setParams,
     fetchData,
-  } = useGetReviews(product?.id, {
-    rate: rate,
-  });
+  } = useGetReviews(
+    product?.id,
+    {
+      rate: rate,
+    },
+    {
+      delayLoading: true,
+    },
+  );
   const {
     isReviewed,
     loading: isReviewedLoading,

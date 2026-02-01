@@ -1,7 +1,8 @@
 import { get } from 'lodash';
-import { CommentType } from '@/types/product';
-import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { Avatar, Divider, Image, Rate } from 'antd';
+import { useAppConfig } from '@/+core/provider/AppConfigProvider';
+import { CommentType } from '@/types/product';
+import { formatDateTime } from '@/+core/helpers';
 import { FaUser } from 'react-icons/fa';
 
 interface PropType {
@@ -36,6 +37,9 @@ const CommentList = (props: PropType) => {
               <div className='w-full flex flex-col gap-2'>
                 <span className='text-[0.8rem]'>{get(comment, 'user.fullName', '')}</span>
                 <Rate value={get(comment, 'rating', 0)} disabled />
+                <span className='text-[0.8rem] text-zinc-700'>
+                  {formatDateTime(get(comment, 'createdAt', ''))}
+                </span>
                 <p className='text-[0.9rem]'>{get(comment, 'comment', '')}</p>
                 <div className='mt-2 flex flex-wrap gap-2'>
                   {comment?.imagesUrl?.map((img: string, index: number) => {
