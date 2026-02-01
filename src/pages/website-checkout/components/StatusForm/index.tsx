@@ -53,12 +53,12 @@ const StatusForm = () => {
 
             <div className='grid grid-cols-[200px_1fr] gap-5'>
               <span className='text-[1rem] font-semibold'>{t('auth.fullName')}</span>
-              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'user.fullName', '')}</span>
+              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'fullName', '')}</span>
             </div>
 
             <div className='grid grid-cols-[200px_1fr] gap-5'>
-              <span className='text-[1rem] font-semibold'>{t('auth.email')}</span>
-              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'user.email', '')}</span>
+              <span className='text-[1rem] font-semibold'>{t('auth.phone')}</span>
+              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'phone', '')}</span>
             </div>
 
             <div className='grid grid-cols-[200px_1fr] gap-5'>
@@ -151,12 +151,12 @@ const StatusForm = () => {
 
             <div className='grid grid-cols-[200px_1fr] gap-5'>
               <span className='text-[1rem] font-semibold'>{t('auth.fullName')}</span>
-              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'user.fullName', '')}</span>
+              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'fullName', '')}</span>
             </div>
 
             <div className='grid grid-cols-[200px_1fr] gap-5'>
-              <span className='text-[1rem] font-semibold'>{t('auth.email')}</span>
-              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'user.email', '')}</span>
+              <span className='text-[1rem] font-semibold'>{t('auth.phone')}</span>
+              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'phone', '')}</span>
             </div>
 
             <div className='grid grid-cols-[200px_1fr] gap-5'>

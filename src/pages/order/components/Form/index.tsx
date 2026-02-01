@@ -85,6 +85,7 @@ const OrderForm = (props: PropType) => {
 
   const FormSchema = z.object({
     note: z.string(),
+    fullName: z.string().min(1, { message: t('this_field_is_required') }),
     phone: z.string().min(1, { message: t('this_field_is_required') }),
     deliveryAddress: z.string().min(1, { message: t('this_field_is_required') }),
     status: z.string().refine((val) => orderStatusValues.includes(val as OrderStatus), {
@@ -111,6 +112,7 @@ const OrderForm = (props: PropType) => {
     defaultValues: defaultValues
       ? {
           note: defaultValues.note as string | undefined,
+          fullName: defaultValues.fullName as string | undefined,
           phone: defaultValues.phone as string | undefined,
           deliveryAddress: defaultValues.deliveryAddress as string | undefined,
           status: defaultValues.status,
@@ -118,6 +120,7 @@ const OrderForm = (props: PropType) => {
         }
       : {
           note: '',
+          fullName: '',
           phone: '',
           deliveryAddress: '',
           status: OrderStatus.PENDING,
@@ -173,7 +176,32 @@ const OrderForm = (props: PropType) => {
       <Divider className='my-0' />
 
       <section className='grid grid-cols-1 md:grid-cols-[1fr_600px] gap-5'>
-        <div className='grid grid-cols-1 xl:grid-cols-2 gap-5'>
+        <div className='grid grid-cols-1 xl:grid-cols-2 gap-x-5 gap-y-8'>
+          <Controller
+            control={control}
+            name='fullName'
+            render={({ field }) => {
+              return (
+                <div className='w-full flex flex-col gap-2'>
+                  <Label title={t('auth.fullName')} required />
+
+                  <Input
+                    {...field}
+                    disabled={mode === 'detail'}
+                    placeholder={t('auth.fullName')}
+                    status={errors.fullName ? 'error' : ''}
+                  />
+
+                  {errors.fullName && (
+                    <Text type='danger' style={{ fontSize: 12 }}>
+                      {errors.fullName.message}
+                    </Text>
+                  )}
+                </div>
+              );
+            }}
+          />
+
           <Controller
             control={control}
             name='phone'

@@ -97,75 +97,79 @@ const DetailForm = (props: PropType) => {
 
         <Divider className='my-0' />
 
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10'>
-          <div className='flex flex-col gap-3'>
-            <Label title={t('order.code')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(data, 'orderCode', '')}</span>
-          </div>
+        <div className='grid grid-col-1 xl:grid-cols-[1fr_300px] gap-5'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10'>
+            <div className='flex flex-col gap-3'>
+              <Label title={t('order.code')} />
+              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'orderCode', '')}</span>
+            </div>
 
-          <div className='flex flex-col gap-3'>
-            <Label title={t('grand_total')} />
-            <span className='text-[0.85rem] text-zinc-700'>
-              {formatCurrency(get(data, 'totalAmount', 0))}
-            </span>
-          </div>
+            <div className='flex flex-col gap-3'>
+              <Label title={t('grand_total')} />
+              <span className='text-[0.85rem] text-zinc-700'>
+                {formatCurrency(get(data, 'totalAmount', 0))}
+              </span>
+            </div>
 
-          <div className='flex flex-col gap-3'>
-            <Label title={t('status')} />
-            <span className='text-[0.85rem] text-zinc-700'>
-              {t(`order.${get(data, 'status', '').toLowerCase()}`)}
-            </span>
-          </div>
+            <div className='flex flex-col gap-3'>
+              <Label title={t('status')} />
+              <span className='text-[0.85rem] text-zinc-700'>
+                {t(`order.${get(data, 'status', '').toLowerCase()}`)}
+              </span>
+            </div>
 
-          <div className='flex flex-col gap-3'>
-            <Label title={t('delivery_status')} />
-            <span className='text-[0.85rem] text-zinc-700'>
-              {t(`delivery.${get(data, 'deliveryStatus', '').toLowerCase()}`)}
-            </span>
-          </div>
+            <div className='flex flex-col gap-3'>
+              <Label title={t('delivery_status')} />
+              <span className='text-[0.85rem] text-zinc-700'>
+                {t(`delivery.${get(data, 'deliveryStatus', '').toLowerCase()}`)}
+              </span>
+            </div>
 
-          <div className='flex flex-col gap-3'>
-            <Label title={t('delivery_address')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(data, 'deliveryAddress', '')}</span>
-          </div>
+            <div className='flex flex-col gap-3'>
+              <Label title={t('order_at')} />
+              <span className='text-[0.85rem] text-zinc-700'>
+                {formatDateTime(get(data, 'createdAt', ''))}
+              </span>
+            </div>
 
-          <div className='flex flex-col gap-3'>
-            <Label title={t('auth.phone')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(data, 'phone', '')}</span>
+            <div className='flex flex-col gap-3'>
+              <Label title={t('updatedAt')} />
+              <span className='text-[0.85rem] text-zinc-700'>
+                {formatDateTime(get(data, 'updatedAt', ''))}
+              </span>
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <Label title={t('delivery_address')} />
+              <span className='text-[0.85rem] text-zinc-700'>
+                {get(data, 'deliveryAddress', '')}
+              </span>
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <Label title={t('auth.email')} />
+              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'user.email', '')}</span>
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <Label title={t('auth.phone')} />
+              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'phone', '')}</span>
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <Label title={t('auth.fullName')} />
+              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'fullName', '')}</span>
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <Label title={t('auth.address')} />
+              <span className='text-[0.85rem] text-zinc-700'>{get(data, 'user.address', '')}</span>
+            </div>
           </div>
 
           <div className='flex flex-col gap-3'>
             <Label title={t('note')} />
             <span className='text-[0.85rem] text-zinc-700'>{get(data, 'note', '')}</span>
-          </div>
-
-          <div className='flex flex-col gap-3'>
-            <Label title={t('order_at')} />
-            <span className='text-[0.85rem] text-zinc-700'>
-              {formatDateTime(get(data, 'createdAt', ''))}
-            </span>
-          </div>
-
-          <div className='flex flex-col gap-3'>
-            <Label title={t('updatedAt')} />
-            <span className='text-[0.85rem] text-zinc-700'>
-              {formatDateTime(get(data, 'updatedAt', ''))}
-            </span>
-          </div>
-
-          <div className='flex flex-col gap-3'>
-            <Label title={t('auth.fullName')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(data, 'user.fullName', '')}</span>
-          </div>
-
-          <div className='flex flex-col gap-3'>
-            <Label title={t('auth.email')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(data, 'user.email', '')}</span>
-          </div>
-
-          <div className='flex flex-col gap-3'>
-            <Label title={t('auth.address')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(data, 'user.address', '')}</span>
           </div>
         </div>
       </section>

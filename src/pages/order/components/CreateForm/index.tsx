@@ -187,6 +187,7 @@ const OrderCreateForm = (props: PropType) => {
         invalid_type_error: t('this_field_is_required'),
       }),
       note: z.string(),
+      fullName: z.string().min(1, { message: t('this_field_is_required') }),
       phone: z.string().min(1, { message: t('this_field_is_required') }),
       deliveryAddress: z.string().min(1, { message: t('this_field_is_required') }),
       status: z.string({
@@ -272,6 +273,7 @@ const OrderCreateForm = (props: PropType) => {
     defaultValues: {
       userId: undefined,
       note: '',
+      fullName: '',
       phone: '',
       deliveryAddress: '',
       status: undefined,
@@ -344,6 +346,7 @@ const OrderCreateForm = (props: PropType) => {
       userId: data.userId,
       amount: data.amount,
       method: data.method as PaymentMethod,
+      fullName: data.fullName,
       phone: data.phone,
       deliveryAddress: data.deliveryAddress,
       status: data.status as OrderStatus,
@@ -432,13 +435,19 @@ const OrderCreateForm = (props: PropType) => {
                       optionLabelProp='label' // QUAN TRỌNG
                       onSearch={(value) => setSearchKeyword(value)}
                       onChange={(value, option: any) => {
+                        console.log(option);
                         field.onChange(value);
+
+                        setValue('fullName', option.fullName || '');
+                        clearErrors('fullName');
+
                         setValue('phone', option.phone || '');
                         clearErrors('phone');
                       }}
                       onClear={() => {
                         field.onChange(undefined);
                         setSearchKeyword('');
+                        setValue('fullName', '');
                         setValue('phone', '');
                       }}
                       status={errors.userId ? 'error' : ''}
@@ -448,12 +457,14 @@ const OrderCreateForm = (props: PropType) => {
                         const name = get(item, 'label', '');
                         const avatar = get(item, 'avatar', '');
                         const email = get(item, 'email', '');
+                        const fullName = get(item, 'fullName', '');
                         const phone = get(item, 'phone', '');
 
                         return (
                           <Select.Option
                             key={value}
                             value={value}
+                            fullName={fullName}
                             phone={phone}
                             // Label CHỈ dùng khi đã chọn
                             label={
@@ -497,6 +508,30 @@ const OrderCreateForm = (props: PropType) => {
                     )}
                   </div>
                 )}
+              />
+
+              <Controller
+                control={control}
+                name='fullName'
+                render={({ field }) => {
+                  return (
+                    <div className='w-full flex flex-col gap-2'>
+                      <Label title={t('auth.fullName')} required />
+
+                      <Input
+                        {...field}
+                        placeholder={t('auth.fullName')}
+                        status={errors.fullName ? 'error' : ''}
+                      />
+
+                      {errors.fullName && (
+                        <Text type='danger' style={{ fontSize: 12 }}>
+                          {errors.fullName.message}
+                        </Text>
+                      )}
+                    </div>
+                  );
+                }}
               />
 
               <Controller

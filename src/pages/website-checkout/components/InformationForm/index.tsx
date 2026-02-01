@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { get } from 'lodash';
 import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
@@ -28,6 +29,9 @@ const InformationForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const [hoverCod, setHoverCod] = useState<boolean>(false);
+  const [hoverVnPay, setHoverVnPay] = useState<boolean>(false);
+
   const user = useSelector((state: RootState) => state.users.user);
   const total = useSelector((state: RootState) => state.carts.total);
   const carts = useSelector((state: RootState) => state.carts.items);
@@ -38,6 +42,7 @@ const InformationForm = () => {
   const FormSchema = z
     .object({
       userId: z.string().min(1, { message: t('this_field_is_required') }),
+      fullName: z.string().min(1, { message: t('this_field_is_required') }),
       phone: z.string().min(1, { message: t('this_field_is_required') }),
       deliveryAddress: z.string().min(1, { message: t('this_field_is_required') }),
       note: z.string(),
@@ -67,6 +72,7 @@ const InformationForm = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       userId: user?.id,
+      fullName: user?.fullName ?? '',
       phone: user?.phone ?? '',
       deliveryAddress: user?.address ?? '',
       note: '',
@@ -81,6 +87,7 @@ const InformationForm = () => {
 
     const payload: OrderPayload = {
       userId: data.userId,
+      fullName: data.fullName,
       phone: data.phone,
       deliveryAddress: data.deliveryAddress,
       note: data.note,
@@ -156,22 +163,34 @@ const InformationForm = () => {
       >
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
           <div className='w-full flex flex-col gap-2'>
-            <Label title={t('auth.fullName')} />
-
-            <span className='text-zinc-700'>{get(user, 'fullName', '')}</span>
-          </div>
-
-          <div className='w-full flex flex-col gap-2'>
             <Label title={t('auth.email')} />
 
             <span className='text-zinc-700'>{get(user, 'email', '')}</span>
           </div>
 
-          <div className='w-full flex flex-col gap-2'>
-            <Label title={t('auth.address')} />
+          <Controller
+            control={control}
+            name='fullName'
+            render={({ field }) => {
+              return (
+                <div className='w-full flex flex-col gap-2'>
+                  <Label title={t('auth.fullName')} required />
 
-            <span className='text-zinc-700'>{get(user, 'address', '')}</span>
-          </div>
+                  <Input
+                    {...field}
+                    placeholder={t('auth.fullName')}
+                    status={errors.fullName ? 'error' : ''}
+                  />
+
+                  {errors.fullName && (
+                    <Text type='danger' style={{ fontSize: 12 }}>
+                      {errors.fullName.message}
+                    </Text>
+                  )}
+                </div>
+              );
+            }}
+          />
 
           <Controller
             control={control}
@@ -202,7 +221,7 @@ const InformationForm = () => {
             name='deliveryAddress'
             render={({ field }) => {
               return (
-                <div className='w-full flex flex-col gap-2 col-span-full'>
+                <div className='w-full flex flex-col gap-2'>
                   <Label title={t('delivery_address')} required />
 
                   <Input
@@ -233,7 +252,7 @@ const InformationForm = () => {
                     {...field}
                     placeholder={t('note')}
                     status={errors.note ? 'error' : ''}
-                    rows={8}
+                    rows={5}
                   />
 
                   {errors.note && (
@@ -258,18 +277,6 @@ const InformationForm = () => {
         }}
       >
         <div className='w-full min-h-full flex flex-col gap-5'>
-          <div className='flex flex-col gap-5'>
-            <div className='grid grid-cols-2 gap-5'>
-              <span
-                style={{ color: config?.websitePrimaryColor }}
-                className='text-[1.05rem] font-bold'
-              >
-                {t('grand_total')}
-              </span>
-              <span className='text-[1.05rem] text-zinc-700'>{formatCurrency(total)}</span>
-            </div>
-          </div>
-
           <Controller
             control={control}
             name='paymentMethod'
@@ -287,18 +294,20 @@ const InformationForm = () => {
                     <div
                       style={{
                         border:
-                          paymentMethod === PaymentMethod.COD
+                          paymentMethod === PaymentMethod.COD || hoverCod
                             ? `1px solid ${config?.websitePrimaryColor}`
                             : '1px solid transparent',
                       }}
-                      className='rounded-md p-4 transition-colors border border-solid hover:!border-zinc-300'
+                      className='rounded-md transition-colors'
                       onClick={() => {
                         setValue('paymentMethod', PaymentMethod.COD);
                         clearErrors('paymentMethod');
                       }}
+                      onMouseEnter={() => setHoverCod(true)}
+                      onMouseLeave={() => setHoverCod(false)}
                     >
-                      <Radio value={PaymentMethod.COD} className='flex items-center gap-3'>
-                        <div className='my-auto grid grid-cols-[30px_1fr] gap-3'>
+                      <Radio value={PaymentMethod.COD} className='p-4 flex items-center gap-3'>
+                        <div className='my-auto grid grid-cols-[30px_1fr] items-center gap-3'>
                           <FaTruck size={30} />
                           <span className='text-[0.8rem] text-zinc-700'>
                             {t('order.cod_payment')}
@@ -310,18 +319,20 @@ const InformationForm = () => {
                     <div
                       style={{
                         border:
-                          paymentMethod === PaymentMethod.VNPAY
+                          paymentMethod === PaymentMethod.VNPAY || hoverVnPay
                             ? `1px solid ${config?.websitePrimaryColor}`
                             : '1px solid transparent',
                       }}
-                      className='rounded-md p-4 transition-colors border border-solid hover:!border-zinc-300'
+                      className='rounded-md transition-colors'
                       onClick={() => {
                         setValue('paymentMethod', PaymentMethod.VNPAY);
                         clearErrors('paymentMethod');
                       }}
+                      onMouseEnter={() => setHoverVnPay(true)}
+                      onMouseLeave={() => setHoverVnPay(false)}
                     >
-                      <Radio value={PaymentMethod.VNPAY} className='flex items-center gap-3'>
-                        <div className='my-auto grid grid-cols-[30px_1fr] gap-3'>
+                      <Radio value={PaymentMethod.VNPAY} className='p-4 flex items-center gap-3'>
+                        <div className='my-auto grid grid-cols-[30px_1fr] items-center gap-3'>
                           <img
                             className='w-[30px]'
                             src='/assets/icons/icon-vnpay.png'
@@ -344,6 +355,18 @@ const InformationForm = () => {
               );
             }}
           />
+
+          <div className='flex flex-col gap-5'>
+            <div className='grid grid-cols-2 gap-5'>
+              <span
+                style={{ color: config?.websitePrimaryColor }}
+                className='text-[1.05rem] font-bold'
+              >
+                {t('grand_total')}
+              </span>
+              <span className='text-[1.05rem] text-zinc-700'>{formatCurrency(total)}</span>
+            </div>
+          </div>
 
           <Button
             disabled={carts?.length === 0}

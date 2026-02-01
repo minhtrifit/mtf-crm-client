@@ -120,7 +120,7 @@ const DetailModal = (props: PropType) => {
           {t('detail')} {t('breadcrumb.order')}
         </span>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
           <div className='flex flex-col gap-3'>
             <Label title={t('order.code')} />
             <span className='text-[0.85rem] text-zinc-700'>{get(order, 'orderCode', '')}</span>
@@ -148,32 +148,10 @@ const DetailModal = (props: PropType) => {
           </div>
 
           <div className='flex flex-col gap-3'>
-            <Label title={t('delivery_address')} />
-            <span className='text-[0.85rem] text-zinc-700'>
-              {get(order, 'deliveryAddress', '')}
-            </span>
-          </div>
-
-          <div className='flex flex-col gap-3'>
-            <Label title={t('auth.phone')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(order, 'phone', '')}</span>
-          </div>
-
-          <div className='flex flex-col gap-3'>
-            <Label title={t('note')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(order, 'note', '')}</span>
-          </div>
-
-          <div className='flex flex-col gap-3'>
             <Label title={t('order_at')} />
             <span className='text-[0.85rem] text-zinc-700'>
               {formatDateTime(get(order, 'createdAt', ''))}
             </span>
-          </div>
-
-          <div className='flex flex-col gap-3'>
-            <Label title={t('auth.fullName')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(order, 'user.fullName', '')}</span>
           </div>
 
           <div className='flex flex-col gap-3'>
@@ -182,13 +160,25 @@ const DetailModal = (props: PropType) => {
           </div>
 
           <div className='flex flex-col gap-3'>
-            <Label title={t('auth.phone')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(order, 'user.phone', '')}</span>
+            <Label title={t('delivery_address')} />
+            <span className='text-[0.85rem] text-zinc-700'>
+              {get(order, 'deliveryAddress', '')}
+            </span>
           </div>
 
           <div className='flex flex-col gap-3'>
-            <Label title={t('auth.address')} />
-            <span className='text-[0.85rem] text-zinc-700'>{get(order, 'user.address', '')}</span>
+            <Label title={t('auth.fullName')} />
+            <span className='text-[0.85rem] text-zinc-700'>{get(order, 'fullName', '')}</span>
+          </div>
+
+          <div className='flex flex-col gap-3'>
+            <Label title={t('auth.phone')} />
+            <span className='text-[0.85rem] text-zinc-700'>{get(order, 'phone', '')}</span>
+          </div>
+
+          <div className='flex flex-col gap-3 col-span-full'>
+            <Label title={t('note')} />
+            <span className='text-[0.85rem] text-zinc-700'>{get(order, 'note', '')}</span>
           </div>
         </div>
 
