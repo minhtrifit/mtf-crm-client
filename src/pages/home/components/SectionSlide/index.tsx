@@ -7,9 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import { useScreenWidth } from '@/hooks/useScreenWidth';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { SectionType } from '@/types/website_template';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { Product } from '@/types/product';
 import ProductCard from '@/components/ui/ProductCard/ProductCard';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 const NextArrow = ({ onClick }: any) => (
   <button
@@ -98,13 +98,13 @@ const SectionSlide = (props: PropType) => {
   return (
     <div className='w-full flex flex-col gap-5'>
       <div className='w-full flex flex-wrap items-center justify-between gap-5'>
-        <h3 style={{ color: config?.websitePrimaryColor }} className='text-[1.5rem]'>
+        <h3 style={{ color: config?.websitePrimaryColor }} className='text-[1rem] md:text-[1.5rem]'>
           {get(section, 'title', '')}
         </h3>
 
         <span
           style={{ color: config?.websitePrimaryColor }}
-          className='text-[0.9rem] font-semibold hover:cursor-pointer hover:underline'
+          className='text-[0.8rem] md:text-[0.9rem] font-semibold hover:cursor-pointer hover:underline'
           onClick={handleViewAllProducts}
         >
           {t('view_all')}

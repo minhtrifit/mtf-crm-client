@@ -271,6 +271,7 @@
     "comment": "Bình luận",
     "rate": "Đánh giá",
     "delete": "Xóa đánh giá",
-    "delete_confirm": "Bạn có chắc muốn xóa đánh giá này?"
+    "delete_confirm": "Bạn có chắc muốn xóa đánh giá này?",
+    "customer_review": "Đánh Giá Của Khách Hàng"
   }
 }

@@ -1,0 +1,12 @@
+.review__slide__wrapper {
+  position: relative;
+
+  :global(.slick-dots) {
+    position: absolute;
+    bottom: -50px;
+  }
+
+  :global(.slick-dots li.slick-active div) {
+    background-color: var(--primary-color);
+  }
+}

@@ -58,6 +58,7 @@ export interface CommentType {
   createdAt: string;
   userId: string;
   user: UserType;
+  product: Product;
 }
 
 export interface ProductReview {

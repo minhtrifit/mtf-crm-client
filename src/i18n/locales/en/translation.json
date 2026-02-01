@@ -271,6 +271,7 @@
     "comment": "Comment",
     "rate": "Rate",
     "delete": "Delete review",
-    "delete_confirm": "Are you sure to delete this review?"
+    "delete_confirm": "Are you sure to delete this review?",
+    "customer_review": "Customer Review"
   }
 }

@@ -54,7 +54,7 @@ const CategoryMenuMobile = (props: PropType) => {
     infinite: true,
     speed: 500,
     slidesToShow: getSlidesToShow(screenWidth),
-    slidesToScroll: 3,
+    slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
     customPaging: () => (
