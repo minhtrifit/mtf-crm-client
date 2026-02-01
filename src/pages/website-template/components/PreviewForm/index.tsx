@@ -78,7 +78,7 @@ const PreviewForm = (props: PropType) => {
   };
 
   return (
-    <div className='relative flex flex-col gap-5 bg-[#FFF] rounded-sm'>
+    <div className='relative flex flex-col gap-5 bg-[#f5f5fa] border-[1px] border-solid border-[#e5e7eb] rounded-sm'>
       <header
         style={{ background: primaryColor }}
         className='absolute w-full top-0 p-2 rounded-t-sm'

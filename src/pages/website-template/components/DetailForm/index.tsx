@@ -153,7 +153,7 @@ const DetailForm = (props: PropType) => {
         </Button>
       </div>
 
-      <div className='w-full flex flex-col gap-8 bg-[#FFF]'>
+      <div className='w-full flex flex-col gap-8 bg-[#f5f5fa] border-[1px] border-solid border-[#e5e7eb]'>
         <header style={{ background: get(template, 'primaryColor', '') }} className='w-full p-2'>
           <div className='w-full max-w-[80%] mx-auto flex items-center justify-between gap-5'>
             {get(template, 'logoUrl', '') ? (

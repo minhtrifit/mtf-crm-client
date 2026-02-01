@@ -18,7 +18,7 @@ export default function AuthLayout() {
   return (
     <WebsiteAntdProvider>
       <WebsiteAuthProvider>
-        <Content className='bg-[#FFF] transition duration-500 ease-in-out w-full min-h-screen flex flex-col'>
+        <Content className='bg-[#f5f5fa] transition duration-500 ease-in-out w-full min-h-screen flex flex-col'>
           <AuthHeader />
           <Outlet />
         </Content>

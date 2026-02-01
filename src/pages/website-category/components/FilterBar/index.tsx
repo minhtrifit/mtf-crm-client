@@ -17,10 +17,9 @@ const FilterBar = (props: PropType) => {
   const { t } = useTranslation();
 
   return (
-    <section
-      className='block__container w-full flex flex-wrap items-end justify-between gap-3
-                  border border-solid border-zinc-100'
-    >
+    <section className='block__container w-full flex flex-col gap-5 border border-solid border-zinc-100'>
+      <h3 className='text-[1rem]'>{t('all_products')}</h3>
+
       <form
         onSubmit={(e) => {
           handleApplyFilter(e);
@@ -28,7 +27,7 @@ const FilterBar = (props: PropType) => {
         className='flex flex-wrap items-end gap-3'
       >
         <div className='flex flex-col gap-3'>
-          <Label title={t('product.name')} />
+          <span className='text-[0.85em] text-zinc-500'>{t('product.name')}</span>
           <Input
             style={{ width: 300 }}
             placeholder={t('product.showcase_name_placeholder')}

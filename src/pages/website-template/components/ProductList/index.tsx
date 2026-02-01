@@ -216,6 +216,7 @@ export const ProductList = ({ sectionIndex }: Props) => {
                               shape='square'
                               src={get(field, 'product.imagesUrl[0]', '')}
                               icon={<MdCategory />}
+                              className='shrink-0'
                             />
 
                             <div className='flex flex-col gap-3'>

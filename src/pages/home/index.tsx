@@ -5,6 +5,7 @@ import { useGetShowcaseCategory } from './hooks/useGetShowcaseCategory';
 import { useGetTemplateSections } from './hooks/useGetTemplateSections';
 import { SectionSkeleton } from './components/Skeleton';
 import CategoryMenu from './components/CategoryMenu';
+import CategoryMenuMobile from './components/CategoryMenuMobile';
 import BannerSlide from './components/BannerSlide';
 import SectionSlide from './components/SectionSlide';
 
@@ -26,6 +27,8 @@ const HomePage = () => {
             <BannerSlide />
           </div>
         </section>
+
+        {isMobile && <CategoryMenuMobile loading={categoriesLoading} data={categories} />}
 
         <section className='w-full max-w-full flex flex-col gap-10'>
           {sectionsLoading && <SectionSkeleton />}

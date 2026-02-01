@@ -145,6 +145,7 @@
   "what_find": "Bạn muốn tìm gì?",
   "no_search_result": "Không có kết quả tìm kiếm",
   "search_result_for_keyword": "Kết quả tìm kiếm cho '{{ keyword }}'",
+  "all_products": "Tất cả sản phẩm",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",

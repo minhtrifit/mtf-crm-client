@@ -58,7 +58,7 @@ export default function WebsiteLayout() {
         <MenuDrawer open={isOpenMenuDrawer} onClose={handleCloseMenuDrawer} />
         <CartDrawer open={isOpenCartModal} onClose={handleCloseCartModal} />
 
-        <Content className='bg-[#FFF] transition duration-500 ease-in-out w-full min-h-screen flex flex-col'>
+        <Content className='bg-[#f5f5fa] transition duration-500 ease-in-out w-full min-h-screen flex flex-col'>
           <Header />
           <Outlet />
           {isMobile && (

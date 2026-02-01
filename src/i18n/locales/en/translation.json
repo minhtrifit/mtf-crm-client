@@ -145,6 +145,7 @@
   "what_find": "What do you want to find?",
   "no_search_result": "No search result",
   "search_result_for_keyword": "Search results for '{{ keyword }}'",
+  "all_products": "All products",
   "category": {
     "default": "Category",
     "name": "Category Name",
