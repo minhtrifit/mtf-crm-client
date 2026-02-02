@@ -113,3 +113,14 @@ export const formatRelativeTime = (
 
   return dayjs(time).locale(lang).fromNow();
 };
+
+export const truncateEditorText = (html: string, maxLength = 100) => {
+  if (!html) return '';
+
+  const text = html
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+};

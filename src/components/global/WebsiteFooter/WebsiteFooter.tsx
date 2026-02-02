@@ -7,6 +7,8 @@ import { FiShoppingBag } from 'react-icons/fi';
 import { FaPhone } from 'react-icons/fa6';
 import { MdEmail } from 'react-icons/md';
 import { FaTruck } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { WEBSITE_ROUTE } from '@/routes/route.constant';
 
 const WebsiteFooter = () => {
   const { config } = useAppConfig();
@@ -29,7 +31,7 @@ const WebsiteFooter = () => {
   return (
     <footer style={{ background: config?.websitePrimaryColor }} className='w-full text-[#FFF]'>
       <div className='max-w-[1200px] mx-auto px-[20px] pt-[50px] pb-[20px] flex flex-col gap-5'>
-        <div className='grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 gap-10'>
+        <div className='grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 gap-5'>
           <div className='flex flex-col items-start gap-8'>
             {get(config, 'logo', '') === '' ? (
               <div
@@ -75,7 +77,19 @@ const WebsiteFooter = () => {
             </div>
           </div>
 
-          <div className='flex flex-col items-start gap-8'>
+          <div className='flex flex-col items-start gap-5'>
+            <h4 className='font-medium'>{t('customer_support')}</h4>
+            <div className='flex flex-col gap-5'>
+              <Link
+                to={WEBSITE_ROUTE.FAQ}
+                className='text-[#FFF] hover:text-[#FFF] underline-offset-1 hover:underline'
+              >
+                <span className='text-[0.9rem]'>{t('faq.default')}</span>
+              </Link>
+            </div>
+          </div>
+
+          <div className='flex flex-col items-start gap-5'>
             <h4 className='font-medium'>{t('payment.method')}</h4>
             <div className='grid grid-cols-4 items-center gap-5'>
               {PAYMENTS.map((p) => (

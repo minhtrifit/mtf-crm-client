@@ -17,6 +17,7 @@ import DetailWebsiteTemplatePage from '@/pages/website-template/pages/detail';
 import UserListPage from '@/pages/user/pages/list';
 import PaymentListPage from '@/pages/payment/pages/list';
 import ReviewListPage from '@/pages/review/page/list';
+import FaqListPage from '@/pages/faq/pages/list';
 
 export const adminRoutes = {
   path: '/admin',
@@ -87,6 +88,15 @@ export const adminRoutes = {
         { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_ADD, element: <CreateWebsiteTemplatePage /> },
         { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_DETAIL, element: <DetailWebsiteTemplatePage /> },
         { path: ADMIN_ROUTE.WEBSITE_TEMPLATE_EDIT, element: <EditWebsiteTemplatePage /> },
+      ],
+    },
+    {
+      path: ADMIN_ROUTE.FAQ,
+      children: [
+        { index: true, element: <FaqListPage /> },
+        { path: ADMIN_ROUTE.FAQ_ADD, element: <div>Faq add page</div> },
+        { path: ADMIN_ROUTE.FAQ_DETAIL, element: <div>Faq detail page</div> },
+        { path: ADMIN_ROUTE.FAQ_EDIT, element: <div>Faq edit page</div> },
       ],
     },
   ],

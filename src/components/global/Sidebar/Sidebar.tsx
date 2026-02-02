@@ -13,8 +13,10 @@ import { MdCategory } from 'react-icons/md';
 import { HiUsers, HiTemplate } from 'react-icons/hi';
 import { LuUserCog } from 'react-icons/lu';
 import { RiMoneyDollarCircleFill } from 'react-icons/ri';
+import { GrConfigure } from 'react-icons/gr';
 
 import styles from './styles.module.scss';
+import { FaQuestionCircle } from 'react-icons/fa';
 
 const { Sider } = Layout;
 
@@ -95,9 +97,21 @@ const Sidebar = (props: PropType) => {
       ],
     },
     {
-      key: '/admin/website-template',
-      icon: <HiTemplate size={20} />,
-      label: t('breadcrumb.website-template'),
+      key: '/config',
+      icon: <GrConfigure size={20} />,
+      label: t('breadcrumb.config'),
+      children: [
+        {
+          key: '/admin/website-template',
+          icon: <HiTemplate size={20} />,
+          label: t('breadcrumb.website-template'),
+        },
+        {
+          key: '/admin/faq',
+          icon: <FaQuestionCircle size={20} />,
+          label: 'FAQ',
+        },
+      ],
     },
   ];
 

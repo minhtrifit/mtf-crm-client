@@ -53,6 +53,8 @@
     "user": "User",
     "payment": "Payment",
     "review": "Review",
+    "config": "Config",
+    "faq": "FAQ",
     "website-template": "Website Template"
   },
   "add": "Add new",
@@ -146,6 +148,8 @@
   "no_search_result": "No search result",
   "search_result_for_keyword": "Search results for '{{ keyword }}'",
   "all_products": "All products",
+  "delete": "Delete",
+  "customer_support": "Customer support",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -273,5 +277,12 @@
     "delete": "Delete review",
     "delete_confirm": "Are you sure to delete this review?",
     "customer_review": "Customer Review"
+  },
+  "faq": {
+    "default": "Frequently asked questions",
+    "title": "Title",
+    "content": "Content",
+    "name_placeholder": "Search by title",
+    "delete_confirm": "Are you sure to delete this FAQ?"
   }
 }

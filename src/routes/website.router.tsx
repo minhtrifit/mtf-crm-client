@@ -9,6 +9,7 @@ import ProfileLayout from '@/pages/profile/pages/layout';
 import UserProfilePage from '@/pages/profile/pages/profile';
 import UserOrderPage from '@/pages/profile/pages/orders';
 import WebsiteSearchPage from '@/pages/website-search/list';
+import WebsiteFaqPage from '@/pages/website-faq/pages';
 
 export const websiteRoutes = {
   path: '/',
@@ -45,6 +46,10 @@ export const websiteRoutes = {
         { index: true, element: <UserProfilePage /> },
         { path: WEBSITE_ROUTE.ORDERS, element: <UserOrderPage /> },
       ],
+    },
+    {
+      path: WEBSITE_ROUTE.FAQ,
+      element: <WebsiteFaqPage />,
     },
   ],
 };

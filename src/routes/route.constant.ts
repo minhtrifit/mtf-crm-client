@@ -10,6 +10,7 @@ export const WEBSITE_ROUTE = {
   PROFILE: '/ho-so',
   ORDERS: '/ho-so/don-hang',
   SEARCH: '/tim-kiem',
+  FAQ: '/cau-hoi-thuong-gap',
 };
 
 export const ADMIN_ROUTE = {
@@ -49,4 +50,9 @@ export const ADMIN_ROUTE = {
   WEBSITE_TEMPLATE_ADD: 'add',
   WEBSITE_TEMPLATE_DETAIL: 'detail/:id',
   WEBSITE_TEMPLATE_EDIT: 'edit/:id',
+
+  FAQ: 'faq',
+  FAQ_ADD: 'add',
+  FAQ_DETAIL: 'detail/:id',
+  FAQ_EDIT: 'edit/:id',
 };
