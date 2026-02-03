@@ -45,6 +45,9 @@ const BannerSlide = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
+    draggable: false,
+    swipe: false,
+    touchMove: false,
     appendDots: (dots: React.ReactNode) => (
       <div>
         <ul className='flex justify-center gap-3'>{dots}</ul>

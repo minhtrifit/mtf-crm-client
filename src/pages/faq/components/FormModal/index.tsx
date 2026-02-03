@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { get } from 'lodash';
 import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -7,8 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { Faq } from '@/types/faq';
 import Label from '@/components/ui/Label/Label';
 import { TextEditor } from '@/components/ui/TextEditor/TextEditor';
+import RenderHtmlContent from '@/components/ui/RenderHtmlContent';
 import { LuSend } from 'react-icons/lu';
-import { get } from 'lodash';
 
 const { Text } = Typography;
 
@@ -123,12 +124,7 @@ const FormModal = (props: PropType) => {
           />
         )}
 
-        {mode === 'detail' && (
-          <div
-            className='editor-content'
-            dangerouslySetInnerHTML={{ __html: get(defaultValues, 'content', '') }}
-          />
-        )}
+        {mode === 'detail' && <RenderHtmlContent content={get(defaultValues, 'content', '')} />}
 
         {mode !== 'detail' && (
           <Controller

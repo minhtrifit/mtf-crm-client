@@ -5,6 +5,7 @@ import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useTranslation } from 'react-i18next';
 import { useGetShowcaseFaq } from '../hooks/useShowcase';
 import Error from '@/components/ui/Error/Error';
+import RenderHtmlContent from '@/components/ui/RenderHtmlContent';
 
 const WebsiteFaqPage = () => {
   const { config } = useAppConfig();
@@ -21,10 +22,7 @@ const WebsiteFaqPage = () => {
         label: get(faq, 'title', ''),
         children: (
           <div className='p-1'>
-            <div
-              className='editor-content'
-              dangerouslySetInnerHTML={{ __html: get(faq, 'content', '') }}
-            />
+            <RenderHtmlContent content={get(faq, 'content', '')} />
           </div>
         ),
       };

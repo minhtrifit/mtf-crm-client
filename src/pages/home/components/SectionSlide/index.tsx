@@ -64,6 +64,9 @@ const SectionSlide = (props: PropType) => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
+    draggable: false,
+    swipe: false,
+    touchMove: false,
     customPaging: () => (
       <div className='w-3 h-3 rounded-full bg-zinc-300 hover:bg-white transition' />
     ),
