@@ -205,7 +205,7 @@ export const ProductList = ({ sectionIndex }: Props) => {
                           {/* DRAG HANDLE */}
                           <div
                             {...provided.dragHandleProps}
-                            className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
+                            className='cursor-move bg-gray-100 rounded-sm flex items-center justify-center py-1'
                           >
                             <MdDragHandle size={20} />
                           </div>

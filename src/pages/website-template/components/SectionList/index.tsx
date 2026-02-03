@@ -5,7 +5,7 @@ import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { ProductList } from '../ProductList';
 import Label from '@/components/ui/Label/Label';
 import { GoPlusCircle } from 'react-icons/go';
-import { MdDragHandle } from 'react-icons/md';
+import { MdDragIndicator } from 'react-icons/md';
 
 const { Text } = Typography;
 
@@ -25,6 +25,7 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
       <Button
         type='primary'
         htmlType='button'
+        className='mr-auto'
         icon={<GoPlusCircle size={20} />}
         onClick={() =>
           append({
@@ -68,54 +69,55 @@ export const SectionList = ({ sectionFieldArray }: Props) => {
                         ...style,
                         transform,
                       }}
-                      className='p-3 mb-2 flex flex-col gap-5 bg-[#FFF]
-                                border-[1px] border-solid border-zinc-100 shadow-md'
+                      className='px-2 py-3 mb-2 flex gap-3 bg-[#FFF] border-[1px] border-solid border-zinc-100 shadow-md'
                     >
                       {/* DRAG HANDLE */}
                       <div
                         {...provided.dragHandleProps}
-                        className='cursor-move bg-gray-200 rounded-md flex items-center justify-center py-1'
+                        className='cursor-move bg-gray-100 rounded-sm flex items-center justify-center'
                       >
-                        <MdDragHandle size={20} />
+                        <MdDragIndicator size={20} />
                       </div>
 
                       {/* <Controller
-                      control={control}
-                      name={`sections.${index}.title`}
-                      render={({ field, fieldState }) => {
-                        return (
-                          <div className='w-full flex flex-col gap-2'>
-                            <Label title={t('website_template.section_name')} required />
+                        control={control}
+                        name={`sections.${index}.title`}
+                        render={({ field, fieldState }) => {
+                          return (
+                            <div className='w-full flex flex-col gap-2'>
+                              <Label title={t('website_template.section_name')} required />
 
-                            <Input
-                              {...field}
-                              placeholder={t('website_template.section_name')}
-                              status={fieldState.error ? 'error' : ''}
-                            />
+                              <Input
+                                {...field}
+                                placeholder={t('website_template.section_name')}
+                                status={fieldState.error ? 'error' : ''}
+                              />
 
-                            {fieldState.error && (
-                              <Text type='danger' style={{ fontSize: 12 }}>
-                                {fieldState.error.message}
-                              </Text>
-                            )}
-                          </div>
-                        );
-                      }}
-                    /> */}
+                              {fieldState.error && (
+                                <Text type='danger' style={{ fontSize: 12 }}>
+                                  {fieldState.error.message}
+                                </Text>
+                              )}
+                            </div>
+                          );
+                        }}
+                      /> */}
 
-                      <ProductList sectionIndex={index} />
+                      <div className='w-full flex flex-col gap-1'>
+                        <Popconfirm
+                          title={t('confirm')}
+                          description={t('website_template.remove_section_confirm')}
+                          onConfirm={() => remove(index)}
+                          okText={t('yes')}
+                          cancelText={t('cancel')}
+                        >
+                          <Button danger type='primary' htmlType='button' className='ml-auto'>
+                            {t('website_template.remove_section')}
+                          </Button>
+                        </Popconfirm>
 
-                      <Popconfirm
-                        title={t('confirm')}
-                        description={t('website_template.remove_section_confirm')}
-                        onConfirm={() => remove(index)}
-                        okText={t('yes')}
-                        cancelText={t('cancel')}
-                      >
-                        <Button danger type='primary' htmlType='button' className='ml-auto'>
-                          {t('website_template.remove_section')}
-                        </Button>
-                      </Popconfirm>
+                        <ProductList sectionIndex={index} />
+                      </div>
                     </div>
                   );
                 }}

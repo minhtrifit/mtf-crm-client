@@ -1,15 +1,15 @@
 .container {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: start;
-  gap: 1.25rem; // gap-5 = 20px = 1.25rem
+  // display: grid;
+  // grid-template-columns: 1fr;
+  // align-items: start;
+  // gap: 1.25rem; // gap-5 = 20px = 1.25rem
 
-  @media (min-width: 1280px) {
-    grid-template-columns: 1fr 400px;
-  }
+  // @media (min-width: 1280px) {
+  //   grid-template-columns: 1fr 400px;
+  // }
 
-  @media (min-width: 1600px) {
-    grid-template-columns: 1fr 450px;
-  }
+  // @media (min-width: 1600px) {
+  //   grid-template-columns: 1fr 450px;
+  // }
 }

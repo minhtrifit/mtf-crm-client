@@ -150,6 +150,7 @@
   "all_products": "Tất cả sản phẩm",
   "delete": "Xóa",
   "customer_support": "Hỗ trợ khách hàng",
+  "contact_us": "Kết nối với chúng tôi",
   "category": {
     "default": "Danh mục",
     "name": "Tên danh mục",
@@ -260,7 +261,11 @@
     "remove_section_confirm": "Bạn có chắc muốn xóa section này?",
     "general_information": "Thông tin chung",
     "section_content": "Nội dung section",
-    "footer_description": "Nội dung chân trang"
+    "footer_description": "Nội dung chân trang",
+    "media": "Liên kết mạng xã hội",
+    "add_media": "Thêm liên kết",
+    "preview": "Xem website",
+    "apply_template": "Áp dụng mẫu thiết kế này"
   },
   "rate": {
     "five_star": "5 sao",

@@ -103,7 +103,7 @@ const DataTable = (props: PropType) => {
               <Popconfirm
                 title={t('confirm')}
                 disabled={get(record, 'isActive', false)}
-                description={t('website_template.update_status')}
+                description={t('website_template.apply_template')}
                 onConfirm={() => {
                   handleActionItem('status', {
                     id: get(record, 'id', null),
@@ -132,7 +132,7 @@ const DataTable = (props: PropType) => {
           render={(_, record) => {
             return (
               <div className='flex items-center gap-2'>
-                <Tooltip title={t('detail')}>
+                <Tooltip title={t('website_template.preview')}>
                   <Button
                     color='primary'
                     variant='solid'

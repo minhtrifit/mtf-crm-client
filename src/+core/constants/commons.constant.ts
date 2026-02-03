@@ -62,3 +62,10 @@ export enum VnPayResponseCode {
   FAILED_UNKNOWN_ERROR = '99',
   // Các lỗi khác (lỗi còn lại, không có trong danh sách mã lỗi đã liệt kê)
 }
+export enum MediaType {
+  FACEBOOK = 'FACEBOOK',
+  INSTAGRAM = 'INSTAGRAM',
+  YOUTUBE = 'YOUTUBE',
+  ZALO = 'ZALO',
+  TELEGRAM = 'TELEGRAM',
+}

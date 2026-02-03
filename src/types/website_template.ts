@@ -1,4 +1,5 @@
 import { Product } from './product';
+import { MediaType } from '@/+core/constants/commons.constant';
 
 export interface SectionItemType {
   id: string;
@@ -14,6 +15,12 @@ export interface SectionType {
   items: SectionItemType[];
 }
 
+export interface TemplateMediaType {
+  id: string;
+  type: MediaType;
+  url: string;
+}
+
 export interface WebsiteTemplate {
   id: string;
   name: string;
@@ -24,6 +31,7 @@ export interface WebsiteTemplate {
   phone: string;
   footerDescription: string;
   isActibe: boolean;
+  medias: TemplateMediaType[];
   sections: SectionType[];
 }
 

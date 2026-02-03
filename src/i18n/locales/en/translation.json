@@ -150,6 +150,7 @@
   "all_products": "All products",
   "delete": "Delete",
   "customer_support": "Customer support",
+  "contact_us": "Contact us",
   "category": {
     "default": "Category",
     "name": "Category Name",
@@ -260,7 +261,11 @@
     "remove_section_confirm": "Are you sure to remove this section?",
     "general_information": "General Information",
     "section_content": "Section content",
-    "footer_description": "Footer description"
+    "footer_description": "Footer description",
+    "media": "Social media",
+    "add_media": "Add media",
+    "preview": "Website preview",
+    "apply_template": "Apply this template"
   },
   "rate": {
     "five_star": "5 star",
