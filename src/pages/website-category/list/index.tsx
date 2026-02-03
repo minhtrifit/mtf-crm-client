@@ -13,6 +13,7 @@ import { TitleSkelelon } from '../components/Skeleton';
 import { ProductListSkeleton } from '@/components/ui/Skeleton';
 import ProductList from '@/components/ui/ProductList';
 import FilterBar from '../components/FilterBar';
+import CategoryList from '../components/CategoryList';
 
 export interface FilterType {
   page: number;
@@ -31,7 +32,11 @@ const WebsiteCategoryPage = () => {
 
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
 
-  const { data: category, loading: categoryLoading } = useDetailCategory(slug);
+  const {
+    data: category,
+    loading: categoryLoading,
+    fetchData: fetchCategory,
+  } = useDetailCategory(slug);
   const {
     data,
     loading,
@@ -140,6 +145,8 @@ const WebsiteCategoryPage = () => {
             </div>
           )}
         </section>
+
+        <CategoryList />
 
         <FilterBar
           filter={filter}

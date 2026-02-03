@@ -151,6 +151,7 @@
   "delete": "Delete",
   "customer_support": "Customer support",
   "contact_us": "Contact us",
+  "explore_by_category": "Explore by category",
   "category": {
     "default": "Category",
     "name": "Category Name",

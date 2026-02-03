@@ -30,7 +30,7 @@ export const useDetailCategory = (slug: string) => {
 
   useEffect(() => {
     fetchData(slug);
-  }, []);
+  }, [slug]);
 
   return {
     data,

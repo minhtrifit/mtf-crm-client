@@ -220,7 +220,7 @@ export const ProductList = ({ sectionIndex }: Props) => {
                             />
 
                             <div className='flex flex-col gap-3'>
-                              <span className='min-h-[30px] text-[0.8rem] text-zinc-700'>
+                              <span className='h-[60px] line-clamp-3 text-[0.8rem] text-zinc-700'>
                                 {get(field, 'product.name', '')}
                               </span>
 

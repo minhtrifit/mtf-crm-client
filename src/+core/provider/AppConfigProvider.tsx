@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import websiteTemplateApi from '../api/website_template.api';
+import { TemplateMediaType } from '@/types/website_template';
 
 export interface AppConfig {
   templateId: string;
@@ -9,6 +10,7 @@ export interface AppConfig {
   email: string;
   phone: string;
   footerDescription: string;
+  medias: TemplateMediaType[];
 }
 
 interface AppConfigContextType {
@@ -36,6 +38,7 @@ const mockFetchAppConfig = (): Promise<AppConfig> => {
         email: '',
         phone: '',
         footerDescription: '',
+        medias: [],
       });
     }, 1000);
   });
@@ -61,6 +64,7 @@ export function AppConfigProvider({ children }: { children: React.ReactNode }) {
           email: data?.email,
           phone: data?.phone,
           footerDescription: data?.footerDescription,
+          medias: data?.medias,
         };
 
         if (mounted) {
@@ -76,6 +80,7 @@ export function AppConfigProvider({ children }: { children: React.ReactNode }) {
             email: '',
             phone: '',
             footerDescription: '',
+            medias: [],
           });
         }
       } finally {

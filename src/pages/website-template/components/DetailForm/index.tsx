@@ -9,9 +9,19 @@ import { useGetShowcaseCategory } from '@/pages/home/hooks/useGetShowcaseCategor
 import { useTranslation } from 'react-i18next';
 import { useScreenWidth } from '@/hooks/useScreenWidth';
 import { useNavigate, useParams } from 'react-router-dom';
+import { MediaType, PaymentMethod } from '@/+core/constants/commons.constant';
 import CategoryMenu from '@/pages/home/components/CategoryMenu';
 import LanguageToggle from '@/components/global/LanguageToggle/LanguageToggle';
-import { FaAngleLeft, FaAngleRight, FaSearch } from 'react-icons/fa';
+import {
+  FaAngleLeft,
+  FaAngleRight,
+  FaSearch,
+  FaTruck,
+  FaFacebook,
+  FaInstagram,
+  FaYoutube,
+  FaTelegramPlane,
+} from 'react-icons/fa';
 import { FiShoppingBag } from 'react-icons/fi';
 import { FaPhone } from 'react-icons/fa6';
 import { MdEmail } from 'react-icons/md';
@@ -58,6 +68,27 @@ const DetailForm = (props: PropType) => {
   const { t } = useTranslation();
 
   const id = params?.id ?? '';
+
+  const PAYMENTS = [
+    {
+      value: PaymentMethod.COD,
+      label: t('payment.cod'),
+      icon: <FaTruck size={30} />,
+    },
+    {
+      value: PaymentMethod.VNPAY,
+      label: t('payment.vnpay'),
+      icon: <img className='w-[30px]' src='/assets/icons/icon-vnpay.png' alt='vnpay-icon' />,
+    },
+  ];
+
+  const SOCIAL_MEDIA: Record<MediaType, React.ReactNode> = {
+    FACEBOOK: <FaFacebook size={30} />,
+    INSTAGRAM: <FaInstagram size={30} />,
+    YOUTUBE: <FaYoutube size={30} />,
+    TELEGRAM: <FaTelegramPlane size={30} />,
+    ZALO: <img className='w-[30px]' src='/assets/icons/icon-zalo.png' alt='icon-zalo' />,
+  };
 
   const { data: categories, loading: categoriesLoading } = useGetShowcaseCategory();
 
@@ -121,6 +152,7 @@ const DetailForm = (props: PropType) => {
   };
 
   const bannersUrl = get(template, 'bannersUrl', []);
+  const medias = get(template, 'medias', []);
   const sections = get(template, 'sections', []);
 
   const handleBack = () => {
@@ -137,20 +169,24 @@ const DetailForm = (props: PropType) => {
 
   return (
     <div className='max-w-[1400px] mx-auto flex flex-col gap-5'>
-      <div className='block__container flex items-center justify-end gap-2'>
-        <Button type='default' htmlType='button' onClick={handleBack}>
-          {t('back')}
-        </Button>
+      <div className='block__container flex items-center justify-between gap-5'>
+        <span className='text-xl text-primary font-bold'>{t('website_template.preview')}</span>
 
-        <Button
-          type='primary'
-          htmlType='button'
-          onClick={() => {
-            handleRedirectEdit(id);
-          }}
-        >
-          {t('edit')}
-        </Button>
+        <div className='flex items-center gap-2'>
+          <Button type='default' htmlType='button' onClick={handleBack}>
+            {t('back')}
+          </Button>
+
+          <Button
+            type='primary'
+            htmlType='button'
+            onClick={() => {
+              handleRedirectEdit(id);
+            }}
+          >
+            {t('edit')}
+          </Button>
+        </div>
       </div>
 
       <div className='w-full flex flex-col gap-8 bg-[#f5f5fa] border-[1px] border-solid border-[#e5e7eb]'>
@@ -330,52 +366,90 @@ const DetailForm = (props: PropType) => {
           style={{ background: get(template, 'primaryColor', '') }}
           className='w-full text-[#FFF]'
         >
-          <div className='w-full max-w-[80%] mx-auto pt-[50px] pb-[20px] flex flex-col gap-5'>
-            <div className='flex flex-col items-start gap-8'>
-              {get(template, 'logoUrl', '') === '' ? (
-                <div
-                  className='hover:cursor-pointer'
-                  onClick={() => {
-                    scrollToTop();
-                  }}
-                >
-                  <FiShoppingBag size={30} />
+          <div className='w-full max-w-[80%] mx-auto pt-[50px] pb-[20px] flex flex-col gap-x-5 gap-y-10'>
+            <div className='grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 gap-x-5 gap-y-10'>
+              <div className='flex flex-col items-start gap-8'>
+                {get(template, 'logoUrl', '') === '' ? (
+                  <div
+                    className='hover:cursor-pointer'
+                    onClick={() => {
+                      scrollToTop();
+                    }}
+                  >
+                    <FiShoppingBag size={30} />
+                  </div>
+                ) : (
+                  <div
+                    className='hover:cursor-pointer'
+                    onClick={() => {
+                      scrollToTop();
+                    }}
+                  >
+                    <img src={get(template, 'logoUrl', '')} className='h-[30px]' alt='brand-logo' />
+                  </div>
+                )}
+
+                <div className='flex flex-col gap-3'>
+                  {get(template, 'phone', '') && (
+                    <div className='flex items-center gap-2'>
+                      <FaPhone size={15} />
+                      <span className='text-[0.8rem] font-semibold'>
+                        {get(template, 'phone', '')}
+                      </span>
+                    </div>
+                  )}
+
+                  {get(template, 'email', '') && (
+                    <div className='flex items-center gap-2'>
+                      <MdEmail size={15} />
+                      <span className='text-[0.8rem] font-semibold'>
+                        <a
+                          href={`mailto:${get(template, 'email', '')}`}
+                          className='text-[#FFF] hover:text-[#FFF] hover:underline'
+                        >
+                          {get(template, 'email', '')}
+                        </a>
+                      </span>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div
-                  className='hover:cursor-pointer'
-                  onClick={() => {
-                    scrollToTop();
-                  }}
-                >
-                  <img src={get(template, 'logoUrl', '')} className='h-[30px]' alt='brand-logo' />
+              </div>
+
+              <div className='flex flex-col items-start gap-5'>
+                <h4 className='font-medium'>{t('customer_support')}</h4>
+                <span className='text-[0.9rem] hover:text-[#FFF] underline-offset-1 hover:cursor-pointer hover:underline'>
+                  {t('faq.default')}
+                </span>
+              </div>
+
+              <div className='flex flex-col items-start gap-5'>
+                <h4 className='font-medium'>{t('payment.method')}</h4>
+                <div className='grid grid-cols-4 items-center gap-5'>
+                  {PAYMENTS.map((p) => (
+                    <span key={p.value}>{p.icon}</span>
+                  ))}
+                </div>
+              </div>
+
+              {medias?.length !== 0 && (
+                <div className='flex flex-col items-start gap-5'>
+                  <h4 className='font-medium'>{t('contact_us')}</h4>
+                  <div className='grid grid-cols-4 items-center gap-5'>
+                    {medias?.map((media) => (
+                      <a
+                        key={get(media, 'id', '')}
+                        href={get(media, 'url', '')}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='text-[#FFF] hover:text-[#FFF] inline-flex
+                                  transition-transform duration-200 ease-in-out hover:scale-110'
+                      >
+                        {SOCIAL_MEDIA[get(media, 'type')]}
+                      </a>
+                    ))}
+                  </div>
                 </div>
               )}
-
-              <div className='flex flex-col gap-3'>
-                {get(template, 'phone', '') && (
-                  <div className='flex items-center gap-2'>
-                    <FaPhone size={15} />
-                    <span className='text-[0.8rem] font-semibold'>
-                      {get(template, 'phone', '')}
-                    </span>
-                  </div>
-                )}
-
-                {get(template, 'email', '') && (
-                  <div className='flex items-center gap-2'>
-                    <MdEmail size={15} />
-                    <span className='text-[0.8rem] font-semibold'>
-                      <a
-                        href={`mailto:${get(template, 'email', '')}`}
-                        className='text-[#FFF] hover:text-[#FFF] hover:underline'
-                      >
-                        {get(template, 'email', '')}
-                      </a>
-                    </span>
-                  </div>
-                )}
-              </div>
             </div>
 
             {get(template, 'footerDescription', '') && (

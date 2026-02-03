@@ -131,7 +131,10 @@ const DetailForm = (props: PropType) => {
         }}
       >
         <section className='w-full grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-[50px]'>
-          <ImageGallery images={get(product, 'imagesUrl', [])} />
+          <ImageGallery
+            color={config?.websitePrimaryColor}
+            images={get(product, 'imagesUrl', [])}
+          />
 
           <div className='flex flex-col gap-5'>
             <div className='flex flex-col gap-5'>

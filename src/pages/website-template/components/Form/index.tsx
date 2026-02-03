@@ -128,7 +128,7 @@ const WebsiteTemplateForm = (props: PropType) => {
       : {
           name: '',
           logoUrl: '',
-          primaryColor: '#e4e4e7',
+          primaryColor: '#e30019',
           bannersUrl: [],
           email: '',
           phone: '',
