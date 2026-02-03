@@ -7,6 +7,7 @@ import { Payment, PaymentFilterType } from '@/types/payment';
 import { PagingType } from '@/types';
 import { formatCurrency, formatTimezone } from '@/+core/helpers';
 import { DEFAULT_PAGE_SIZE, PaymentMethod } from '@/+core/constants/commons.constant';
+import PrintManager from '@/components/ui/PrintContent';
 import { FaPen, FaTruck } from 'react-icons/fa';
 
 const { Column } = Table;
@@ -131,6 +132,8 @@ const DataTable = (props: PropType) => {
             render={(_, record) => {
               return (
                 <div className='flex items-center gap-2'>
+                  <PrintManager typeValue='invoice' id={get(record, 'id', '')} />
+
                   <Tooltip title={t('edit')}>
                     <Button
                       color='gold'

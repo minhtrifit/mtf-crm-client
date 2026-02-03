@@ -290,5 +290,8 @@
     "content": "Nội dung",
     "name_placeholder": "Tìm kiếm theo tiêu đề",
     "delete_confirm": "Bạn có chắc muốn xóa FAQ này?"
+  },
+  "print": {
+    "invoice": "In hóa đơn"
   }
 }

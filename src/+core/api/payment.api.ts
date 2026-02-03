@@ -13,6 +13,15 @@ export const paymentApi = {
       throw error;
     }
   },
+  getDetail: async (id: string) => {
+    try {
+      const response = await axiosInstance.get(`/payment/detail/${id}`);
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   create: async (data: PaymentPayload) => {
     try {
       const response = await axiosInstance.post('/payment', data);

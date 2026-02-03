@@ -290,5 +290,8 @@
     "content": "Content",
     "name_placeholder": "Search by title",
     "delete_confirm": "Are you sure to delete this FAQ?"
+  },
+  "print": {
+    "invoice": "Print invoice"
   }
 }
