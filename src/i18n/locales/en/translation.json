@@ -292,6 +292,40 @@
     "delete_confirm": "Are you sure to delete this FAQ?"
   },
   "print": {
-    "invoice": "Print invoice"
+    "invoice": "Print invoice",
+    "shop": {
+      "name": "ABC STORE",
+      "address": "Address: 123 Nguyen Van A Street, District 1, Ho Chi Minh City",
+      "hotline": "Hotline: 0909 999 999",
+      "email": "Email: contact@shopabc.vn",
+      "taxCode": "Tax code: 0123456789"
+    },
+    "title": "PAYMENT INVOICE",
+    "orderCode": "Order code",
+    "paidAt": "Payment date",
+    "customerInfo": "Customer information",
+    "fullName": "Full name",
+    "phone": "Phone number",
+    "address": "Address",
+    "note": "Note",
+    "table": {
+      "index": "#",
+      "product": "Product",
+      "quantity": "Qty",
+      "price": "Unit price",
+      "total": "Amount",
+      "empty": "No products"
+    },
+    "summary": {
+      "totalAmount": "Total amount",
+      "paymentMethod": "Payment method",
+      "paidAmount": "PAID"
+    },
+    "signature": {
+      "staff": "Staff",
+      "customer": "Customer",
+      "signHint": "(Signature & full name)"
+    },
+    "footer": "Thank you for your business!"
   }
 }

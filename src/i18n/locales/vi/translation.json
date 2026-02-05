@@ -292,6 +292,40 @@
     "delete_confirm": "Bạn có chắc muốn xóa FAQ này?"
   },
   "print": {
-    "invoice": "In hóa đơn"
+    "invoice": "In hóa đơn",
+    "shop": {
+      "name": "CỬA HÀNG ABC",
+      "address": "Địa chỉ: 123 Nguyễn Văn A, Quận 1, TP. Hồ Chí Minh",
+      "hotline": "Hotline: 0909 999 999",
+      "email": "Email: contact@shopabc.vn",
+      "taxCode": "MST: 0123456789"
+    },
+    "title": "HÓA ĐƠN THANH TOÁN",
+    "orderCode": "Mã đơn hàng",
+    "paidAt": "Ngày thanh toán",
+    "customerInfo": "Thông tin khách hàng",
+    "fullName": "Họ tên",
+    "phone": "Số điện thoại",
+    "address": "Địa chỉ",
+    "note": "Ghi chú",
+    "table": {
+      "index": "#",
+      "product": "Sản phẩm",
+      "quantity": "SL",
+      "price": "Đơn giá",
+      "total": "Thành tiền",
+      "empty": "Không có sản phẩm"
+    },
+    "summary": {
+      "totalAmount": "Tổng tiền hàng",
+      "paymentMethod": "Phương thức thanh toán",
+      "paidAmount": "ĐÃ THANH TOÁN"
+    },
+    "signature": {
+      "staff": "Nhân viên",
+      "customer": "Khách hàng",
+      "signHint": "(Ký, ghi rõ họ tên)"
+    },
+    "footer": "Cảm ơn quý khách đã sử dụng dịch vụ!"
   }
 }
