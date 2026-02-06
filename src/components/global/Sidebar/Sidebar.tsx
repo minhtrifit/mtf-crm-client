@@ -16,7 +16,7 @@ import { RiMoneyDollarCircleFill } from 'react-icons/ri';
 import { GrConfigure } from 'react-icons/gr';
 
 import styles from './styles.module.scss';
-import { FaQuestionCircle } from 'react-icons/fa';
+import { FaQuestionCircle, FaStore } from 'react-icons/fa';
 
 const { Sider } = Layout;
 
@@ -66,6 +66,11 @@ const Sidebar = (props: PropType) => {
           key: '/admin/product',
           icon: <FiShoppingBag size={20} />,
           label: t('sidebar.products'),
+        },
+        {
+          key: '/admin/store',
+          icon: <FaStore size={20} />,
+          label: t('sidebar.stores'),
         },
         {
           key: '/admin/order',

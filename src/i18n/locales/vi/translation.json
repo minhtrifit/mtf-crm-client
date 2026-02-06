@@ -36,6 +36,7 @@
     "management": "Quản lý",
     "categories": "Danh mục",
     "products": "Sản phẩm",
+    "stores": "Cửa hàng",
     "orders": "Đơn hàng",
     "payments": "Thanh toán",
     "accounts": "Tài khoản",
@@ -49,6 +50,7 @@
     "admin": "Trang chủ",
     "category": "Danh mục",
     "product": "Sản phẩm",
+    "store": "Cửa hàng",
     "order": "Đơn hàng",
     "user": "Người dùng",
     "payment": "Thanh toán",
@@ -327,5 +329,12 @@
       "signHint": "(Ký, ghi rõ họ tên)"
     },
     "footer": "Cảm ơn quý khách đã sử dụng dịch vụ!"
+  },
+  "store": {
+    "name": "Cửa hàng",
+    "name_placeholder": "Tìm kiếm theo tên cửa hàng, địa chỉ, hotline, email, MST",
+    "address": "Địa chỉ",
+    "tax_code": "Mã số thuế",
+    "update_status": "Cập nhập trạng thái cho cửa hàng này?"
   }
 }

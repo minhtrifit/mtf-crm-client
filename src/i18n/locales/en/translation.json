@@ -36,6 +36,7 @@
     "management": "Management",
     "categories": "Categories",
     "products": "Products",
+    "stores": "Stores",
     "orders": "Orders",
     "payments": "Payments",
     "accounts": "Accounts",
@@ -49,6 +50,7 @@
     "admin": "Dashboard",
     "category": "Category",
     "product": "Product",
+    "store": "Store",
     "order": "Order",
     "user": "User",
     "payment": "Payment",
@@ -327,5 +329,12 @@
       "signHint": "(Signature & full name)"
     },
     "footer": "Thank you for your business!"
+  },
+  "store": {
+    "name": "Store",
+    "name_placeholder": "Search by name, address, hotline, email, code",
+    "address": "Address",
+    "tax_code": "Tax code",
+    "update_status": "Are you sure to change this store status?"
   }
 }

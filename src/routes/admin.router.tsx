@@ -18,6 +18,7 @@ import UserListPage from '@/pages/user/pages/list';
 import PaymentListPage from '@/pages/payment/pages/list';
 import ReviewListPage from '@/pages/review/page/list';
 import FaqListPage from '@/pages/faq/pages/list';
+import StoreListPage from '@/pages/store/pages/list';
 
 export const adminRoutes = {
   path: '/admin',
@@ -43,6 +44,15 @@ export const adminRoutes = {
         { path: ADMIN_ROUTE.PRODUCT_ADD, element: <ProductCreatePage /> },
         { path: ADMIN_ROUTE.PRODUCT_DETAIL, element: <ProductDetailPage /> },
         { path: ADMIN_ROUTE.PRODUCT_EDIT, element: <ProductEditPage /> },
+      ],
+    },
+    {
+      path: ADMIN_ROUTE.STORE,
+      children: [
+        { index: true, element: <StoreListPage /> },
+        { path: ADMIN_ROUTE.STORE_ADD, element: <div>Store add page</div> },
+        { path: ADMIN_ROUTE.STORE_DETAIL, element: <div>Store detail page</div> },
+        { path: ADMIN_ROUTE.STORE_EDIT, element: <div>Store edit page</div> },
       ],
     },
     {

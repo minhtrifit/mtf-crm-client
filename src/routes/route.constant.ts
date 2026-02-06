@@ -26,6 +26,11 @@ export const ADMIN_ROUTE = {
   PRODUCT_DETAIL: 'detail/:id',
   PRODUCT_EDIT: 'edit/:id',
 
+  STORE: 'store',
+  STORE_ADD: 'add',
+  STORE_DETAIL: 'detail/:id',
+  STORE_EDIT: 'edit/:id',
+
   ORDER: 'order',
   ORDER_ADD: 'add',
   ORDER_DETAIL: 'detail/:id',
