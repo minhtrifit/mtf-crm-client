@@ -296,11 +296,10 @@
   "print": {
     "invoice": "Print invoice",
     "shop": {
-      "name": "ABC STORE",
-      "address": "Address: 123 Nguyen Van A Street, District 1, Ho Chi Minh City",
-      "hotline": "Hotline: 0909 999 999",
-      "email": "Email: contact@shopabc.vn",
-      "taxCode": "Tax code: 0123456789"
+      "address": "Address: {{ address }}",
+      "hotline": "Hotline: {{ hotline }}",
+      "email": "Email: {{ email }}",
+      "taxCode": "Tax code: {{ taxCode }}"
     },
     "title": "PAYMENT INVOICE",
     "orderCode": "Order code",
@@ -333,8 +332,10 @@
   "store": {
     "name": "Store",
     "name_placeholder": "Search by name, address, hotline, email, code",
+    "code": "Store code",
     "address": "Address",
     "tax_code": "Tax code",
-    "update_status": "Are you sure to change this store status?"
+    "update_status": "Are you sure to change this store status?",
+    "choose_to_continue": "Choose store to continue"
   }
 }

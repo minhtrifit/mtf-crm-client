@@ -2,14 +2,13 @@ import { useMemo } from 'react';
 import { get } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Avatar, Button, Pagination, Popconfirm, Switch, Table, Tooltip } from 'antd';
+import { Button, Pagination, Popconfirm, Switch, Table, Tooltip } from 'antd';
 import { Store } from '@/types/store';
 import { PagingType } from '@/types';
 import { formatDateTime } from '@/+core/helpers';
 import { FilterType } from '@/pages/category/pages/list';
 import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
 import { FaEye, FaPen } from 'react-icons/fa';
-import { MdCategory } from 'react-icons/md';
 
 const { Column } = Table;
 
@@ -44,6 +43,19 @@ const DataTable = (props: PropType) => {
           width={60}
           align='center'
           render={(_, __, index) => (filter.page - 1) * DEFAULT_PAGE_SIZE + index + 1}
+        />
+        <Column
+          title={t('store.code')}
+          dataIndex='code'
+          key='code'
+          width={150}
+          render={(_, record) => {
+            return (
+              <span className='text-primary font-semibold text-[0.8rem]'>
+                {get(record, 'code', '')}
+              </span>
+            );
+          }}
         />
         <Column
           title={t('store.name')}

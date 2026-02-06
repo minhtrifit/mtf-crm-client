@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { get } from 'lodash';
 import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -95,6 +96,13 @@ const FormModal = (props: PropType) => {
         <Divider className='my-0' />
 
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
+          {mode !== 'add' && (
+            <div className='w-full flex flex-col gap-2'>
+              <Label title={t('store.code')} />
+              <span className='font-bold text-primary'>{get(defaultValues, 'code', '')}</span>
+            </div>
+          )}
+
           <Controller
             control={control}
             name='name'
@@ -119,7 +127,6 @@ const FormModal = (props: PropType) => {
               );
             }}
           />
-
           <Controller
             control={control}
             name='email'
@@ -144,7 +151,6 @@ const FormModal = (props: PropType) => {
               );
             }}
           />
-
           <Controller
             control={control}
             name='hotline'
@@ -169,7 +175,6 @@ const FormModal = (props: PropType) => {
               );
             }}
           />
-
           <Controller
             control={control}
             name='taxCode'
@@ -194,13 +199,12 @@ const FormModal = (props: PropType) => {
               );
             }}
           />
-
           <Controller
             control={control}
             name='address'
             render={({ field }) => {
               return (
-                <div className='w-full flex flex-col gap-2 col-span-full'>
+                <div className={`${mode === 'add' && 'col-span-full'} w-full flex flex-col gap-2`}>
                   <Label title={t('store.address')} required />
 
                   <Input

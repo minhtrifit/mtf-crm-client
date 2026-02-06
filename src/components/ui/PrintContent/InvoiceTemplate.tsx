@@ -1,18 +1,26 @@
 import { forwardRef } from 'react';
 import { get } from 'lodash';
 import { useTranslation } from 'react-i18next';
+import { Store } from '@/types/store';
 import { Payment } from '@/types/payment';
 import { formatCurrency, formatDateTime } from '@/+core/helpers';
 import { OrderItem } from '@/types/order';
 
 type Props = {
+  store: Store | null;
   data: Payment | null;
 };
 
-const InvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
+const InvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, data }, ref) => {
   const { t } = useTranslation();
 
-  if (!data) return null;
+  if (!store || !data) return null;
+
+  const storeName = get(store, 'name', '---');
+  const storeAddress = get(store, 'address', '---');
+  const storeHotline = get(store, 'hotline', '---');
+  const storeEmail = get(store, 'email', '---');
+  const storeTaxCode = get(store, 'taxCode', '---');
 
   const order = get(data, 'order');
   const items: OrderItem[] = get(order, 'items', []);
@@ -45,11 +53,11 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
         }}
       >
         <div style={{ lineHeight: 1.6 }}>
-          <div style={{ fontSize: 18, fontWeight: 700 }}>{t('print.shop.name')}</div>
-          <div>{t('print.shop.address')}</div>
-          <div>{t('print.shop.hotline')}</div>
-          <div>{t('print.shop.email')}</div>
-          <div>{t('print.shop.taxCode')}</div>
+          <div style={{ fontSize: 18, fontWeight: 700 }}>{storeName}</div>
+          <div>{t('print.shop.address', { address: storeAddress })}</div>
+          <div>{t('print.shop.hotline', { hotline: storeHotline })}</div>
+          <div>{t('print.shop.email', { email: storeEmail })}</div>
+          <div>{t('print.shop.taxCode', { taxCode: storeTaxCode })}</div>
         </div>
 
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
