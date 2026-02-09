@@ -12,6 +12,8 @@ const APP_KEY = import.meta.env.VITE_APP_KEY;
 import 'dayjs/locale/vi';
 import 'dayjs/locale/en';
 
+type Lang = 'vi' | 'en';
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(relativeTime);
@@ -123,4 +125,14 @@ export const truncateEditorText = (html: string, maxLength = 100) => {
     .trim();
 
   return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+};
+
+export const getCurrentLang = (lang: string): 'vi' | 'en' => {
+  return lang.startsWith('vi') ? 'vi' : 'en';
+};
+
+export const formatFullDate = (date?: string | Date, lang: Lang = 'vi') => {
+  return dayjs(date ?? new Date())
+    .locale(lang)
+    .format(lang === 'vi' ? '[Ngày] D [tháng] M [năm] YYYY' : 'MMMM D, YYYY');
 };

@@ -302,9 +302,11 @@
       "taxCode": "MST: {{ taxCode }}"
     },
     "title": "HÓA ĐƠN THANH TOÁN",
+    "orderTitle": "HÓA ĐƠN BÁN HÀNG",
     "orderCode": "Mã đơn hàng",
     "paidAt": "Ngày thanh toán",
     "customerInfo": "Thông tin khách hàng",
+    "paymentInfo": "Thông tin thanh toán",
     "fullName": "Họ tên",
     "phone": "Số điện thoại",
     "address": "Địa chỉ",
@@ -315,10 +317,13 @@
       "quantity": "SL",
       "price": "Đơn giá",
       "total": "Thành tiền",
-      "empty": "Không có sản phẩm"
+      "empty": "Không có sản phẩm",
+      "paidAt": "Thời gian",
+      "paymentMethod": "Phương thức",
+      "amount": "Số tiền"
     },
     "summary": {
-      "totalAmount": "Tổng tiền hàng",
+      "totalAmount": "Thành tiền",
       "paymentMethod": "Phương thức thanh toán",
       "paidAmount": "ĐÃ THANH TOÁN"
     },

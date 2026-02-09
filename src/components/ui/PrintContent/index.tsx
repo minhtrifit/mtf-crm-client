@@ -4,14 +4,17 @@ import { useReactToPrint } from 'react-to-print';
 import { useTranslation } from 'react-i18next';
 import { Store } from '@/types/store';
 import { Payment } from '@/types/payment';
+import { Order } from '@/types/order';
 import storeApi from '@/+core/api/store.api';
 import paymentApi from '@/+core/api/payment.api';
+import orderApi from '@/+core/api/order.api';
 import StoreFormModal from './StoreFormModal';
-import InvoiceTemplate from './InvoiceTemplate';
+import PaymentInvoiceTemplate from './PaymentInvoiceTemplate';
+import OrderInvoiceTemplate from './OrderInvoiceTemplate';
 import { HiDotsHorizontal } from 'react-icons/hi';
 import { IoMdPrint } from 'react-icons/io';
 
-export type PrintType = 'invoice';
+export type PrintType = 'invoice' | 'order';
 
 interface PropType {
   id: string;
@@ -26,16 +29,20 @@ export default function PrintManager(props: PropType) {
   const { t } = useTranslation();
 
   const invoiceRef = useRef<HTMLDivElement>(null);
+  const orderRef = useRef<HTMLDivElement>(null);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [openStoreModal, setOpenStoreModal] = useState<boolean>(false);
   const [store, setStore] = useState<Store | null>(null);
   const [invoiceData, setInvoiceData] = useState<Payment | null>(null);
+  const [orderData, setOrderData] = useState<Order | null>(null);
 
   const activeRef = useMemo(() => {
     switch (typeValue) {
       case 'invoice':
         return invoiceRef;
+      case 'order':
+        return orderRef;
       default:
         return invoiceRef;
     }
@@ -84,6 +91,20 @@ export default function PrintManager(props: PropType) {
 
         return true;
       }
+
+      if (typeValue === 'order') {
+        const res = await orderApi.getDetail(id);
+        const data = res?.data;
+
+        if (!data?.success) {
+          message.error(data?.message);
+          return false;
+        }
+
+        setOrderData(data?.data);
+
+        return true;
+      }
     } catch (error) {
       return false;
     } finally {
@@ -115,7 +136,8 @@ export default function PrintManager(props: PropType) {
         <Tooltip title={showTooltip ? t('print.invoice') : null}>
           <Button
             className='w-auto'
-            type='primary'
+            color='orange'
+            variant='solid'
             icon={loading ? <HiDotsHorizontal size={20} /> : <IoMdPrint size={20} />}
             onClick={() => setOpenStoreModal(true)}
             disabled={loading}
@@ -126,7 +148,37 @@ export default function PrintManager(props: PropType) {
 
         {/* Hidden print content */}
         <div style={{ display: 'none' }}>
-          <InvoiceTemplate ref={invoiceRef} store={store} data={invoiceData} />
+          <PaymentInvoiceTemplate ref={invoiceRef} store={store} data={invoiceData} />
+        </div>
+      </>
+    );
+  }
+
+  if (typeValue === 'order') {
+    return (
+      <>
+        <StoreFormModal
+          open={openStoreModal}
+          onClose={() => setOpenStoreModal(false)}
+          onConfirm={onInvoiceConfirm}
+        />
+
+        <Tooltip title={showTooltip ? t('print.invoice') : null}>
+          <Button
+            className='w-auto'
+            color='orange'
+            variant='solid'
+            icon={loading ? <HiDotsHorizontal size={20} /> : <IoMdPrint size={20} />}
+            onClick={() => setOpenStoreModal(true)}
+            disabled={loading}
+          >
+            {!loading && showText && t('print.invoice')}
+          </Button>
+        </Tooltip>
+
+        {/* Hidden print content */}
+        <div style={{ display: 'none' }}>
+          <OrderInvoiceTemplate ref={orderRef} store={store} order={orderData} />
         </div>
       </>
     );

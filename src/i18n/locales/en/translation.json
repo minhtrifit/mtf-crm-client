@@ -302,9 +302,11 @@
       "taxCode": "Tax code: {{ taxCode }}"
     },
     "title": "PAYMENT INVOICE",
+    "orderTitle": "SALES INVOICE",
     "orderCode": "Order code",
     "paidAt": "Payment date",
     "customerInfo": "Customer information",
+    "paymentInfo": "Payment information",
     "fullName": "Full name",
     "phone": "Phone number",
     "address": "Address",
@@ -315,7 +317,10 @@
       "quantity": "Qty",
       "price": "Unit price",
       "total": "Amount",
-      "empty": "No products"
+      "empty": "No products",
+      "paidAt": "Paid at",
+      "paymentMethod": "Method",
+      "amount": "Amount"
     },
     "summary": {
       "totalAmount": "Total amount",

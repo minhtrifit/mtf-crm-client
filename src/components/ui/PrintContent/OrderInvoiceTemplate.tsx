@@ -2,35 +2,35 @@ import { forwardRef } from 'react';
 import { get } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Store } from '@/types/store';
-import { Payment } from '@/types/payment';
-import { formatCurrency, formatDateTime } from '@/+core/helpers';
-import { OrderItem } from '@/types/order';
+import { Order, OrderItem } from '@/types/order';
+import { formatCurrency, formatDateTime, formatFullDate, getCurrentLang } from '@/+core/helpers';
 
 type Props = {
   store: Store | null;
-  data: Payment | null;
+  order: Order | null;
 };
 
-const InvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, data }, ref) => {
-  const { t } = useTranslation();
+const OrderInvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, order }, ref) => {
+  const { t, i18n } = useTranslation();
 
-  if (!store || !data) return null;
+  if (!store || !order) return null;
 
+  /* ===== STORE ===== */
   const storeName = get(store, 'name', '---');
   const storeAddress = get(store, 'address', '---');
   const storeHotline = get(store, 'hotline', '---');
   const storeEmail = get(store, 'email', '---');
   const storeTaxCode = get(store, 'taxCode', '---');
 
-  const order = get(data, 'order');
-  const items: OrderItem[] = get(order, 'items', []);
-
+  /* ===== ORDER ===== */
   const orderCode = get(order, 'orderCode', '---');
   const fullName = get(order, 'fullName', '---');
   const phone = get(order, 'phone', '---');
   const deliveryAddress = get(order, 'deliveryAddress', '---');
   const note = get(order, 'note');
   const totalAmount = get(order, 'totalAmount', 0);
+  const items: OrderItem[] = get(order, 'items', []);
+  const payments = get(order, 'payments', []);
 
   return (
     <div
@@ -44,14 +44,7 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, data }, ref)
       }}
     >
       {/* SHOP INFO */}
-      <div
-        style={{
-          marginBottom: 24,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-        }}
-      >
+      <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ lineHeight: 1.6 }}>
           <div style={{ fontSize: 18, fontWeight: 700 }}>{storeName}</div>
           <div>{t('print.shop.address', { address: storeAddress })}</div>
@@ -60,16 +53,14 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, data }, ref)
           <div>{t('print.shop.taxCode', { taxCode: storeTaxCode })}</div>
         </div>
 
-        <div style={{ textAlign: 'center', marginBottom: 24 }}>
-          <h1 style={{ fontSize: 22, margin: 0 }}>{t('print.title')}</h1>
+        <div style={{ textAlign: 'center' }}>
+          <h1 style={{ fontSize: 22, margin: 0 }}>{t('print.orderTitle')}</h1>
 
           <div style={{ marginTop: 8, display: 'flex', flexDirection: 'column', gap: 10 }}>
             <div>
               <strong>{t('print.orderCode')}:</strong> {orderCode}
             </div>
-            <div>
-              <strong>{t('print.paidAt')}:</strong> {formatDateTime(get(data, 'paidAt'))}
-            </div>
+            <div>{formatFullDate(undefined, getCurrentLang(i18n.language))}</div>
           </div>
         </div>
       </div>
@@ -78,7 +69,7 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, data }, ref)
       <div style={{ marginBottom: 16 }}>
         <h3 style={{ marginBottom: 8 }}>{t('print.customerInfo')}</h3>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <div>
             <strong>{t('print.fullName')}:</strong> {fullName}
           </div>
@@ -96,7 +87,40 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, data }, ref)
         </div>
       </div>
 
-      {/* ITEMS TABLE */}
+      {/* PAYMENTS */}
+      {payments.length > 0 && (
+        <>
+          <h3 style={{ marginBottom: 8 }}>{t('print.paymentInfo')}</h3>
+
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 16 }}>
+            <thead>
+              <tr>
+                <th style={th}>{t('print.table.index')}</th>
+                <th style={th}>{t('print.table.paidAt')}</th>
+                <th style={th}>{t('print.table.paymentMethod')}</th>
+                <th style={th}>{t('print.table.amount')}</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {payments.map((payment: any, index: number) => (
+                <tr key={get(payment, 'id', index)}>
+                  <td style={tdCenter}>{index + 1}</td>
+                  <td style={tdCenter}>
+                    {get(payment, 'paidAt') ? formatDateTime(get(payment, 'paidAt')) : '---'}
+                  </td>
+                  <td style={tdCenter}>
+                    {t(`payment.${get(payment, 'method', '---').toLowerCase()}`)}
+                  </td>
+                  <td style={tdRight}>{formatCurrency(get(payment, 'amount', 0))}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
+
+      {/* ITEMS */}
       <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 16 }}>
         <thead>
           <tr>
@@ -107,16 +131,7 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, data }, ref)
             <th style={{ ...th, minWidth: 100 }}>{t('print.table.total')}</th>
           </tr>
         </thead>
-
         <tbody>
-          {items.length === 0 && (
-            <tr>
-              <td colSpan={5} style={{ ...td, textAlign: 'center' }}>
-                {t('print.table.empty')}
-              </td>
-            </tr>
-          )}
-
           {items.map((item, index) => {
             const name = get(item, 'product.name', '---');
             const quantity = get(item, 'quantity', 0);
@@ -136,23 +151,9 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, data }, ref)
       </table>
 
       {/* SUMMARY */}
-      <div
-        style={{
-          textAlign: 'right',
-          marginBottom: 16,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 10,
-        }}
-      >
-        <div>
-          <strong>{t('print.summary.totalAmount')}:</strong> {formatCurrency(totalAmount)}
-        </div>
-        <div>
-          <strong>{t('print.summary.paymentMethod')}:</strong> {get(data, 'method', '---')}
-        </div>
+      <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', gap: 8 }}>
         <div style={{ fontSize: 16 }}>
-          <strong>{t('print.summary.paidAmount')}:</strong> {formatCurrency(get(data, 'amount', 0))}
+          <strong>{t('print.summary.totalAmount')}:</strong> {formatCurrency(totalAmount)}
         </div>
       </div>
 
@@ -192,8 +193,8 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, data }, ref)
   );
 });
 
-InvoiceTemplate.displayName = 'InvoiceTemplate';
-export default InvoiceTemplate;
+OrderInvoiceTemplate.displayName = 'OrderInvoiceTemplate';
+export default OrderInvoiceTemplate;
 
 /* styles */
 const th: React.CSSProperties = {

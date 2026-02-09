@@ -8,6 +8,7 @@ import { DEFAULT_PAGE_SIZE, DeliveryStatus, OrderStatus } from '@/+core/constant
 import { Order } from '@/types/order';
 import { FilterType } from '../../pages/list';
 import { PagingType } from '@/types';
+import PrintManager from '@/components/ui/PrintContent';
 import { MdOutlineBookmarkAdded, MdPaid, MdPending, MdCancel } from 'react-icons/md';
 import { FaEye, FaPen, FaUser, FaRegCheckCircle, FaRegCreditCard, FaTruck } from 'react-icons/fa';
 import { PiPackageBold } from 'react-icons/pi';
@@ -245,6 +246,8 @@ const DataTable = (props: PropType) => {
           render={(_, record) => {
             return (
               <div className='flex items-center gap-2'>
+                <PrintManager typeValue='order' id={get(record, 'id', '')} />
+
                 <Tooltip title={t('detail')}>
                   <Button
                     color='primary'
