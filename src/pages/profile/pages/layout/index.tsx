@@ -8,6 +8,7 @@ import { UserType } from '@/types/auth';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { useTranslation } from 'react-i18next';
 import { useGetProfile } from '../../hooks/useGetProfile';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import Error from '@/components/ui/Error/Error';
 import { FaUserLarge } from 'react-icons/fa6';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -24,6 +25,7 @@ const ProfileLayout = () => {
   const { t } = useTranslation();
   const user = useSelector((state: RootState) => state.users.user);
   const userId = get(user, 'id', '');
+  useDocumentTitle('page.profile');
 
   const { data, loading, error, fetchData } = useGetProfile(userId);
 

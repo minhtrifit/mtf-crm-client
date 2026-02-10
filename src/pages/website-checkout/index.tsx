@@ -2,6 +2,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useQueryParams } from '@/hooks/useQueryParams';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import Step, { PAYMENT_STEP } from './components/Step';
 import CartForm from './components/CartForm';
@@ -11,6 +12,7 @@ import StatusForm from './components/StatusForm';
 const WebsiteCheckoutPage = () => {
   const { searchParams } = useQueryParams();
   const navigate = useNavigate();
+  useDocumentTitle('page.checkout');
 
   const step = searchParams.get('step') ?? '';
 

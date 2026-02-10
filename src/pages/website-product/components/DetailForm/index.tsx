@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { addToCart } from '@/store/actions/cart.action';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useTranslation } from 'react-i18next';
 import { useQueryParams } from '@/hooks/useQueryParams';
@@ -28,6 +29,8 @@ interface PropType {
 
 const DetailForm = (props: PropType) => {
   const { product } = props;
+
+  useDocumentTitle(product.name);
 
   const { config } = useAppConfig();
   const { searchParams, updateParams } = useQueryParams();

@@ -4,6 +4,7 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { useGetShowcaseCategory } from './hooks/useGetShowcaseCategory';
 import { useGetTemplateSections } from './hooks/useGetTemplateSections';
 import { useList } from '../review/hooks/useList';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { ReviewsSkeleton, SectionSkeleton } from './components/Skeleton';
 import CategoryMenu from './components/CategoryMenu';
 import CategoryMenuMobile from './components/CategoryMenuMobile';
@@ -14,6 +15,7 @@ import ReviewSlide from './components/ReviewSlide';
 const HomePage = () => {
   const { config } = useAppConfig();
   const isMobile = useIsMobile(1024);
+  useDocumentTitle();
 
   const { data: categories, loading: categoriesLoading } = useGetShowcaseCategory();
 

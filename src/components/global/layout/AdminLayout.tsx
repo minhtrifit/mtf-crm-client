@@ -10,6 +10,7 @@ import { RootState } from '@/store/store';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { setSidebar, toggleSidebar } from '@/store/actions/user.action';
 import { useTranslation } from 'react-i18next';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import Sidebar from '../Sidebar/Sidebar';
 import LanguageToggle from '../LanguageToggle/LanguageToggle';
 import UserDropdown from '@/components/ui/UserDropdown/UserDropdown';
@@ -23,6 +24,7 @@ const AdminLayout: React.FC = () => {
   const dispatch = useDispatch();
   const isMobile = useIsMobile();
   const { t } = useTranslation();
+  useDocumentTitle('page.admin');
 
   const {
     token: { colorBgContainer },

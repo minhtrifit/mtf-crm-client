@@ -342,5 +342,12 @@
     "tax_code": "Tax code",
     "update_status": "Are you sure to change this store status?",
     "choose_to_continue": "Choose store to continue"
+  },
+  "page": {
+    "product_by_category": "Category {{ category }}",
+    "all_products": "All products",
+    "admin": "Admin dashboard",
+    "profile": "Profile",
+    "checkout": "Checkout"
   }
 }

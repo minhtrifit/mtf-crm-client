@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useScrollToId } from '@/hooks/useScrollToId';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useList } from '@/pages/product/hooks/useList';
 import Error from '@/components/ui/Error/Error';
 import { ProductListSkeleton } from '@/components/ui/Skeleton';
@@ -17,6 +18,7 @@ export interface FilterType {
 const WebsiteProductPage = () => {
   const { searchParams, updateParams } = useQueryParams();
   const scrollToId = useScrollToId();
+  useDocumentTitle('page.all_products');
 
   const PRODUCT_LIMIT = 12;
 

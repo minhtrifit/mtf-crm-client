@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import { Avatar } from 'antd';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useParams } from 'react-router-dom';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useList } from '../hooks/useList';
@@ -49,6 +50,11 @@ const WebsiteCategoryPage = () => {
     { page: page, limit: WEBSITE_PRODUCT_LIMIT },
     { delayLoading: true, delayTime: 700 },
   );
+
+  useDocumentTitle('page.product_by_category', {
+    tOptions: { category: get(category, 'name', undefined) },
+    withAppName: true,
+  });
 
   const [filter, setFilter] = useState<FilterType>({
     page: page,

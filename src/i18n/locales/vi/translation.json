@@ -342,5 +342,12 @@
     "tax_code": "Mã số thuế",
     "update_status": "Cập nhập trạng thái cho cửa hàng này?",
     "choose_to_continue": "Chọn cửa hàng để tiếp tục"
+  },
+  "page": {
+    "product_by_category": "Danh mục {{ category }}",
+    "all_products": "Tất cả sản phẩm",
+    "admin": "Trang quản trị",
+    "profile": "Hồ sơ",
+    "checkout": "Thanh toán"
   }
 }
