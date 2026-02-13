@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQueryParams } from '@/hooks/useQueryParams';
+import { useScrollPosition } from '@/hooks/useScrollPosition';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { useForm, Controller, useFieldArray, FormProvider, FieldError } from 'react-hook-form';
@@ -41,6 +42,7 @@ const WebsiteTemplateForm = (props: PropType) => {
   const navigate = useNavigate();
   const params = useParams();
   const { searchParams, updateParams } = useQueryParams();
+  const isScrolledToFormActionBar = useScrollPosition(100);
 
   const { t } = useTranslation();
 
@@ -251,7 +253,18 @@ const WebsiteTemplateForm = (props: PropType) => {
           className='block__container flex flex-col gap-5'
           onSubmit={handleSubmit(onFormSubmit, onError)}
         >
-          <section className='flex items-center justify-between'>
+          <section
+            style={{
+              padding:
+                isScrolledToFormActionBar && activeTab === 'section-information'
+                  ? '15px 20px'
+                  : undefined,
+              transition: 'padding 0.3s ease',
+            }}
+            className={`bg-[#FFF] flex items-center justify-between
+                      ${activeTab === 'section-information' && 'sticky top-[60px] z-[100]'}
+              `}
+          >
             <span className='text-xl text-primary font-bold'>
               {t(`${mode}`)} {t('breadcrumb.website-template')}
             </span>
