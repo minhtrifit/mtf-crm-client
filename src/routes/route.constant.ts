@@ -60,4 +60,9 @@ export const ADMIN_ROUTE = {
   FAQ_ADD: 'add',
   FAQ_DETAIL: 'detail/:id',
   FAQ_EDIT: 'edit/:id',
+
+  POLICY: 'policy',
+  POLICY_ADD: 'add',
+  POLICY_DETAIL: 'detail/:id',
+  POLICY_EDIT: 'edit/:id',
 };

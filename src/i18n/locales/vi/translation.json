@@ -41,7 +41,8 @@
     "payments": "Thanh toán",
     "accounts": "Tài khoản",
     "reviews": "Đánh giá",
-    "users": "Người dùng"
+    "users": "Người dùng",
+    "policies": "Chính sách"
   },
   "breadcrumb": {
     "add": "Thêm mới",
@@ -57,7 +58,8 @@
     "review": "Đánh giá",
     "config": "Cấu hình",
     "faq": "FAQ",
-    "website-template": "Mẫu thiết kế website"
+    "website-template": "Mẫu thiết kế website",
+    "policy": "Chính sách"
   },
   "add": "Thêm mới",
   "detail": "Chi tiết",
@@ -290,7 +292,7 @@
     "default": "Câu hỏi thường gặp",
     "title": "Tiêu đề",
     "content": "Nội dung",
-    "name_placeholder": "Tìm kiếm theo tiêu đề",
+    "name_placeholder": "Tìm kiếm theo tiêu đề, nội dung",
     "delete_confirm": "Bạn có chắc muốn xóa FAQ này?"
   },
   "print": {
@@ -349,5 +351,12 @@
     "admin": "Trang quản trị",
     "profile": "Hồ sơ",
     "checkout": "Thanh toán"
+  },
+  "policy": {
+    "default": "Chính sách & điều khoản",
+    "title": "Tiêu đề",
+    "content": "Nội dung",
+    "name_placeholder": "Tìm kiếm theo tiêu đề, slug, nội dung",
+    "delete_confirm": "Bạn có chắc muốn xóa chính sách này?"
   }
 }

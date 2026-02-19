@@ -19,6 +19,10 @@ import PaymentListPage from '@/pages/payment/pages/list';
 import ReviewListPage from '@/pages/review/page/list';
 import FaqListPage from '@/pages/faq/pages/list';
 import StoreListPage from '@/pages/store/pages/list';
+import PolicyListPage from '@/pages/policy/pages/list';
+import CreatePolicyPage from '@/pages/policy/pages/add';
+import DetailPolicyPage from '@/pages/policy/pages/detail';
+import EditPolicyPage from '@/pages/policy/pages/edit';
 
 export const adminRoutes = {
   path: '/admin',
@@ -107,6 +111,15 @@ export const adminRoutes = {
         { path: ADMIN_ROUTE.FAQ_ADD, element: <div>Faq add page</div> },
         { path: ADMIN_ROUTE.FAQ_DETAIL, element: <div>Faq detail page</div> },
         { path: ADMIN_ROUTE.FAQ_EDIT, element: <div>Faq edit page</div> },
+      ],
+    },
+    {
+      path: ADMIN_ROUTE.POLICY,
+      children: [
+        { index: true, element: <PolicyListPage /> },
+        { path: ADMIN_ROUTE.POLICY_ADD, element: <CreatePolicyPage /> },
+        { path: ADMIN_ROUTE.POLICY_DETAIL, element: <DetailPolicyPage /> },
+        { path: ADMIN_ROUTE.POLICY_EDIT, element: <EditPolicyPage /> },
       ],
     },
   ],

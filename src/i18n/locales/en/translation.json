@@ -41,7 +41,8 @@
     "payments": "Payments",
     "accounts": "Accounts",
     "reviews": "Reviews",
-    "users": "Users"
+    "users": "Users",
+    "policies": "Policies"
   },
   "breadcrumb": {
     "add": "Add",
@@ -57,7 +58,8 @@
     "review": "Review",
     "config": "Config",
     "faq": "FAQ",
-    "website-template": "Website Template"
+    "website-template": "Website Template",
+    "policy": "Policy"
   },
   "add": "Add new",
   "detail": "Detail",
@@ -290,7 +292,7 @@
     "default": "Frequently asked questions",
     "title": "Title",
     "content": "Content",
-    "name_placeholder": "Search by title",
+    "name_placeholder": "Search by title, content",
     "delete_confirm": "Are you sure to delete this FAQ?"
   },
   "print": {
@@ -349,5 +351,12 @@
     "admin": "Admin dashboard",
     "profile": "Profile",
     "checkout": "Checkout"
+  },
+  "policy": {
+    "default": "Policies & terms",
+    "title": "Title",
+    "content": "Content",
+    "name_placeholder": "Search by title, slug, content",
+    "delete_confirm": "Are you sure to delete this policy?"
   }
 }

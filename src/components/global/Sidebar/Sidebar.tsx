@@ -14,9 +14,9 @@ import { HiUsers, HiTemplate } from 'react-icons/hi';
 import { LuUserCog } from 'react-icons/lu';
 import { RiMoneyDollarCircleFill } from 'react-icons/ri';
 import { GrConfigure } from 'react-icons/gr';
+import { FaQuestionCircle, FaStore, FaShieldAlt } from 'react-icons/fa';
 
 import styles from './styles.module.scss';
-import { FaQuestionCircle, FaStore } from 'react-icons/fa';
 
 const { Sider } = Layout;
 
@@ -115,6 +115,11 @@ const Sidebar = (props: PropType) => {
           key: '/admin/faq',
           icon: <FaQuestionCircle size={20} />,
           label: 'FAQ',
+        },
+        {
+          key: '/admin/policy',
+          icon: <FaShieldAlt size={20} />,
+          label: t('breadcrumb.policy'),
         },
       ],
     },
