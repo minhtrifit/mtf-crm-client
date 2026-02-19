@@ -1,7 +1,7 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { get } from 'lodash';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Avatar, Button, Divider, Input, InputNumber, Select, Space, Typography } from 'antd';
+import { Button, Divider, Input, Typography } from 'antd';
 import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,15 +11,11 @@ import { CreatePolicyPayload, Policy, UpdatePolicyPayload } from '@/types/policy
 import { SLUG_REGEX } from '@/+core/constants/commons.constant';
 import { generateSlug } from '@/+core/helpers';
 import { LuSend } from 'react-icons/lu';
-import { FaRandom } from 'react-icons/fa';
-import { MdCategory } from 'react-icons/md';
 import Label from '@/components/ui/Label/Label';
 import RenderHtmlContent from '@/components/ui/RenderHtmlContent';
 import { TextEditor } from '@/components/ui/TextEditor/TextEditor';
 
 const { Text } = Typography;
-const { Option } = Select;
-const { TextArea } = Input;
 
 interface PropType {
   defaultValues: Policy | null;

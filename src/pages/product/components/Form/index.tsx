@@ -9,8 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useDebounce } from '@/hooks/useDebounce';
 import { SLUG_REGEX } from '@/+core/constants/commons.constant';
 import { generateSlug } from '@/+core/helpers';
-import { UpdateCategoryPayload } from '@/types/category';
-import { CreateProductPayload, Product } from '@/types/product';
+import { CreateProductPayload, Product, UpdateProductPayload } from '@/types/product';
 import { useGetShowcaseCategory } from '@/pages/home/hooks/useGetShowcaseCategory';
 import { LuSend } from 'react-icons/lu';
 import { FaRandom } from 'react-icons/fa';
@@ -26,7 +25,7 @@ interface PropType {
   defaultValues: Product | null;
   mode: 'add' | 'edit' | 'detail';
   loading: boolean;
-  onSubmit: (data: CreateProductPayload | UpdateCategoryPayload) => void;
+  onSubmit: (data: CreateProductPayload | UpdateProductPayload) => void;
 }
 
 const ProductForm = (props: PropType) => {
@@ -160,7 +159,7 @@ const ProductForm = (props: PropType) => {
 
   const onFormSubmit = (data: FormType) => {
     console.log('✅ Dữ liệu hợp lệ:', data);
-    onSubmit(data);
+    onSubmit(data as CreateProductPayload | UpdateProductPayload);
   };
 
   const onError = (errors: any) => {

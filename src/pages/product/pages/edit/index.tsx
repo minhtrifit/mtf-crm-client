@@ -2,8 +2,7 @@ import { message } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useDetail } from '../../hooks/useDetail';
 import { useEdit } from '../../hooks/useEdit';
-import { CreateProductPayload } from '@/types/product';
-import { UpdateCategoryPayload } from '@/types/category';
+import { CreateProductPayload, UpdateProductPayload } from '@/types/product';
 import Error from '@/components/ui/Error/Error';
 import DataLoading from '@/components/ui/DataLoading/DataLoading';
 import ProductForm from '../../components/Form';
@@ -16,8 +15,8 @@ const ProductEditPage = () => {
   const { data, loading, error, fetchData } = useDetail(id);
   const { loading: editLoading, mutate } = useEdit();
 
-  const handleSubmit = async (data: CreateProductPayload | UpdateCategoryPayload) => {
-    const res = await mutate(id, data as UpdateCategoryPayload);
+  const handleSubmit = async (data: CreateProductPayload | UpdateProductPayload) => {
+    const res = await mutate(id, data as UpdateProductPayload);
 
     if (res.success) {
       message.success(res.message);

@@ -2,15 +2,14 @@ import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { ADMIN_ROUTE } from '@/routes/route.constant';
 import { useCreate } from '../../hooks/useCreate';
-import { CreateProductPayload } from '@/types/product';
-import { UpdateCategoryPayload } from '@/types/category';
+import { CreateProductPayload, UpdateProductPayload } from '@/types/product';
 import ProductForm from '../../components/Form';
 
 const ProductCreatePage = () => {
   const navigate = useNavigate();
   const { loading, mutate } = useCreate();
 
-  const handleSubmit = async (data: CreateProductPayload | UpdateCategoryPayload) => {
+  const handleSubmit = async (data: CreateProductPayload | UpdateProductPayload) => {
     const res = await mutate(data as CreateProductPayload);
 
     if (res.success) {
