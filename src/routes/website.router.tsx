@@ -10,6 +10,8 @@ import UserProfilePage from '@/pages/profile/pages/profile';
 import UserOrderPage from '@/pages/profile/pages/orders';
 import WebsiteSearchPage from '@/pages/website-search/list';
 import WebsiteFaqPage from '@/pages/website-faq/pages';
+import WebsitePolicyListPage from '@/pages/website-policy/pages/list';
+import WebsitePolicyDetailPage from '@/pages/website-policy/pages/detail';
 
 export const websiteRoutes = {
   path: '/',
@@ -50,6 +52,13 @@ export const websiteRoutes = {
     {
       path: WEBSITE_ROUTE.FAQ,
       element: <WebsiteFaqPage />,
+    },
+    {
+      path: WEBSITE_ROUTE.POLICYS,
+      children: [
+        { index: true, element: <WebsitePolicyListPage /> },
+        { path: WEBSITE_ROUTE.DETAIL_POLICY, element: <WebsitePolicyDetailPage /> },
+      ],
     },
   ],
 };

@@ -31,9 +31,9 @@ export const policyApi = {
       throw error;
     }
   },
-  getDetailBySlug: async (id: string) => {
+  getDetailBySlug: async (slug: string) => {
     try {
-      const response = await axiosInstance.get(`/policy/detail-by-slug/${id}`);
+      const response = await axiosInstance.get(`/policy/detail-by-slug/${slug}`);
 
       return response;
     } catch (error) {

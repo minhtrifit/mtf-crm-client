@@ -417,9 +417,14 @@ const DetailForm = (props: PropType) => {
 
               <div className='flex flex-col items-start gap-5'>
                 <h4 className='font-medium'>{t('customer_support')}</h4>
-                <span className='text-[0.9rem] hover:text-[#FFF] underline-offset-1 hover:cursor-pointer hover:underline'>
-                  {t('faq.default')}
-                </span>
+                <div className='w-full flex flex-col gap-3'>
+                  <span className='text-[0.9rem] hover:text-[#FFF] underline-offset-1 hover:cursor-pointer hover:underline'>
+                    {t('faq.default')}
+                  </span>
+                  <span className='text-[0.9rem] hover:text-[#FFF] underline-offset-1 hover:cursor-pointer hover:underline'>
+                    {t('policy.default')}
+                  </span>
+                </div>
               </div>
 
               <div className='flex flex-col items-start gap-5'>

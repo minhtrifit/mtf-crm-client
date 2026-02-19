@@ -89,12 +89,19 @@ const WebsiteFooter = () => {
 
           <div className='flex flex-col items-start gap-5'>
             <h4 className='font-medium'>{t('customer_support')}</h4>
-            <div className='flex flex-col gap-5'>
+            <div className='flex flex-col gap-3'>
               <Link
                 to={WEBSITE_ROUTE.FAQ}
                 className='text-[#FFF] hover:text-[#FFF] underline-offset-1 hover:underline'
               >
                 <span className='text-[0.9rem]'>{t('faq.default')}</span>
+              </Link>
+
+              <Link
+                to={WEBSITE_ROUTE.POLICYS}
+                className='text-[#FFF] hover:text-[#FFF] underline-offset-1 hover:underline'
+              >
+                <span className='text-[0.9rem]'>{t('policy.default')}</span>
               </Link>
             </div>
           </div>

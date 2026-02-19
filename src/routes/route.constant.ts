@@ -11,6 +11,8 @@ export const WEBSITE_ROUTE = {
   ORDERS: '/ho-so/don-hang',
   SEARCH: '/tim-kiem',
   FAQ: '/cau-hoi-thuong-gap',
+  POLICYS: '/chinh-sach-va-dieu-khoan',
+  DETAIL_POLICY: '/chinh-sach-va-dieu-khoan/:slug',
 };
 
 export const ADMIN_ROUTE = {
