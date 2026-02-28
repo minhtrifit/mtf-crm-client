@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
@@ -7,8 +7,14 @@ import { useTranslation } from 'react-i18next';
 import { UpdatePayload, UserType } from '@/types/auth';
 import UploadAvatar from '@/components/ui/UploadAvatar/UploadAvatar';
 import { LuSend } from 'react-icons/lu';
+import ProvinceSelector from '../ProvinceSelector';
 
 const { Text } = Typography;
+
+interface LocationValue {
+  provinceCode: string | null;
+  districtCode: string | null;
+}
 
 interface PropType {
   user: UserType;
@@ -20,6 +26,12 @@ const ProfileForm = (props: PropType) => {
   const { user, loading, handleSubmitForm } = props;
 
   const { t } = useTranslation();
+
+  // State for province/district
+  const [location, setLocation] = useState<LocationValue>({
+    provinceCode: user?.provinceCode || null,
+    districtCode: user?.districtCode || null,
+  });
 
   const FormSchema = z.object({
     fullName: z.string().min(1, { message: t('this_field_is_required') }),
@@ -52,9 +64,13 @@ const ProfileForm = (props: PropType) => {
   });
 
   const onFormSubmit = async (data: FormType) => {
-    console.log('✅ Dữ liệu hợp lệ:', data);
+    const payload: UpdatePayload = {
+      ...data,
+      provinceCode: location.provinceCode,
+      districtCode: location.districtCode,
+    };
 
-    handleSubmitForm(data);
+    handleSubmitForm(payload);
   };
 
   const onError = (errors: any) => {
@@ -72,7 +88,12 @@ const ProfileForm = (props: PropType) => {
       address: user?.address ?? '',
       avatar: user?.avatar ?? '',
     });
-  }, [user]);
+    // Update location when user data changes
+    setLocation({
+      provinceCode: user?.provinceCode || null,
+      districtCode: user?.districtCode || null,
+    });
+  }, [user, reset]);
 
   return (
     <form
@@ -204,6 +225,9 @@ const ProfileForm = (props: PropType) => {
             );
           }}
         />
+
+        {/* Province and District Selector */}
+        <ProvinceSelector value={location} onChange={setLocation} />
       </div>
 
       <section className='col-span-full flex items-center justify-end gap-2'>
