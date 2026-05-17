@@ -11,7 +11,7 @@
    1. [Environment](#environment)
    2. [Source code setup](#source-code-setup)
    3. [Docker](#docker)
-3. [API Document](#api-document)
+3. [Showcase](#showcase)
 
 ## 📁 Technical Stack <a name="technical-stack"></a>
 
@@ -70,6 +70,38 @@ Buid & run app with Docker
 ```console
 docker-compose up -d --build
 ```
+
+## 📁 Showcase <a name="showcase"></a>
+
+### Homepage
+
+![Home](./showcase/home.png)
+
+### Product detail
+
+![Product detail](./showcase/product_detail.png)
+
+### Cart
+
+![Cart](./showcase/cart.png)
+
+### Payment
+
+![Payment](./showcase/payment.png)
+
+### Payment result
+
+![Payment result](./showcase/payment_result.png)
+
+### Admin dashboard
+
+![Dasboard home](./showcase/dashboard_home.png)
+
+### Admin product
+
+![Dasboard product](./showcase/dashboard_product.png)
+
+![Dasboard product detail](./showcase/dashboard_product_detail.png)
 
 ## 📄 Related Document <a name="api-document"></a>
 
