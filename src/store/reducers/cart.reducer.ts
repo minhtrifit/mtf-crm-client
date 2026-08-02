@@ -1,13 +1,8 @@
 import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 import axiosInstance from '@/+core/api/api.instance';
-import {
-  setCart,
-  updateCartQuantity,
-  removeFromCart,
-  toggleCartModal,
-} from '../actions/cart.action';
+import { setCart, removeFromCart, toggleCartModal, clearLocalCart } from '../actions/cart.action';
 import { CartItem } from '@/types';
-import { AddToCartPayload, CartItemType } from '@/types/cart';
+import { AddToCartPayload, CartItemType, UpdateCartItemQuantityPayload } from '@/types/cart';
 
 export const getCart = createAsyncThunk('cart/getCart', async (_, thunkAPI) => {
   try {
@@ -36,6 +31,26 @@ export const addToCart = createAsyncThunk(
       if (error.name === 'AxiosError') {
         return thunkAPI.rejectWithValue({
           message: 'Add item to cart failed',
+        });
+      }
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
+export const updateCartItemQuantity = createAsyncThunk(
+  'cart/updateCartItemQuantity',
+  async (payload: UpdateCartItemQuantityPayload, thunkAPI) => {
+    try {
+      const response = await axiosInstance.patch('/cart/update-item-quantity', {
+        cartItemId: payload.cartItemId,
+        quantity: payload.quantity,
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.name === 'AxiosError') {
+        return thunkAPI.rejectWithValue({
+          message: 'Update cart item failed',
         });
       }
       return thunkAPI.rejectWithValue(error);
@@ -89,29 +104,29 @@ const cartReducer = createReducer(initialState, (builder) => {
       state.total = calcTotal(state.items);
     })
 
+    .addCase(clearLocalCart, (state) => {
+      state.items = [];
+      state.total = 0;
+    })
+
     .addCase(addToCart.fulfilled, (state, action) => {
       state.isAddingToCart = false;
       if (!action.payload) return;
-      console.log(action.payload);
       state.total = calcTotal(state.items);
     })
 
-    .addCase(updateCartQuantity, (state, action) => {
-      const { productId, quantity } = action.payload;
-
-      if (quantity <= 0) {
-        state.items = state.items.filter((item) => item.product.id !== productId);
-        state.total = calcTotal(state.items);
-        return;
-      }
-
-      const item = state.items.find((item) => item.product.id === productId);
-
-      if (item) {
-        item.quantity = quantity;
-      }
-
-      state.total = calcTotal(state.items);
+    .addCase(updateCartItemQuantity.fulfilled, (state, action) => {
+      if (!action.payload) return;
+      const data = action.payload;
+      const items = data.data.items.map((item: CartItemType) => {
+        return {
+          id: item.id,
+          product: item.product,
+          quantity: item.quantity,
+        };
+      });
+      state.items = items;
+      state.total = calcTotal(items);
     })
 
     .addCase(removeFromCart, (state, action) => {
@@ -143,6 +158,7 @@ const cartReducer = createReducer(initialState, (builder) => {
       const data = action.payload;
       const items = data.data.items.map((item: CartItemType) => {
         return {
+          id: item.id,
           product: item.product,
           quantity: item.quantity,
         };

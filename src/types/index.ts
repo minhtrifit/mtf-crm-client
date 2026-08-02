@@ -8,6 +8,7 @@ export interface PagingType {
 }
 
 export interface CartItem {
+  id: string;
   product: Product;
   quantity: number;
 }

@@ -8,8 +8,8 @@ import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { Avatar, Button, Drawer, Empty, notification, Popconfirm } from 'antd';
 import { CartItem } from '@/types';
 import { formatCurrency } from '@/+core/helpers';
-import { clearCart } from '@/store/reducers/cart.reducer';
-import { removeFromCart, toggleCartModal, updateCartQuantity } from '@/store/actions/cart.action';
+import { clearCart, updateCartItemQuantity } from '@/store/reducers/cart.reducer';
+import { removeFromCart, toggleCartModal } from '@/store/actions/cart.action';
 import QuantityInput from '@/components/ui/QuantityInput/QuantityInput';
 import { FiShoppingBag } from 'react-icons/fi';
 import { FaTrash, FaRegCreditCard } from 'react-icons/fa';
@@ -24,19 +24,25 @@ const CartDrawer = (props: PropType) => {
 
   const { config } = useAppConfig();
   const dispatch = useDispatch();
-  const dispatchAync = useAppDispatch();
+  const dispatchAsync = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const total = useSelector((state: RootState) => state.carts.total);
   const carts = useSelector((state: RootState) => state.carts.items);
 
-  const handleUpdateQuantity = (productId: string, quantity: number) => {
-    dispatch(updateCartQuantity({ productId, quantity }));
+  const handleUpdateQuantity = (cartItemId: string, quantity: number) => {
+    dispatchAsync(updateCartItemQuantity({ cartItemId, quantity })).catch((error) => {
+      notification.error({
+        message: t('notification'),
+        description: error?.message || t('update_cart_item_quantity_failed'),
+        placement: 'bottomLeft',
+      });
+    });
   };
 
   const handleClearCart = () => {
-    dispatchAync(clearCart());
+    dispatchAsync(clearCart());
     dispatch(toggleCartModal());
     notification.success({
       message: t('notification'),
@@ -126,9 +132,7 @@ const CartDrawer = (props: PropType) => {
                     min={0}
                     max={get(product, 'stock', 0)}
                     value={get(item, 'quantity', 0)}
-                    onChange={(value: number) =>
-                      handleUpdateQuantity(get(product, 'id', ''), value)
-                    }
+                    onChange={(value: number) => handleUpdateQuantity(get(item, 'id', ''), value)}
                   />
 
                   <Popconfirm

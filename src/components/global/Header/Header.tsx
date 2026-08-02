@@ -3,7 +3,6 @@ import { get } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAppDispatch } from '@/store/hooks';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -12,8 +11,7 @@ import { useCreateKeyword } from '@/pages/website-product/hooks/useCreateKeyword
 import { useGetKeywords } from '@/pages/website-product/hooks/useGetKeywords';
 import { RootState } from '@/store/store';
 import { clearUser, toggleMenuDrawer } from '@/store/actions/user.action';
-import { clearCart } from '@/store/reducers/cart.reducer';
-import { toggleCartModal } from '@/store/actions/cart.action';
+import { clearLocalCart, toggleCartModal } from '@/store/actions/cart.action';
 import type { MenuProps } from 'antd';
 import { Avatar, Badge, Button, Dropdown, Empty, Input, Skeleton } from 'antd';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
@@ -31,7 +29,6 @@ const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const dispatchAsync = useAppDispatch();
   const location = useLocation();
   const isMobile = useIsMobile(1024);
   const { config } = useAppConfig();
@@ -70,7 +67,7 @@ const Header = () => {
   const onChooseDropdown: MenuProps['onClick'] = ({ key }) => {
     if (key === 'logout') {
       dispatch(clearUser());
-      dispatchAsync(clearCart());
+      dispatch(clearLocalCart());
       navigate('/');
     }
 

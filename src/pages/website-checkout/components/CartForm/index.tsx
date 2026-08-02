@@ -2,8 +2,10 @@ import { get } from 'lodash';
 import { useMemo, useState } from 'react';
 import { Avatar, Button, Card, Divider, notification, Pagination, Popconfirm, Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch } from '@/store/hooks';
 import { RootState } from '@/store/store';
-import { removeFromCart, updateCartQuantity } from '@/store/actions/cart.action';
+import { removeFromCart } from '@/store/actions/cart.action';
+import { updateCartItemQuantity } from '@/store/reducers/cart.reducer';
 import { formatCurrency } from '@/+core/helpers';
 import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
 import { useQueryParams } from '@/hooks/useQueryParams';
@@ -21,6 +23,7 @@ const { Column } = Table;
 const CartForm = () => {
   const { updateParams } = useQueryParams();
   const dispatch = useDispatch();
+  const dispatchAsync = useAppDispatch();
   const { t } = useTranslation();
   const isMobile = useIsMobile(1024);
   const scrollToId = useScrollToId();
@@ -45,8 +48,14 @@ const CartForm = () => {
     updateParams({ step: value });
   };
 
-  const handleUpdateQuantity = (productId: string, quantity: number) => {
-    dispatch(updateCartQuantity({ productId, quantity }));
+  const handleUpdateQuantity = (cartItemId: string, quantity: number) => {
+    dispatchAsync(updateCartItemQuantity({ cartItemId, quantity })).catch((error) => {
+      notification.error({
+        message: t('notification'),
+        description: error?.message || t('update_cart_item_quantity_failed'),
+        placement: 'bottomLeft',
+      });
+    });
   };
 
   const handleConfirmClearItem = (productId: string) => {
@@ -62,7 +71,7 @@ const CartForm = () => {
     if (!carts) return;
 
     return carts?.map((c) => {
-      return { ...c?.product, key: c?.product?.id, quantity: c?.quantity };
+      return { ...c?.product, key: c?.product?.id, quantity: c?.quantity, cartItemId: c?.id };
     });
   }, [carts]);
 
@@ -129,7 +138,7 @@ const CartForm = () => {
                           max={get(record, 'stock', 0)}
                           value={get(record, 'quantity', 0)}
                           onChange={(value: number) =>
-                            handleUpdateQuantity(get(record, 'id', ''), value)
+                            handleUpdateQuantity(get(record, 'cartItemId', ''), value)
                           }
                         />
 
@@ -231,7 +240,7 @@ const CartForm = () => {
                       max={get(record, 'stock', 0)}
                       value={get(record, 'quantity', 0)}
                       onChange={(value: number) =>
-                        handleUpdateQuantity(get(record, 'id', ''), value)
+                        handleUpdateQuantity(get(record, 'cartItemId', ''), value)
                       }
                     />
 

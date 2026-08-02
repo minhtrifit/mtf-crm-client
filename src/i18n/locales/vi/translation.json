@@ -92,6 +92,7 @@
   "add_to_cart": "Thêm Vào Giỏ Hàng",
   "add_to_cart_successfully": "Thêm sản phẩm vào giỏ hàng thành công",
   "add_to_cart_failed": "Thêm sản phẩm vào giỏ hàng không thành công",
+  "update_cart_item_quantity_failed": "Cập nhật số lượng giỏ hàng không thành công",
   "buy_now": "Mua Ngay",
   "in_stock": "Còn hàng",
   "out_stock": "Hết hàng",
