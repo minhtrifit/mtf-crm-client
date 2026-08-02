@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch } from '@/store/hooks';
 import { RootState } from '@/store/store';
+import { getCart } from '@/store/reducers/cart.reducer';
 import { FloatButton, Layout as LayoutAntDesign } from 'antd';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useIsMobile } from '@/hooks/useIsMobile';
@@ -24,6 +27,7 @@ export default function WebsiteLayout() {
   const navigate = useNavigate();
   const isMobile = useIsMobile(1024);
   const dispatch = useDispatch();
+  const dispatchAsync = useAppDispatch();
   useScrollToTopOnRouteChange();
 
   const user = useSelector((state: RootState) => state.users.user);
@@ -47,6 +51,11 @@ export default function WebsiteLayout() {
 
     dispatch(toggleCartModal());
   };
+
+  // Get cart data
+  useEffect(() => {
+    if (user) dispatchAsync(getCart());
+  }, [user]);
 
   if (loading) {
     return <WebsiteSkeleton />;

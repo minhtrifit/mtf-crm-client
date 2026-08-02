@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { get } from 'lodash';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '@/store/hooks';
 import { RootState } from '@/store/store';
-import { addToCart } from '@/store/actions/cart.action';
+import { addToCart, getCart } from '@/store/reducers/cart.reducer';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
@@ -36,7 +37,7 @@ const DetailForm = (props: PropType) => {
   const { searchParams, updateParams } = useQueryParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatchAsync = useAppDispatch();
 
   const rate = searchParams.get('rate') ?? '';
 
@@ -81,13 +82,23 @@ const DetailForm = (props: PropType) => {
       return;
     }
 
-    dispatch(addToCart({ product, quantity }));
-    setQuantity(1);
-    notification.success({
-      message: t('notification'),
-      description: t('add_to_cart_successfully'),
-      placement: 'bottomLeft',
-    });
+    dispatchAsync(addToCart({ productId: product.id, quantity }))
+      .then((data) => {
+        notification.success({
+          message: t('notification'),
+          description: data?.payload?.message || t('add_to_cart_successfully'),
+          placement: 'bottomLeft',
+        });
+        dispatchAsync(getCart());
+        setQuantity(1);
+      })
+      .catch((error) => {
+        notification.error({
+          message: t('notification'),
+          description: error?.message || t('add_to_cart_failed'),
+          placement: 'bottomLeft',
+        });
+      });
   };
 
   const handleBuyNow = () => {
@@ -96,9 +107,19 @@ const DetailForm = (props: PropType) => {
       return;
     }
 
-    dispatch(addToCart({ product, quantity }));
-    setQuantity(1);
-    navigate(`/thanh-toan?step=1`);
+    dispatchAsync(addToCart({ productId: product.id, quantity }))
+      .then(() => {
+        dispatchAsync(getCart());
+        setQuantity(1);
+        navigate(`/thanh-toan?step=1`);
+      })
+      .catch((error) => {
+        notification.error({
+          message: t('notification'),
+          description: error?.message || t('add_to_cart_failed'),
+          placement: 'bottomLeft',
+        });
+      });
   };
 
   const handleRate = (value: string) => {

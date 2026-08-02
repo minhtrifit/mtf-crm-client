@@ -5,7 +5,6 @@ import { notification } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { clearUser, setUser } from '@/store/actions/user.action';
-import { clearCart } from '@/store/actions/cart.action';
 import { persistor } from '@/store/store';
 import { UserRole, UserType } from '@/types/auth';
 import authApi from '../api/auth.api';
@@ -96,10 +95,7 @@ const WebsiteAuthProvider = ({ children }: PropType) => {
 
   const handleClearStore = async () => {
     dispatch(clearUser());
-    dispatch(clearCart());
-
     await persistor.purge();
-
     console.log('CLEAR STORE');
   };
 

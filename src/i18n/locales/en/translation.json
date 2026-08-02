@@ -91,6 +91,7 @@
   "no_data": "No data",
   "add_to_cart": "Add To Cart",
   "add_to_cart_successfully": "Add product to card successfully",
+  "add_to_cart_failed": "Add product to card failed",
   "buy_now": "Buy Now",
   "in_stock": "In stock",
   "out_stock": "Out of stock",

@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { Dropdown, Avatar, Typography, Space } from 'antd';
 import { DownOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch } from '@/store/hooks';
 import { RootState } from '@/store/store';
+import { clearCart } from '@/store/reducers/cart.reducer';
 import { clearUser } from '@/store/actions/user.action';
-import { clearCart } from '@/store/actions/cart.action';
 import { useNavigate } from 'react-router-dom';
 import { UserType } from '@/types/auth';
 
@@ -15,13 +16,14 @@ const UserDropdown = () => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
+  const dispatchAsync = useAppDispatch();
   const navigate = useNavigate();
 
   const user: UserType | null = useSelector((state: RootState) => state.users.user);
 
   const handleLogOut = () => {
     dispatch(clearUser());
-    dispatch(clearCart());
+    dispatchAsync(clearCart());
     navigate('/');
   };
 

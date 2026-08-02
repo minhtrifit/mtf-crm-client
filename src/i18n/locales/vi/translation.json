@@ -91,6 +91,7 @@
   "no_data": "Không có dữ liệu",
   "add_to_cart": "Thêm Vào Giỏ Hàng",
   "add_to_cart_successfully": "Thêm sản phẩm vào giỏ hàng thành công",
+  "add_to_cart_failed": "Thêm sản phẩm vào giỏ hàng không thành công",
   "buy_now": "Mua Ngay",
   "in_stock": "Còn hàng",
   "out_stock": "Hết hàng",

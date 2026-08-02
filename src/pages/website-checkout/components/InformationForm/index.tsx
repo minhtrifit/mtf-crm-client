@@ -4,12 +4,13 @@ import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch } from '@/store/hooks';
 import { useNavigate } from 'react-router-dom';
+import { clearCart } from '@/store/reducers/cart.reducer';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useTranslation } from 'react-i18next';
 import { useCreateCodOrder } from '../../hooks/useCreateCodOrder';
 import { useCreateVnPayOrder } from '../../hooks/useCreateVnPayOrder';
-import { clearCart } from '@/store/actions/cart.action';
 import { RootState } from '@/store/store';
 import { PaymentMethod } from '@/+core/constants/commons.constant';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
@@ -26,6 +27,7 @@ const { TextArea } = Input;
 const InformationForm = () => {
   const { config } = useAppConfig();
   const dispatch = useDispatch();
+  const dispatchAsync = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -104,7 +106,7 @@ const InformationForm = () => {
       const res = await codMutate(payload);
 
       if (res.success) {
-        dispatch(clearCart());
+        dispatchAsync(clearCart());
 
         const statusParams = res.data?.redirect_payment_url?.split(WEBSITE_ROUTE.CHECKOUT)[1];
         const redirectPath = `${WEBSITE_ROUTE.CHECKOUT}${statusParams}`;
@@ -125,7 +127,7 @@ const InformationForm = () => {
       const res = await vnPayMutate(payload);
 
       if (res.success) {
-        dispatch(clearCart());
+        dispatchAsync(clearCart());
         window.location.href = res.data;
       }
       // else {

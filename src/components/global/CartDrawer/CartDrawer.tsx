@@ -1,18 +1,15 @@
 import { get } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch } from '@/store/hooks';
 import { RootState } from '@/store/store';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { Avatar, Button, Drawer, Empty, notification, Popconfirm } from 'antd';
 import { CartItem } from '@/types';
 import { formatCurrency } from '@/+core/helpers';
-import {
-  clearCart,
-  removeFromCart,
-  toggleCartModal,
-  updateCartQuantity,
-} from '@/store/actions/cart.action';
+import { clearCart } from '@/store/reducers/cart.reducer';
+import { removeFromCart, toggleCartModal, updateCartQuantity } from '@/store/actions/cart.action';
 import QuantityInput from '@/components/ui/QuantityInput/QuantityInput';
 import { FiShoppingBag } from 'react-icons/fi';
 import { FaTrash, FaRegCreditCard } from 'react-icons/fa';
@@ -27,6 +24,7 @@ const CartDrawer = (props: PropType) => {
 
   const { config } = useAppConfig();
   const dispatch = useDispatch();
+  const dispatchAync = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -38,7 +36,7 @@ const CartDrawer = (props: PropType) => {
   };
 
   const handleClearCart = () => {
-    dispatch(clearCart());
+    dispatchAync(clearCart());
     dispatch(toggleCartModal());
     notification.success({
       message: t('notification'),

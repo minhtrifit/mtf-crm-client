@@ -1,16 +1,17 @@
 import { get } from 'lodash';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '@/store/hooks';
 import { useTranslation } from 'react-i18next';
 import { RootState } from '@/store/store';
-import { addToCart } from '@/store/actions/cart.action';
+import { addToCart, getCart } from '@/store/reducers/cart.reducer';
 import { Button, Card, Image, notification, Rate, Tooltip } from 'antd';
+import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { formatCurrency, formatNumber } from '@/+core/helpers';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Product } from '@/types/product';
 import styles from './styles.module.scss';
-import { WEBSITE_ROUTE } from '@/routes/route.constant';
 
 interface PropType {
   product: Product;
@@ -22,7 +23,7 @@ const ProductCard = (props: PropType) => {
   const { config } = useAppConfig();
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatchAsync = useAppDispatch();
   const { t } = useTranslation();
 
   const user = useSelector((state: RootState) => state.users.user);
@@ -37,12 +38,22 @@ const ProductCard = (props: PropType) => {
       return;
     }
 
-    dispatch(addToCart({ product, quantity: 1 }));
-    notification.success({
-      message: t('notification'),
-      description: t('add_to_cart_successfully'),
-      placement: 'bottomLeft',
-    });
+    dispatchAsync(addToCart({ productId: product.id, quantity: 1 }))
+      .then((data) => {
+        notification.success({
+          message: t('notification'),
+          description: data?.payload?.message || t('add_to_cart_successfully'),
+          placement: 'bottomLeft',
+        });
+        dispatchAsync(getCart());
+      })
+      .catch((error) => {
+        notification.error({
+          message: t('notification'),
+          description: error?.message || t('add_to_cart_failed'),
+          placement: 'bottomLeft',
+        });
+      });
   };
 
   return (
