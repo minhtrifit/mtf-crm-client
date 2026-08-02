@@ -118,6 +118,7 @@ const CartForm = () => {
                           size={50}
                           src={get(record, 'imagesUrl[0]', '')}
                           icon={<FiShoppingBag />}
+                          className='min-w-[50px]'
                         />
                         <span>{get(record, 'name', '')}</span>
                       </div>
@@ -212,6 +213,7 @@ const CartForm = () => {
                       size={50}
                       src={get(record, 'imagesUrl[0]', '')}
                       icon={<FiShoppingBag />}
+                      className='min-w-[50px]'
                     />
                     <span>{get(record, 'name', '')}</span>
                   </div>
