@@ -69,7 +69,7 @@ const ProvinceSelector = ({ value, onChange }: ProvinceSelectorProps) => {
     <>
       {/* Province Select */}
       <div className='w-full flex flex-col gap-2'>
-        <div className='grid grid-cols-1 md:grid-cols-[150px_1fr] gap-5'>
+        <div className='grid grid-cols-1 md:grid-cols-[130px_1fr] gap-5'>
           <span className='font-semibold my-auto'>{t('province_city')}</span>
           <Select
             value={internalProvince}
@@ -93,7 +93,7 @@ const ProvinceSelector = ({ value, onChange }: ProvinceSelectorProps) => {
 
       {/* District Select */}
       <div className='w-full flex flex-col gap-2'>
-        <div className='grid grid-cols-1 md:grid-cols-[150px_1fr] gap-5'>
+        <div className='grid grid-cols-1 md:grid-cols-[130px_1fr] gap-5'>
           <span className='font-semibold my-auto'>{t('district')}</span>
           <Select
             value={internalDistrict}
@@ -115,7 +115,7 @@ const ProvinceSelector = ({ value, onChange }: ProvinceSelectorProps) => {
           />
         </div>
         {!internalProvince && (
-          <div className='grid grid-cols-1 md:grid-cols-[150px_1fr] gap-5'>
+          <div className='grid grid-cols-1 md:grid-cols-[130px_1fr] gap-5'>
             <div></div>
             <Text type='secondary' style={{ fontSize: 12 }}>
               {t('please_select_province_first')}

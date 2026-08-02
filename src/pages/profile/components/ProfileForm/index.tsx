@@ -100,13 +100,13 @@ const ProfileForm = (props: PropType) => {
       className='w-full grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-5'
       onSubmit={handleSubmit(onFormSubmit, onError)}
     >
-      <div className='w-ful flex items-center justify-center'>
+      <div className='w-full flex items-start justify-center'>
         <Controller
           control={control}
           name='avatar'
           render={({ field, fieldState }) => {
             return (
-              <div className='w-full flex flex-col items-center gap-2'>
+              <div className='w-full min-h-full flex flex-col items-center gap-2'>
                 <UploadAvatar {...field} error={fieldState.error ? true : false} />
 
                 {errors.avatar && (
@@ -120,14 +120,14 @@ const ProfileForm = (props: PropType) => {
         />
       </div>
 
-      <div className='w-full flex flex-col gap-5'>
+      <div className='w-full grid grid-cols-1 xl:grid-cols-2 gap-5'>
         <Controller
           control={control}
           name='email'
           render={({ field }) => {
             return (
-              <div className='w-full flex flex-col gap-2'>
-                <div className='grid grid-cols-1 md:grid-cols-[150px_1fr] gap-5'>
+              <div className='col-span-full w-full flex flex-col gap-2'>
+                <div className='grid grid-cols-1 md:grid-cols-[130px_1fr] gap-5'>
                   <span className='font-semibold my-auto'>{t('auth.email')}</span>
 
                   <Input
@@ -154,7 +154,7 @@ const ProfileForm = (props: PropType) => {
           render={({ field }) => {
             return (
               <div className='w-full flex flex-col gap-2'>
-                <div className='grid grid-cols-1 md:grid-cols-[150px_1fr] gap-5'>
+                <div className='grid grid-cols-1 md:grid-cols-[130px_1fr] gap-5'>
                   <span className='font-semibold my-auto'>{t('auth.fullName')}</span>
 
                   <Input
@@ -180,7 +180,7 @@ const ProfileForm = (props: PropType) => {
           render={({ field }) => {
             return (
               <div className='w-full flex flex-col gap-2'>
-                <div className='grid grid-cols-1 md:grid-cols-[150px_1fr] gap-5'>
+                <div className='grid grid-cols-1 md:grid-cols-[130px_1fr] gap-5'>
                   <span className='font-semibold my-auto'>{t('auth.phone')}</span>
 
                   <Input
@@ -205,8 +205,8 @@ const ProfileForm = (props: PropType) => {
           name='address'
           render={({ field }) => {
             return (
-              <div className='w-full flex flex-col gap-2'>
-                <div className='grid grid-cols-1 md:grid-cols-[150px_1fr] gap-5'>
+              <div className='col-span-full w-full flex flex-col gap-2'>
+                <div className='grid grid-cols-1 md:grid-cols-[130px_1fr] gap-5'>
                   <span className='font-semibold my-auto'>{t('auth.address')}</span>
 
                   <Input
