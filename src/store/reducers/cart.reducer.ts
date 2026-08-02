@@ -1,6 +1,6 @@
 import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 import axiosInstance from '@/+core/api/api.instance';
-import { setCart, removeFromCart, toggleCartModal, clearLocalCart } from '../actions/cart.action';
+import { setCart, toggleCartModal, clearLocalCart } from '../actions/cart.action';
 import { CartItem } from '@/types';
 import { AddToCartPayload, CartItemType, UpdateCartItemQuantityPayload } from '@/types/cart';
 
@@ -50,7 +50,26 @@ export const updateCartItemQuantity = createAsyncThunk(
     } catch (error: any) {
       if (error.name === 'AxiosError') {
         return thunkAPI.rejectWithValue({
-          message: 'Update cart item failed',
+          message: 'Update cart item quantity failed',
+        });
+      }
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
+export const removeCartItem = createAsyncThunk(
+  'cart/removeCartItem',
+  async (id: string, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post('/cart/remove-item', {
+        cartItemId: id,
+      });
+      return response.data;
+    } catch (error: any) {
+      if (error.name === 'AxiosError') {
+        return thunkAPI.rejectWithValue({
+          message: 'Remove cart item failed',
         });
       }
       return thunkAPI.rejectWithValue(error);
@@ -127,11 +146,6 @@ const cartReducer = createReducer(initialState, (builder) => {
       });
       state.items = items;
       state.total = calcTotal(items);
-    })
-
-    .addCase(removeFromCart, (state, action) => {
-      state.items = state.items.filter((item) => item.product.id !== action.payload);
-      state.total = calcTotal(state.items);
     })
 
     .addCase(clearCart.pending, (state) => {

@@ -8,8 +8,13 @@ import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { Avatar, Button, Drawer, Empty, notification, Popconfirm } from 'antd';
 import { CartItem } from '@/types';
 import { formatCurrency } from '@/+core/helpers';
-import { clearCart, updateCartItemQuantity } from '@/store/reducers/cart.reducer';
-import { removeFromCart, toggleCartModal } from '@/store/actions/cart.action';
+import {
+  clearCart,
+  getCart,
+  removeCartItem,
+  updateCartItemQuantity,
+} from '@/store/reducers/cart.reducer';
+import { toggleCartModal } from '@/store/actions/cart.action';
 import QuantityInput from '@/components/ui/QuantityInput/QuantityInput';
 import { FiShoppingBag } from 'react-icons/fi';
 import { FaTrash, FaRegCreditCard } from 'react-icons/fa';
@@ -56,8 +61,10 @@ const CartDrawer = (props: PropType) => {
     navigate(`/thanh-toan?step=1`);
   };
 
-  const handleConfirmClearItem = (productId: string) => {
-    dispatch(removeFromCart(productId));
+  const handleConfirmClearItem = (cartItemId: string) => {
+    dispatchAsync(removeCartItem(cartItemId)).then(() => {
+      dispatchAsync(getCart());
+    });
   };
 
   return (
@@ -138,7 +145,7 @@ const CartDrawer = (props: PropType) => {
                   <Popconfirm
                     title={t('confirm')}
                     description={t('clear_product_confirm')}
-                    onConfirm={() => handleConfirmClearItem(get(product, 'id', ''))}
+                    onConfirm={() => handleConfirmClearItem(get(item, 'id', ''))}
                     okText={t('yes')}
                     cancelText={t('cancel')}
                   >

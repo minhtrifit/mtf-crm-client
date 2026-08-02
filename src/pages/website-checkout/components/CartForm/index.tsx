@@ -4,8 +4,7 @@ import { Avatar, Button, Card, Divider, notification, Pagination, Popconfirm, Ta
 import { useDispatch, useSelector } from 'react-redux';
 import { useAppDispatch } from '@/store/hooks';
 import { RootState } from '@/store/store';
-import { removeFromCart } from '@/store/actions/cart.action';
-import { updateCartItemQuantity } from '@/store/reducers/cart.reducer';
+import { getCart, removeCartItem, updateCartItemQuantity } from '@/store/reducers/cart.reducer';
 import { formatCurrency } from '@/+core/helpers';
 import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
 import { useQueryParams } from '@/hooks/useQueryParams';
@@ -58,8 +57,10 @@ const CartForm = () => {
     });
   };
 
-  const handleConfirmClearItem = (productId: string) => {
-    dispatch(removeFromCart(productId));
+  const handleConfirmClearItem = (cartItemId: string) => {
+    dispatchAsync(removeCartItem(cartItemId)).then(() => {
+      dispatchAsync(getCart());
+    });
   };
 
   const handleChangePage = (value: number) => {
@@ -146,7 +147,7 @@ const CartForm = () => {
                         <Popconfirm
                           title={t('confirm')}
                           description={t('clear_product_confirm')}
-                          onConfirm={() => handleConfirmClearItem(get(record, 'id', ''))}
+                          onConfirm={() => handleConfirmClearItem(get(record, 'cartItemId', ''))}
                           okText={t('yes')}
                           cancelText={t('cancel')}
                         >
@@ -249,7 +250,7 @@ const CartForm = () => {
                     <Popconfirm
                       title={t('confirm')}
                       description={t('clear_product_confirm')}
-                      onConfirm={() => handleConfirmClearItem(get(record, 'id', ''))}
+                      onConfirm={() => handleConfirmClearItem(get(record, 'cartItemId', ''))}
                       okText={t('yes')}
                       cancelText={t('cancel')}
                     >
