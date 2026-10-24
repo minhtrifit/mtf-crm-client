@@ -321,7 +321,7 @@ const DetailModal = (props: PropType) => {
                     <div className='grid grid-cols-[120px_1fr] gap-3'>
                       <span className='text-[0.8rem] font-semibold'>{t('quantity')}</span>
                       <span className='text-[0.8rem] text-zinc-700'>
-                        {formatCurrency(get(product, 'quantity', 0))}
+                        {get(product, 'quantity', 0)}
                       </span>
                     </div>
 
@@ -416,7 +416,7 @@ const DetailModal = (props: PropType) => {
               key='quantity'
               width={100}
               render={(_, record) => {
-                return <span>{formatCurrency(get(record, 'quantity', 0))}</span>;
+                return <span>{get(record, 'quantity', 0)}</span>;
               }}
             />
             <Column
