@@ -9,6 +9,7 @@ import { useGetOverview } from '../hooks/useGetOverview';
 import { useGetDeliveryStatus } from '../hooks/useGetDeliveryStatus';
 import { useGetTopSellingProducts } from '../hooks/useGetTopSellingProducts';
 import { useGetRecentOrders } from '../hooks/useGetRecentOrders';
+import DataLoading from '@/components/ui/DataLoading/DataLoading';
 import StatisticCard from '../components/StatisticCard';
 import OverviewChart from '../components/OverviewChart';
 import DeliveryChart from '../components/DeliveryChart';
@@ -49,28 +50,30 @@ const DashboardPage = () => {
       type: top_selling_products_type as TopSellingType,
     });
 
-  const { data: stats } = useGetTotal();
+  const { data: stats, loading: statsLoading } = useGetTotal();
 
   const {
     data: overview,
     params: overviewParams,
     setParams: setOverviewParams,
+    loading: overviewLoading,
   } = useGetOverview({
     type: overviewFilter.type,
     year: overviewFilter.year,
   });
 
-  const { data: deliveryStatus } = useGetDeliveryStatus();
+  const { data: deliveryStatus, loading: deliveryStatusLoading } = useGetDeliveryStatus();
 
   const {
     data: topSellingProducts,
     params: topSellingProductsParams,
     setParams: setTopSellingProductsParams,
+    loading: topSellingProductsLoading,
   } = useGetTopSellingProducts({
     type: topSellingProductsFilter.type,
   });
 
-  const { data: recentOrders } = useGetRecentOrders();
+  const { data: recentOrders, loading: recentOrdersLoading } = useGetRecentOrders();
 
   const handleChangeOverviewFilter = (name: 'type' | 'year', value: ViewType | number) => {
     if (name === 'year') {
@@ -91,6 +94,16 @@ const DashboardPage = () => {
     updateParams({ top_selling_products_type: value });
     setTopSellingProductsParams({ ...topSellingProductsParams, type: value });
   };
+
+  if (
+    statsLoading ||
+    overviewLoading ||
+    deliveryStatusLoading ||
+    topSellingProductsLoading ||
+    recentOrdersLoading
+  ) {
+    return <DataLoading size='large' />;
+  }
 
   return (
     <main className='flex flex-col gap-5'>
