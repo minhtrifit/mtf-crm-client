@@ -7,7 +7,6 @@ import { getCart } from '@/store/reducers/cart.reducer';
 import { FloatButton, Layout as LayoutAntDesign } from 'antd';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useIsMobile } from '@/hooks/useIsMobile';
-import { useScrollToTopOnRouteChange } from '@/hooks/useScrollToTopOnRouteChange';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { toggleMenuDrawer } from '@/store/actions/user.action';
 import { toggleCartModal } from '@/store/actions/cart.action';
@@ -18,6 +17,7 @@ import CartDrawer from '../CartDrawer/CartDrawer';
 import WebsiteSkeleton from '../WebsiteSkeleton/WebsiteSkeleton';
 import WebsiteFooter from '../WebsiteFooter/WebsiteFooter';
 import MenuDrawer from '../MenuDrawer/MenuDrawer';
+import SmoothScroll from '../SmoothScroll';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 
 const { Content } = LayoutAntDesign;
@@ -28,7 +28,6 @@ export default function WebsiteLayout() {
   const isMobile = useIsMobile(1024);
   const dispatch = useDispatch();
   const dispatchAsync = useAppDispatch();
-  useScrollToTopOnRouteChange();
 
   const user = useSelector((state: RootState) => state.users.user);
   const isOpenMenuDrawer = useSelector((state: RootState) => state.users.isOpenMenuDrawer);
@@ -64,6 +63,7 @@ export default function WebsiteLayout() {
   return (
     <WebsiteAntdProvider>
       <WebsiteAuthProvider>
+        <SmoothScroll />
         <MenuDrawer open={isOpenMenuDrawer} onClose={handleCloseMenuDrawer} />
         <CartDrawer open={isOpenCartModal} onClose={handleCloseCartModal} />
 

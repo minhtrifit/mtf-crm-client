@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useSearch } from '@/pages/website-product/hooks/useSearch';
@@ -31,6 +32,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const isMobile = useIsMobile(1024);
+  const scrollToTop = useScrollToTop();
   const { config } = useAppConfig();
 
   const user = useSelector((state: RootState) => state.users.user);
@@ -268,7 +270,13 @@ const Header = () => {
       className='sticky top-0 z-[100] w-full text-[#fff]'
     >
       <div className='max-w-[1200px] mx-auto px-[20px] py-[10px] flex items-center justify-between'>
-        <div onClick={() => navigate(WEBSITE_ROUTE.HOME)} className='cursor-pointer'>
+        <div
+          onClick={() => {
+            navigate(WEBSITE_ROUTE.HOME);
+            scrollToTop();
+          }}
+          className='cursor-pointer'
+        >
           {get(config, 'logo', '') === '' ? (
             <FiShoppingBag size={30} />
           ) : (
