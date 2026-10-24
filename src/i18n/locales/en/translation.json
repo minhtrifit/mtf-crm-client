@@ -316,6 +316,7 @@
     "paidAt": "Payment date",
     "customerInfo": "Customer information",
     "paymentInfo": "Payment information",
+    "productInfo": "Product information",
     "fullName": "Full name",
     "phone": "Phone number",
     "address": "Address",

@@ -121,34 +121,38 @@ const OrderInvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, order }
       )}
 
       {/* ITEMS */}
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 16 }}>
-        <thead>
-          <tr>
-            <th style={th}>{t('print.table.index')}</th>
-            <th style={th}>{t('print.table.product')}</th>
-            <th style={th}>{t('print.table.quantity')}</th>
-            <th style={{ ...th, minWidth: 100 }}>{t('print.table.price')}</th>
-            <th style={{ ...th, minWidth: 100 }}>{t('print.table.total')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item, index) => {
-            const name = get(item, 'product.name', '---');
-            const quantity = get(item, 'quantity', 0);
-            const price = get(item, 'price', 0);
+      <>
+        <h3 style={{ marginBottom: 8 }}>{t('print.productInfo')}</h3>
 
-            return (
-              <tr key={get(item, 'id', index)}>
-                <td style={tdCenter}>{index + 1}</td>
-                <td style={td}>{name}</td>
-                <td style={tdCenter}>{quantity}</td>
-                <td style={tdRight}>{formatCurrency(price)}</td>
-                <td style={tdRight}>{formatCurrency(price * quantity)}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 16 }}>
+          <thead>
+            <tr>
+              <th style={th}>{t('print.table.index')}</th>
+              <th style={th}>{t('print.table.product')}</th>
+              <th style={th}>{t('print.table.quantity')}</th>
+              <th style={{ ...th, minWidth: 100 }}>{t('print.table.price')}</th>
+              <th style={{ ...th, minWidth: 100 }}>{t('print.table.total')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item, index) => {
+              const name = get(item, 'product.name', '---');
+              const quantity = get(item, 'quantity', 0);
+              const price = get(item, 'price', 0);
+
+              return (
+                <tr key={get(item, 'id', index)}>
+                  <td style={tdCenter}>{index + 1}</td>
+                  <td style={td}>{name}</td>
+                  <td style={tdCenter}>{quantity}</td>
+                  <td style={tdRight}>{formatCurrency(price)}</td>
+                  <td style={tdRight}>{formatCurrency(price * quantity)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </>
 
       {/* SUMMARY */}
       <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', gap: 8 }}>

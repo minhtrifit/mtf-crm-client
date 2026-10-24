@@ -97,43 +97,47 @@ const PaymentInvoiceTemplate = forwardRef<HTMLDivElement, Props>(({ store, data 
       </div>
 
       {/* ITEMS TABLE */}
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 16 }}>
-        <thead>
-          <tr>
-            <th style={th}>{t('print.table.index')}</th>
-            <th style={th}>{t('print.table.product')}</th>
-            <th style={th}>{t('print.table.quantity')}</th>
-            <th style={{ ...th, minWidth: 100 }}>{t('print.table.price')}</th>
-            <th style={{ ...th, minWidth: 100 }}>{t('print.table.total')}</th>
-          </tr>
-        </thead>
+      <>
+        <h3 style={{ marginBottom: 8 }}>{t('print.productInfo')}</h3>
 
-        <tbody>
-          {items.length === 0 && (
+        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 16 }}>
+          <thead>
             <tr>
-              <td colSpan={5} style={{ ...td, textAlign: 'center' }}>
-                {t('print.table.empty')}
-              </td>
+              <th style={th}>{t('print.table.index')}</th>
+              <th style={th}>{t('print.table.product')}</th>
+              <th style={th}>{t('print.table.quantity')}</th>
+              <th style={{ ...th, minWidth: 100 }}>{t('print.table.price')}</th>
+              <th style={{ ...th, minWidth: 100 }}>{t('print.table.total')}</th>
             </tr>
-          )}
+          </thead>
 
-          {items.map((item, index) => {
-            const name = get(item, 'product.name', '---');
-            const quantity = get(item, 'quantity', 0);
-            const price = get(item, 'price', 0);
-
-            return (
-              <tr key={get(item, 'id', index)}>
-                <td style={tdCenter}>{index + 1}</td>
-                <td style={td}>{name}</td>
-                <td style={tdCenter}>{quantity}</td>
-                <td style={tdRight}>{formatCurrency(price)}</td>
-                <td style={tdRight}>{formatCurrency(price * quantity)}</td>
+          <tbody>
+            {items.length === 0 && (
+              <tr>
+                <td colSpan={5} style={{ ...td, textAlign: 'center' }}>
+                  {t('print.table.empty')}
+                </td>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            )}
+
+            {items.map((item, index) => {
+              const name = get(item, 'product.name', '---');
+              const quantity = get(item, 'quantity', 0);
+              const price = get(item, 'price', 0);
+
+              return (
+                <tr key={get(item, 'id', index)}>
+                  <td style={tdCenter}>{index + 1}</td>
+                  <td style={td}>{name}</td>
+                  <td style={tdCenter}>{quantity}</td>
+                  <td style={tdRight}>{formatCurrency(price)}</td>
+                  <td style={tdRight}>{formatCurrency(price * quantity)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </>
 
       {/* SUMMARY */}
       <div
