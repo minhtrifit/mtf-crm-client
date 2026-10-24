@@ -22,6 +22,20 @@ body {
   box-shadow: 0 3px 3px rgba(56, 65, 74, 0.1);
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.content__fadein {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
 ::-webkit-scrollbar {
   width: 6px; /* độ dày scrollbar */
   height: 6px; /* chiều cao nếu là scroll ngang */

@@ -57,7 +57,7 @@ const AdminLayout: React.FC = () => {
               <h3 className='text-[0.9rem]'>{t('app_not_support_device')}</h3>
             </div>
           ) : (
-            <Layout style={{ minHeight: '100vh' }}>
+            <Layout className='content__fadein' style={{ minHeight: '100vh' }}>
               <Sidebar showToggle={false} />
 
               <Layout>
