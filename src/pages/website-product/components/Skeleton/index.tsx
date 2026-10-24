@@ -1,6 +1,9 @@
 import { Card, Skeleton } from 'antd';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 export const DetailProductSkeleton = () => {
+  const isMobile = useIsMobile();
+
   return (
     <Card
       styles={{
@@ -13,13 +16,13 @@ export const DetailProductSkeleton = () => {
     >
       <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-[50px]'>
         <div className='flex flex-col gap-5'>
-          <Skeleton.Node active style={{ height: 400, width: '100%' }} />
+          <Skeleton.Node active style={{ height: isMobile ? 300 : 400, width: '100%' }} />
 
           <div className='grid grid-cols-4 gap-3'>
-            <Skeleton.Node active style={{ height: 100, width: '100%' }} />
-            <Skeleton.Node active style={{ height: 100, width: '100%' }} />
-            <Skeleton.Node active style={{ height: 100, width: '100%' }} />
-            <Skeleton.Node active style={{ height: 100, width: '100%' }} />
+            <Skeleton.Node active style={{ height: isMobile ? 60 : 100, width: '100%' }} />
+            <Skeleton.Node active style={{ height: isMobile ? 60 : 100, width: '100%' }} />
+            <Skeleton.Node active style={{ height: isMobile ? 60 : 100, width: '100%' }} />
+            {!isMobile && <Skeleton.Node active style={{ height: 100, width: '100%' }} />}
           </div>
         </div>
 

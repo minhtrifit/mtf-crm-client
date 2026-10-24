@@ -88,12 +88,10 @@ const CategoryMenuMobile = (props: PropType) => {
 
   if (loading) {
     return (
-      <div className='grid grid-cols-3 lg:grid-cols-5 gap-5'>
-        <Skeleton.Input active style={{ width: '100%', height: 80 }} />
-        <Skeleton.Input active style={{ width: '100%', height: 80 }} />
-        <Skeleton.Input active style={{ width: '100%', height: 80 }} />
-        {!isMobile && <Skeleton.Input active style={{ width: '100%', height: 80 }} />}
-        {!isMobile && <Skeleton.Input active style={{ width: '100%', height: 80 }} />}
+      <div className='grid grid-cols-3 lg:grid-cols-5 gap-2'>
+        {Array.from({ length: isMobile ? 3 : 5 }, (_, index) => (
+          <Skeleton.Input key={index} active style={{ width: '100%', minWidth: 0, height: 80 }} />
+        ))}
       </div>
     );
   }
