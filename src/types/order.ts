@@ -36,6 +36,7 @@ export interface OrderPayload {
   phone: string;
   deliveryAddress: string;
   note: string | null;
+  couponCode?: string;
   items: OrderItemPayload[];
 }
 

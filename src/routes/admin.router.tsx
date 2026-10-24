@@ -23,6 +23,10 @@ import PolicyListPage from '@/pages/policy/pages/list';
 import CreatePolicyPage from '@/pages/policy/pages/add';
 import DetailPolicyPage from '@/pages/policy/pages/detail';
 import EditPolicyPage from '@/pages/policy/pages/edit';
+import CouponListPage from '@/pages/coupon/pages/list';
+import CreateCouponPage from '@/pages/coupon/pages/add';
+import DetailCouponPage from '@/pages/coupon/pages/detail';
+import EditCouponPage from '@/pages/coupon/pages/edit';
 
 export const adminRoutes = {
   path: '/admin',
@@ -120,6 +124,15 @@ export const adminRoutes = {
         { path: ADMIN_ROUTE.POLICY_ADD, element: <CreatePolicyPage /> },
         { path: ADMIN_ROUTE.POLICY_DETAIL, element: <DetailPolicyPage /> },
         { path: ADMIN_ROUTE.POLICY_EDIT, element: <EditPolicyPage /> },
+      ],
+    },
+    {
+      path: ADMIN_ROUTE.COUPON,
+      children: [
+        { index: true, element: <CouponListPage /> },
+        { path: ADMIN_ROUTE.COUPON_ADD, element: <CreateCouponPage /> },
+        { path: ADMIN_ROUTE.COUPON_DETAIL, element: <DetailCouponPage /> },
+        { path: ADMIN_ROUTE.COUPON_EDIT, element: <EditCouponPage /> },
       ],
     },
   ],

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { get } from 'lodash';
 import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
@@ -11,12 +11,13 @@ import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useTranslation } from 'react-i18next';
 import { useCreateCodOrder } from '../../hooks/useCreateCodOrder';
 import { useCreateVnPayOrder } from '../../hooks/useCreateVnPayOrder';
+import { useApplyCoupon } from '../../hooks/useApplyCoupon';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { RootState } from '@/store/store';
 import { PaymentMethod } from '@/+core/constants/commons.constant';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { formatCurrency } from '@/+core/helpers';
-import { Button, Card, Input, notification, Radio, Typography } from 'antd';
+import { Button, Card, Divider, Input, Radio, Typography } from 'antd';
 import Label from '@/components/ui/Label/Label';
 import CartEmpty from '../CartEmpty';
 import { FaTruck } from 'react-icons/fa';
@@ -42,6 +43,16 @@ const InformationForm = () => {
 
   const { loading: codLoading, mutate: codMutate } = useCreateCodOrder();
   const { loading: vnPayLoading, mutate: vnPayMutate } = useCreateVnPayOrder();
+  const {
+    currentAppliedCoupon,
+    couponCode,
+    couponLoading,
+    handleSetCouponCode,
+    handleSetAppliedCoupon,
+    handleApplyCoupon,
+  } = useApplyCoupon({
+    carts,
+  });
 
   const FormSchema = z
     .object({
@@ -95,6 +106,7 @@ const InformationForm = () => {
       phone: data.phone,
       deliveryAddress: data.deliveryAddress,
       note: data.note,
+      ...(currentAppliedCoupon && { couponCode: currentAppliedCoupon.coupon.code }),
       items: carts?.map((item) => {
         return {
           productId: item?.product?.id,
@@ -361,7 +373,53 @@ const InformationForm = () => {
             }}
           />
 
+          <Divider className='my-0' />
+
           <div className='flex flex-col gap-5'>
+            <div className='flex flex-col gap-2'>
+              <Label title={t('coupon.code_label')} />
+              <div className='flex gap-2'>
+                <Input
+                  value={couponCode}
+                  placeholder={t('coupon.code_placeholder')}
+                  onChange={(event) => {
+                    handleSetCouponCode(event.target.value);
+                    handleSetAppliedCoupon(null);
+                  }}
+                  onPressEnter={(event) => {
+                    event.preventDefault();
+                    void handleApplyCoupon();
+                  }}
+                  disabled={couponLoading || codLoading || vnPayLoading}
+                />
+                <Button
+                  type='default'
+                  onClick={() => void handleApplyCoupon()}
+                  loading={couponLoading}
+                  disabled={carts.length === 0}
+                >
+                  {t('apply')}
+                </Button>
+              </div>
+            </div>
+
+            {currentAppliedCoupon && (
+              <div className='flex flex-col gap-2 text-sm'>
+                <div className='flex justify-between gap-3'>
+                  <span className='font-semibold'>{t('coupon.subtotal')}</span>
+                  <span>{formatCurrency(currentAppliedCoupon.subtotalAmount)}</span>
+                </div>
+                <div className='flex justify-between gap-3 text-green-700'>
+                  <span className='font-semibold'>
+                    {t('coupon.discount')} ({currentAppliedCoupon.coupon.code})
+                  </span>
+                  <span>-{formatCurrency(currentAppliedCoupon.discountAmount)}</span>
+                </div>
+              </div>
+            )}
+
+            <Divider className='my-0' />
+
             <div className='grid grid-cols-2 gap-5'>
               <span
                 style={{ color: config?.websitePrimaryColor }}
@@ -369,7 +427,9 @@ const InformationForm = () => {
               >
                 {t('grand_total')}
               </span>
-              <span className='text-[1.05rem] text-zinc-700'>{formatCurrency(total)}</span>
+              <span className='text-[1.05rem] text-zinc-700 text-right'>
+                {formatCurrency(currentAppliedCoupon?.totalAmount ?? total)}
+              </span>
             </div>
           </div>
 

@@ -12,7 +12,7 @@ import { FiShoppingBag } from 'react-icons/fi';
 import { MdCategory } from 'react-icons/md';
 import { HiUsers, HiTemplate } from 'react-icons/hi';
 import { LuUserCog } from 'react-icons/lu';
-import { RiMoneyDollarCircleFill } from 'react-icons/ri';
+import { RiMoneyDollarCircleFill, RiCoupon3Line } from 'react-icons/ri';
 import { GrConfigure } from 'react-icons/gr';
 import { FaQuestionCircle, FaStore, FaShieldAlt } from 'react-icons/fa';
 
@@ -66,6 +66,11 @@ const Sidebar = (props: PropType) => {
           key: '/admin/product',
           icon: <FiShoppingBag size={20} />,
           label: t('sidebar.products'),
+        },
+        {
+          key: '/admin/coupon',
+          icon: <RiCoupon3Line size={20} />,
+          label: t('sidebar.coupons'),
         },
         {
           key: '/admin/store',

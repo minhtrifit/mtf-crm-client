@@ -67,4 +67,9 @@ export const ADMIN_ROUTE = {
   POLICY_ADD: 'add',
   POLICY_DETAIL: 'detail/:id',
   POLICY_EDIT: 'edit/:id',
+
+  COUPON: 'coupon',
+  COUPON_ADD: 'add',
+  COUPON_DETAIL: 'detail/:id',
+  COUPON_EDIT: 'edit/:id',
 };
