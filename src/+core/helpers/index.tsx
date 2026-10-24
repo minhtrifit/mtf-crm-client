@@ -136,3 +136,6 @@ export const formatFullDate = (date?: string | Date, lang: Lang = 'vi') => {
     .locale(lang)
     .format(lang === 'vi' ? '[Ngày] D [tháng] M [năm] YYYY' : 'MMMM D, YYYY');
 };
+
+export const sleep = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));

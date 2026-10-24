@@ -33,19 +33,13 @@ const WebsiteProductPage = () => {
   });
   const productSearch = useDebounce(filter.q, 500);
 
-  const { data, loading, error, paging, params, setParams } = useList(
-    {
-      page: filter.page,
-      q: filter.q,
-      categorySlug: filter.categorySlug,
-      isActive: true,
-      limit: PRODUCT_LIMIT,
-    },
-    {
-      delayLoading: true,
-      delayTime: 700,
-    },
-  );
+  const { data, loading, error, paging, params, setParams } = useList({
+    page: filter.page,
+    q: filter.q,
+    categorySlug: filter.categorySlug,
+    isActive: true,
+    limit: PRODUCT_LIMIT,
+  });
 
   const handleChangeFilter = (key: string, value: string) => {
     if (key === 'q') {

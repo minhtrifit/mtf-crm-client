@@ -3,23 +3,10 @@ import { useTranslation } from 'react-i18next';
 import productApi from '@/+core/api/product.api';
 import { Product } from '@/types/product';
 import { PagingType } from '@/types';
+import { sleep } from '@/+core/helpers';
 
-type UseListOptions = {
-  delayLoading?: boolean;
-  delayTime?: number;
-};
-
-export const useList = (
-  slug: string,
-  initialParams?: Record<string, any>,
-  options?: UseListOptions,
-) => {
+export const useList = (slug: string, initialParams?: Record<string, any>) => {
   const { t } = useTranslation();
-
-  const { delayLoading = true, delayTime = 1000 } = options || {};
-
-  const requestIdRef = useRef(0);
-  const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const [params, setParams] = useState<Record<string, any>>(initialParams || {});
   const [data, setData] = useState<Product[]>([]);
@@ -28,54 +15,24 @@ export const useList = (
   const [error, setError] = useState<any>(null);
 
   const fetchData = async (fetchSlug: string, fetchParams: Record<string, any>) => {
-    const requestId = ++requestIdRef.current;
-
     try {
-      if (loadingTimeoutRef.current) {
-        clearTimeout(loadingTimeoutRef.current);
-      }
-
       setLoading(true);
-
+      await sleep(500);
       const response: any = await productApi.getShowcaseByCategorySlug(fetchSlug, fetchParams);
-
-      if (requestId !== requestIdRef.current) {
-        return false;
-      }
-
       setData(response?.data?.data?.data ?? []);
       setPaging(response?.data?.data?.paging ?? null);
-
       return true;
     } catch (err: any) {
-      if (requestId === requestIdRef.current) {
-        setError(err?.response?.data?.message || t('error'));
-      }
+      setError(err?.response?.data?.message || t('error'));
       return false;
     } finally {
-      if (requestId === requestIdRef.current) {
-        if (delayLoading) {
-          loadingTimeoutRef.current = setTimeout(() => {
-            setLoading(false);
-          }, delayTime);
-        } else {
-          setLoading(false);
-        }
-      }
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchData(slug, params);
   }, [slug, params]);
-
-  useEffect(() => {
-    return () => {
-      if (loadingTimeoutRef.current) {
-        clearTimeout(loadingTimeoutRef.current);
-      }
-    };
-  }, []);
 
   return {
     data,

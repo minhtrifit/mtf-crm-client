@@ -45,11 +45,7 @@ const WebsiteCategoryPage = () => {
     paging,
     params: productParams,
     setParams,
-  } = useList(
-    slug,
-    { page: page, limit: WEBSITE_PRODUCT_LIMIT },
-    { delayLoading: true, delayTime: 700 },
-  );
+  } = useList(slug, { page: page, limit: WEBSITE_PRODUCT_LIMIT });
 
   useDocumentTitle('page.product_by_category', {
     tOptions: { category: get(category, 'name', undefined) },
