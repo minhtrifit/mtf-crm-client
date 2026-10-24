@@ -11,6 +11,7 @@ import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useTranslation } from 'react-i18next';
 import { useCreateCodOrder } from '../../hooks/useCreateCodOrder';
 import { useCreateVnPayOrder } from '../../hooks/useCreateVnPayOrder';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { RootState } from '@/store/store';
 import { PaymentMethod } from '@/+core/constants/commons.constant';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
@@ -30,6 +31,7 @@ const InformationForm = () => {
   const dispatchAsync = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const scrollToTop = useScrollToTop();
 
   const [hoverCod, setHoverCod] = useState<boolean>(false);
   const [hoverVnPay, setHoverVnPay] = useState<boolean>(false);
@@ -112,6 +114,7 @@ const InformationForm = () => {
         const redirectPath = `${WEBSITE_ROUTE.CHECKOUT}${statusParams}`;
 
         navigate(redirectPath);
+        scrollToTop();
       }
       // else {
       //   notification.error({

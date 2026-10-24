@@ -1,8 +1,10 @@
 import { Navigate, useNavigate } from 'react-router-dom';
+import cn from 'classnames';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import Step, { PAYMENT_STEP } from './components/Step';
 import CartForm from './components/CartForm';
@@ -12,6 +14,8 @@ import StatusForm from './components/StatusForm';
 const WebsiteCheckoutPage = () => {
   const { searchParams } = useQueryParams();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
+
   useDocumentTitle('page.checkout');
 
   const step = searchParams.get('step') ?? '';
@@ -32,7 +36,12 @@ const WebsiteCheckoutPage = () => {
 
   return (
     <div className='w-full flex-1'>
-      <div className='max-w-[1200px] mx-auto px-[20px] py-[50px] flex flex-col gap-8'>
+      <div
+        className={cn(
+          'max-w-[1200px] mx-auto flex flex-col gap-8',
+          isMobile ? 'px-[10px] py-[20px]' : 'px-[20px] py-[50px]',
+        )}
+      >
         <Step current={formatStep(step) as PAYMENT_STEP} />
 
         {step === '1' && <CartForm />}

@@ -70,7 +70,7 @@ const ReviewSlide = (props: PropType) => {
   if (data?.length === 0) return null;
 
   return (
-    <div className='w-full my-[50px] md:my-[100px] flex flex-col gap-10'>
+    <div className='w-full my-[10px] md:my-[100px] flex flex-col gap-10'>
       <h3 className='text-[1.2rem] md:text-[1.5rem] text-center'>{t('review.customer_review')}</h3>
 
       <div className={`${styles.review__slide__wrapper} w-full relative pb-10`}>

@@ -1,8 +1,10 @@
 import { get } from 'lodash';
+import cn from 'classnames';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '@/store/hooks';
 import { useTranslation } from 'react-i18next';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { RootState } from '@/store/store';
 import { addToCart, getCart } from '@/store/reducers/cart.reducer';
 import { Button, Card, Image, notification, Rate, Tooltip } from 'antd';
@@ -25,6 +27,7 @@ const ProductCard = (props: PropType) => {
   const location = useLocation();
   const dispatchAsync = useAppDispatch();
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   const user = useSelector((state: RootState) => state.users.user);
 
@@ -83,7 +86,10 @@ const ProductCard = (props: PropType) => {
       >
         <div className='flex flex-col gap-2'>
           <span
-            className='text-[1rem] min-h-[50px] line-clamp-2 hover:cursor-pointer'
+            className={cn(
+              'line-clamp-2 hover:cursor-pointer',
+              isMobile ? 'text-[0.8rem] min-h-[40px]' : 'text-[1rem] min-h-[50px]',
+            )}
             onClick={() => {
               handleRedirectDetailProduct(get(product, 'slug', ''));
             }}
@@ -94,7 +100,7 @@ const ProductCard = (props: PropType) => {
           <div className='flex flex-col gap-1'>
             <span
               style={{ color: config?.websitePrimaryColor }}
-              className='text-[1.15rem] font-semibold'
+              className={cn('font-semibold', isMobile ? 'text-[0.95rem]' : 'text-[1.15rem]')}
             >
               {formatCurrency(get(product, 'price', ''))}
             </span>
@@ -105,7 +111,9 @@ const ProductCard = (props: PropType) => {
               {get(product, 'ratingAvg', 0) !== 0 && (
                 <div className='flex items-center gap-1'>
                   <Rate count={1} value={1} disabled />
-                  <span className='text-[0.8rem]'>{get(product, 'ratingAvg', 0)}</span>
+                  <span className={cn(isMobile ? 'text-[0.7rem]' : 'text-[0.8rem]')}>
+                    {get(product, 'ratingAvg', 0)}
+                  </span>
                 </div>
               )}
 
@@ -113,24 +121,26 @@ const ProductCard = (props: PropType) => {
                 <div className='w-[1px] h-[20px] bg-zinc-200' />
               )}
 
-              <span className='text-[0.8rem]'>
+              <span className={cn(isMobile ? 'text-[0.7rem]' : 'text-[0.8rem]')}>
                 {t('product.sold')} {formatNumber(get(product, 'soldCount', 0))}
               </span>
             </div>
 
-            <Tooltip title={t('add_to_cart')}>
-              <Button
-                type='primary'
-                disabled={get(product, 'stock', 0) === 0}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleAddToCard();
-                }}
-              >
-                <AiOutlineShoppingCart size={20} />
-              </Button>
-            </Tooltip>
+            {!isMobile && (
+              <Tooltip title={t('add_to_cart')}>
+                <Button
+                  type='primary'
+                  disabled={get(product, 'stock', 0) === 0}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleAddToCard();
+                  }}
+                >
+                  <AiOutlineShoppingCart size={20} />
+                </Button>
+              </Tooltip>
+            )}
           </div>
         </div>
       </Card>

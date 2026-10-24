@@ -11,6 +11,7 @@ import { useQueryParams } from '@/hooks/useQueryParams';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useScrollToId } from '@/hooks/useScrollToId';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 import { isPaymentStep, PAYMENT_STEP } from '../Step';
 import QuantityInput from '@/components/ui/QuantityInput/QuantityInput';
 import CartEmpty from '../CartEmpty';
@@ -26,6 +27,7 @@ const CartForm = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile(1024);
   const scrollToId = useScrollToId();
+  const scrollToTop = useScrollToTop();
 
   const carts = useSelector((state: RootState) => state.carts.items);
   const total = useSelector((state: RootState) => state.carts.total);
@@ -45,6 +47,7 @@ const CartForm = () => {
     }
 
     updateParams({ step: value });
+    scrollToTop();
   };
 
   const handleUpdateQuantity = (cartItemId: string, quantity: number) => {

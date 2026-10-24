@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import Slider from 'react-slick';
+import cn from 'classnames';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
@@ -49,7 +50,6 @@ const SectionSlide = (props: PropType) => {
   const items = get(section, 'items', []);
 
   const getSlidesToShow = (width: number) => {
-    if (width < 640) return 1;
     if (width < 1024) return 2;
     if (width < 1280) return 3;
 
@@ -60,7 +60,7 @@ const SectionSlide = (props: PropType) => {
     arrows: true,
     infinite: true,
     speed: 500,
-    slidesToShow: isMobile ? 1 : getSlidesToShow(screenWidth),
+    slidesToShow: isMobile ? 2 : getSlidesToShow(screenWidth),
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
@@ -83,12 +83,6 @@ const SectionSlide = (props: PropType) => {
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
         },
       },
     ],
@@ -117,7 +111,7 @@ const SectionSlide = (props: PropType) => {
       <div className={'w-full relative'}>
         <Slider {...settings}>
           {items?.map((item) => (
-            <div key={get(item, 'id', '')} className='px-2'>
+            <div key={get(item, 'id', '')} className={cn(isMobile ? 'px-1' : 'px-2')}>
               <ProductCard product={get(item, 'product', null) as Product} />
             </div>
           ))}

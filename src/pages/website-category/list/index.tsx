@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { get } from 'lodash';
+import cn from 'classnames';
 import { Avatar } from 'antd';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
 import { useParams } from 'react-router-dom';
@@ -9,6 +10,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { useList } from '../hooks/useList';
 import { useDetailCategory } from '../hooks/useDetailCategory';
 import { useScrollToId } from '@/hooks/useScrollToId';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import Error from '@/components/ui/Error/Error';
 import { TitleSkelelon } from '../components/Skeleton';
 import { ProductListSkeleton } from '@/components/ui/Skeleton';
@@ -28,6 +30,7 @@ const WebsiteCategoryPage = () => {
   const params = useParams();
   const { searchParams, updateParams } = useQueryParams();
   const scrollToId = useScrollToId();
+  const isMobile = useIsMobile();
 
   const slug = params?.slug ?? '';
 
@@ -133,7 +136,12 @@ const WebsiteCategoryPage = () => {
 
   return (
     <div className='w-full flex-1'>
-      <div className='max-w-[1200px] mx-auto px-[20px] py-[50px] flex flex-col gap-8'>
+      <div
+        className={cn(
+          'max-w-[1200px] mx-auto flex flex-col gap-8',
+          isMobile ? 'px-[10px] py-[20px]' : 'px-[20px] py-[50px]',
+        )}
+      >
         <section className='w-full flex items-center justify-center'>
           {categoryLoading ? (
             <TitleSkelelon />
