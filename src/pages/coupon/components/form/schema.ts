@@ -15,6 +15,7 @@ export const getFormSchema = (t: TFunction<'translation', undefined>) => {
       usageLimit: z.number().nullable(),
       perUserLimit: z.number().nullable(),
       isActive: z.boolean(),
+      isPublic: z.boolean(),
     })
     .superRefine((data, ctx) => {
       if (data.value === null || data.value <= 0) {

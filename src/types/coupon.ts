@@ -13,6 +13,7 @@ export interface Coupon {
   usageLimit: number | null;
   perUserLimit: number;
   isActive: boolean;
+  isPublic: boolean;
   usedCount: number;
   createdAt: string;
   updatedAt: string;
@@ -30,6 +31,20 @@ export interface CouponPayload {
   usageLimit: number | null;
   perUserLimit: number;
   isActive: boolean;
+  isPublic: boolean;
 }
 
 export type UpdateCouponPayload = Partial<CouponPayload>;
+
+export type PublicCoupon = Pick<
+  Coupon,
+  | 'id'
+  | 'code'
+  | 'description'
+  | 'type'
+  | 'value'
+  | 'minOrderAmount'
+  | 'maxDiscountAmount'
+  | 'startsAt'
+  | 'expiresAt'
+>;

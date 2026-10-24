@@ -10,6 +10,7 @@ import { ReviewsSkeleton, SectionSkeleton } from './components/Skeleton';
 import CategoryMenu from './components/CategoryMenu';
 import CategoryMenuMobile from './components/CategoryMenuMobile';
 import BannerSlide from './components/BannerSlide';
+import CouponSlide from './components/CouponSlide';
 import SectionSlide from './components/SectionSlide';
 import ReviewSlide from './components/ReviewSlide';
 
@@ -47,6 +48,8 @@ const HomePage = () => {
         </section>
 
         {isMobile && <CategoryMenuMobile loading={categoriesLoading} data={categories} />}
+
+        <CouponSlide />
 
         <section
           className={cn('w-full max-w-full flex flex-col', layoutIsMobile ? 'gap-6' : 'gap-10')}

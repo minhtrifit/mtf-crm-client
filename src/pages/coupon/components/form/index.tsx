@@ -60,6 +60,7 @@ const CouponForm = (props: PropType) => {
           usageLimit: defaultValues.usageLimit,
           perUserLimit: defaultValues.perUserLimit,
           isActive: defaultValues.isActive,
+          isPublic: defaultValues.isPublic,
         }
       : {
           code: '',
@@ -73,6 +74,7 @@ const CouponForm = (props: PropType) => {
           usageLimit: null,
           perUserLimit: 1,
           isActive: true,
+          isPublic: false,
         },
   });
   const discountType = watch('type');
@@ -90,6 +92,7 @@ const CouponForm = (props: PropType) => {
       usageLimit: data.usageLimit,
       perUserLimit: data.perUserLimit!,
       isActive: data.isActive,
+      isPublic: data.isPublic,
     });
   };
 
@@ -154,16 +157,29 @@ const CouponForm = (props: PropType) => {
 
       <div className='w-full grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-5'>
         <section className='w-full grid grid-cols-1 lg:grid-cols-2 gap-5'>
-          <Controller
-            control={control}
-            name='isActive'
-            render={({ field }) => (
-              <div className='w-full flex flex-col items-start gap-3'>
-                <Label title={t('coupon.active')} />
-                <Switch checked={field.value} onChange={field.onChange} />
-              </div>
-            )}
-          />
+          <div className='w-full flex'>
+            <Controller
+              control={control}
+              name='isActive'
+              render={({ field }) => (
+                <div className='w-full flex flex-col items-start gap-3'>
+                  <Label title={t('coupon.active')} />
+                  <Switch checked={field.value} onChange={field.onChange} />
+                </div>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name='isPublic'
+              render={({ field }) => (
+                <div className='w-full flex flex-col items-start gap-3'>
+                  <Label title={t('coupon.public')} />
+                  <Switch checked={field.value} onChange={field.onChange} />
+                </div>
+              )}
+            />
+          </div>
 
           <Controller
             control={control}

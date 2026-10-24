@@ -1,5 +1,5 @@
 import axiosInstance from './api.instance';
-import { CouponPayload, UpdateCouponPayload } from '@/types/coupon';
+import { CouponPayload, PublicCoupon, UpdateCouponPayload } from '@/types/coupon';
 
 export interface ApplyCouponPayload {
   code: string;
@@ -23,6 +23,14 @@ export interface AppliedCoupon {
 }
 
 export const couponApi = {
+  getPublicList: async () => {
+    const response = await axiosInstance.get<{
+      success: boolean;
+      data: PublicCoupon[];
+      message: string;
+    }>('/coupon/public');
+    return response;
+  },
   getList: async (params?: Record<string, string | number | boolean>) => {
     const response = await axiosInstance.get('/coupon', { params });
     return response;

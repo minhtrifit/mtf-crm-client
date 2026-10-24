@@ -78,6 +78,19 @@ const DataTable = (props: PropType) => {
           )}
         />
         <Table.Column<Coupon>
+          title={t('coupon.visibility')}
+          dataIndex='isPublic'
+          key='isPublic'
+          width={180}
+          render={(isPublic: boolean) =>
+            isPublic ? (
+              <Tag color='green'>{t('coupon.public')}</Tag>
+            ) : (
+              <Tag>{t('coupon.private')}</Tag>
+            )
+          }
+        />
+        <Table.Column<Coupon>
           title={t('coupon.starts_at')}
           key='startsAt'
           width={200}
