@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import websiteTemplateApi from '@/+core/api/website_template.api';
 import { SectionType } from '@/types/website_template';
+import { sleep } from '@/+core/helpers';
 
 export const useGetTemplateSections = (id: string) => {
   const { t } = useTranslation();
@@ -18,6 +19,7 @@ export const useGetTemplateSections = (id: string) => {
 
     try {
       setLoading(true);
+      await sleep(500);
 
       const response: any = await websiteTemplateApi.getSections(id);
 

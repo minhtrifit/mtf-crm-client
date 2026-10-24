@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import categoryApi from '@/+core/api/category.api';
 import { Category } from '@/types/category';
+import { sleep } from '@/+core/helpers';
 
 export const useGetShowcaseCategory = (initialParams?: Record<string, any>) => {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ export const useGetShowcaseCategory = (initialParams?: Record<string, any>) => {
   const fetchData = async (fetchParams: Record<string, any>) => {
     try {
       setLoading(true);
+      await sleep(500);
 
       const response: any = await categoryApi.getShowcase(fetchParams);
 
