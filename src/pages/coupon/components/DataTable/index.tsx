@@ -5,7 +5,7 @@ import { Coupon } from '@/types/coupon';
 import { PagingType } from '@/types';
 import { ADMIN_ROUTE } from '@/routes/route.constant';
 import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
-import { formatCurrency, formatDateTime } from '@/+core/helpers';
+import { formatCurrency, formatDateTime, formatNumber } from '@/+core/helpers';
 import { FilterType } from '../../pages/list';
 import { FaPen, FaTrash } from 'react-icons/fa';
 
@@ -67,11 +67,15 @@ const DataTable = (props: PropType) => {
           }
         />
         <Table.Column<Coupon>
-          title={t('coupon.usage_limit')}
-          dataIndex='usageLimit'
-          key='usageLimit'
+          title={t('coupon.usage')}
+          dataIndex='usage'
+          key='usage'
           width={200}
-          render={(usageLimit: number) => <span>{usageLimit}</span>}
+          render={(_, record) => (
+            <span>
+              {formatNumber(record.usedCount)} / {formatNumber(record.usageLimit ?? 0)}
+            </span>
+          )}
         />
         <Table.Column<Coupon>
           title={t('coupon.starts_at')}
