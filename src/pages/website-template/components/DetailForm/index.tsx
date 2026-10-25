@@ -60,7 +60,7 @@ const DetailForm = (props: PropType) => {
   const { template } = props;
 
   const isMobile = useIsMobile(1024);
-  const scrollToTop = useScrollToTop();
+  const { scrollToTop } = useScrollToTop();
   const screenWidth = useScreenWidth();
   const navigate = useNavigate();
   const params = useParams();

@@ -27,7 +27,7 @@ const CartForm = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile(1024);
   const scrollToId = useScrollToId();
-  const scrollToTop = useScrollToTop();
+  const { scrollToTop } = useScrollToTop();
 
   const carts = useSelector((state: RootState) => state.carts.items);
   const total = useSelector((state: RootState) => state.carts.total);

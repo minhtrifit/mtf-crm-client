@@ -32,7 +32,7 @@ const InformationForm = () => {
   const dispatchAsync = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const scrollToTop = useScrollToTop();
+  const { scrollToTop } = useScrollToTop();
 
   const [hoverCod, setHoverCod] = useState<boolean>(false);
   const [hoverVnPay, setHoverVnPay] = useState<boolean>(false);

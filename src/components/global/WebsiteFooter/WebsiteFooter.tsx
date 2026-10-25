@@ -13,7 +13,7 @@ import { FaTruck, FaFacebook, FaInstagram, FaYoutube, FaTelegramPlane } from 're
 const WebsiteFooter = () => {
   const { config } = useAppConfig();
   const { t } = useTranslation();
-  const scrollToTop = useScrollToTop();
+  const { scrollToTop } = useScrollToTop();
 
   const medias = get(config, 'medias', []);
 

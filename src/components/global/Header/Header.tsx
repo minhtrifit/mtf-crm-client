@@ -33,7 +33,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const isMobile = useIsMobile(1024);
-  const scrollToTop = useScrollToTop();
+  const { scrollToTop } = useScrollToTop();
   const { config } = useAppConfig();
 
   const user = useSelector((state: RootState) => state.users.user);

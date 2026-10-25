@@ -18,6 +18,7 @@ import WebsiteSkeleton from '../WebsiteSkeleton/WebsiteSkeleton';
 import WebsiteFooter from '../WebsiteFooter/WebsiteFooter';
 import MenuDrawer from '../MenuDrawer/MenuDrawer';
 import SmoothScroll from '../SmoothScroll';
+import FloatBar from '../FloatBar';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 
 const { Content } = LayoutAntDesign;
@@ -64,6 +65,7 @@ export default function WebsiteLayout() {
     <WebsiteAntdProvider>
       <WebsiteAuthProvider>
         <SmoothScroll />
+        <FloatBar />
         <MenuDrawer open={isOpenMenuDrawer} onClose={handleCloseMenuDrawer} />
         <CartDrawer open={isOpenCartModal} onClose={handleCloseCartModal} />
 

@@ -1,8 +1,10 @@
 import { useCallback } from 'react';
 import { getLenis } from '@/+core/services/lenis';
+import { useScrollPosition } from './useScrollPosition';
 
 export function useScrollToTop() {
-  return useCallback((behavior: ScrollBehavior = 'smooth') => {
+  const isVisible = useScrollPosition();
+  const scrollToTop = useCallback((behavior: ScrollBehavior = 'smooth') => {
     const lenis = getLenis();
 
     if (!lenis) {
@@ -14,4 +16,6 @@ export function useScrollToTop() {
       immediate: behavior === 'instant',
     });
   }, []);
+
+  return { scrollToTop, isVisible };
 }
