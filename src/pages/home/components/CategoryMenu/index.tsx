@@ -1,7 +1,9 @@
 import { get } from 'lodash';
+import cn from 'classnames';
 import { Avatar, Skeleton } from 'antd';
 import { Category } from '@/types/category';
 import { useNavigate } from 'react-router-dom';
+import styles from './styles.module.scss';
 
 interface PropType {
   isAdmin?: boolean;
@@ -23,19 +25,30 @@ const CategoryMenu = (props: PropType) => {
   };
 
   return (
-    <div className='w-[260px] h-[365px] bg-[#FFF] border-[1px] border-solid border-[#e5e7eb] rounded-md overflow-y-auto'>
+    <div
+      className={cn(
+        'w-[260px] h-[365px] bg-[#FFF] border-[1px] border-solid border-[#e5e7eb] rounded-md overflow-y-auto',
+        styles.container,
+      )}
+    >
       {loading ? (
         <div className='flex flex-col'>
           <div className='flex items-center gap-3 p-2'>
             <Skeleton.Avatar active size={50} />
             <Skeleton.Input active style={{ width: 50, height: 20 }} />
           </div>
-
           <div className='flex items-center gap-3 p-2'>
             <Skeleton.Avatar active size={50} />
             <Skeleton.Input active style={{ width: 50, height: 20 }} />
           </div>
-
+          <div className='flex items-center gap-3 p-2'>
+            <Skeleton.Avatar active size={50} />
+            <Skeleton.Input active style={{ width: 50, height: 20 }} />
+          </div>
+          <div className='flex items-center gap-3 p-2'>
+            <Skeleton.Avatar active size={50} />
+            <Skeleton.Input active style={{ width: 50, height: 20 }} />
+          </div>
           <div className='flex items-center gap-3 p-2'>
             <Skeleton.Avatar active size={50} />
             <Skeleton.Input active style={{ width: 50, height: 20 }} />
