@@ -426,5 +426,8 @@
     "content": "Nội dung",
     "name_placeholder": "Tìm kiếm theo tiêu đề, slug, nội dung",
     "delete_confirm": "Bạn có chắc muốn xóa chính sách này?"
+  },
+  "news": {
+    "default": "Tin tức"
   }
 }

@@ -426,5 +426,8 @@
     "content": "Content",
     "name_placeholder": "Search by title, slug, content",
     "delete_confirm": "Are you sure to delete this policy?"
+  },
+  "news": {
+    "default": "News"
   }
 }

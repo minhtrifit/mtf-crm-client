@@ -7,10 +7,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { clearUser, toggleMenuDrawer } from '@/store/actions/user.action';
 import { WEBSITE_ROUTE } from '@/routes/route.constant';
-import { MdHome } from 'react-icons/md';
+import { MdHome, MdQuestionAnswer } from 'react-icons/md';
 import { FaUser } from 'react-icons/fa';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { FiShoppingBag } from 'react-icons/fi';
+import { PiNotebookBold } from 'react-icons/pi';
+import { FaLocationDot } from 'react-icons/fa6';
+import { TbLocationFilled } from 'react-icons/tb';
 import { clearLocalCart } from '@/store/actions/cart.action';
 
 interface PropType {
@@ -35,7 +38,7 @@ const MenuDrawer = (props: PropType) => {
       title: t('home'),
       url: WEBSITE_ROUTE.HOME,
       isAuth: false,
-      icon: <MdHome size={25} />,
+      icon: <MdHome size={30} />,
     },
     {
       id: 'profile',
@@ -49,14 +52,42 @@ const MenuDrawer = (props: PropType) => {
       title: t('order.default'),
       url: WEBSITE_ROUTE.ORDERS,
       isAuth: true,
-      icon: <AiOutlineShoppingCart size={25} />,
+      icon: <AiOutlineShoppingCart size={30} />,
     },
     {
       id: 'products',
       title: t('product.default'),
       url: WEBSITE_ROUTE.PRODUCTS,
       isAuth: false,
-      icon: <FiShoppingBag size={20} />,
+      icon: <FiShoppingBag size={25} />,
+    },
+    {
+      id: 'news',
+      title: t('news.default'),
+      url: WEBSITE_ROUTE.NEWS,
+      isAuth: false,
+      icon: <TbLocationFilled size={25} />,
+    },
+    {
+      id: 'policies',
+      title: t('policy.default'),
+      url: WEBSITE_ROUTE.POLICYS,
+      isAuth: false,
+      icon: <PiNotebookBold size={25} />,
+    },
+    {
+      id: 'faq',
+      title: t('faq.default'),
+      url: WEBSITE_ROUTE.FAQ,
+      isAuth: false,
+      icon: <MdQuestionAnswer size={25} />,
+    },
+    {
+      id: 'stories',
+      title: t('store.name'),
+      url: WEBSITE_ROUTE.STORES,
+      isAuth: false,
+      icon: <FaLocationDot size={25} />,
     },
   ];
 
