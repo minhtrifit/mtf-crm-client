@@ -34,11 +34,12 @@ const CouponSlide = () => {
   const { data } = useCouponShowcase();
 
   const getSlidesToShow = (width: number) => {
+    if (width < 768) return 1;
     if (width < 1024) return 2;
     return 3;
   };
 
-  const slidesToShow = isMobile ? 2 : getSlidesToShow(screenWidth);
+  const slidesToShow = isMobile ? 1 : getSlidesToShow(screenWidth);
 
   const settings = {
     arrows: true,
@@ -67,6 +68,12 @@ const CouponSlide = () => {
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
         },
       },
     ],

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { notification } from 'antd';
+import { Button, notification } from 'antd';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '@/+core/provider/AppConfigProvider';
@@ -71,40 +71,11 @@ const CouponCard = (props: PropType) => {
 
   return (
     <div
-      className={cn(className, 'relative h-[100px] md:h-[165px] w-full max-w-[520px] bg-white-900')}
+      className={cn(className, 'relative h-[135px] md:h-[165px] w-full max-w-[520px] bg-white-900')}
       style={{
         boxShadow: '0 4px 8px -4px rgba(0, 0, 0, 0.08)',
       }}
     >
-      {/* Left discount panel */}
-      <div
-        className='absolute inset-y-0 left-0 pl-3 md:pl-4 pr-1 md:pr-3 flex items-center justify-center'
-        style={{
-          backgroundColor: color,
-        }}
-      >
-        <div className='flex items-center gap-1'>
-          {!isMobile && (
-            <span
-              className='text-[0.5rem] md:text-[0.9rem] font-bold text-white-900'
-              style={{
-                writingMode: 'vertical-rl',
-                transform: 'rotate(360deg)',
-              }}
-            >
-              DISCOUNT
-            </span>
-          )}
-          <div
-            className='h-[45px] md:h-[95px] w-[10px] md:w-[24px] shrink-0'
-            style={{
-              background:
-                'repeating-linear-gradient(to bottom, #fff 0px, #fff 2px, transparent 2px, transparent 4px)',
-            }}
-          />
-        </div>
-      </div>
-
       {/* Left perforated edge */}
       <div className='absolute inset-y-0 left-0 z-10 flex flex-col justify-around'>
         {Array.from({ length: 8 }).map((_, index) => (
@@ -135,45 +106,57 @@ const CouponCard = (props: PropType) => {
         ))}
       </div>
 
+      {/* Left discount panel */}
+      <div
+        className='absolute inset-y-0 left-0 pl-3 md:pl-4 pr-2 md:pr-3 flex items-center justify-center'
+        style={{
+          backgroundColor: color,
+        }}
+      >
+        <div className='flex items-center gap-1'>
+          <span
+            className='text-[0.7rem] md:text-[0.9rem] font-bold text-white-900'
+            style={{
+              writingMode: 'vertical-rl',
+              transform: 'rotate(360deg)',
+            }}
+          >
+            DISCOUNT
+          </span>
+          <div
+            className='h-[95px] w-[24px] shrink-0'
+            style={{
+              background:
+                'repeating-linear-gradient(to bottom, #fff 0px, #fff 2px, transparent 2px, transparent 4px)',
+            }}
+          />
+        </div>
+      </div>
+
       {/* Main content */}
-      <div className='absolute left-[15%] md:left-[21%] inset-y-0 right-0 flex flex-col'>
-        {/* Title */}
-        <div className='w-full px-1 md:px-2 py-2 md:py-4 flex flex-col gap-1'>
+      <div className='absolute left-[18%] md:left-[21%] inset-y-0 right-0 flex flex-col'>
+        <div className='w-full px-2 py-2 md:py-4 flex flex-col gap-2'>
           <h2
-            className='m-0 text-[0.6rem] md:text-[1.2rem] font-bold leading-none tracking-wide truncate'
+            className='m-0 text-[1rem] md:text-[1.2rem] font-bold leading-none tracking-wide truncate'
             style={{
               color,
             }}
           >
             {data.code}
           </h2>
-          <span className='h-[20px] md:h-[30px] text-zinc-700 text-[0.5rem] md:text-[0.8rem] line-clamp-2'>
+          <span className='h-[30px] text-zinc-700 text-[0.7rem] md:text-[0.8rem] line-clamp-2'>
             {t('coupon.discount')} {getDiscountValue()} {getDiscountCondition()}
           </span>
         </div>
-
         <div className='flex flex-1 items-center justify-between'>
           <div className='px-1 md:px-2 py-2 md:py-4'>
-            <span className='text-[0.4rem] md:text-[0.8rem] text-zinc-500'>
+            <span className=' text-[0.7rem] md:text-[0.8rem] text-zinc-700'>
               {t('coupon.expire')} {formatDate(data.expiresAt)}
             </span>
           </div>
-          <div
-            className={cn(
-              'mr-3 flex h-[50%] items-center justify-end',
-              'hover:cursor-pointer transition-transform duration-200 hover:scale-95',
-            )}
-            style={{
-              width: '40%',
-              backgroundColor: color,
-              clipPath: 'polygon(28% 0, 100% 0, 88% 50%, 100% 100%, 28% 100%, 8% 50%)',
-            }}
-            onClick={() => handleCopyCode(data.code)}
-          >
-            <span className='w-[95%] md:w-[90%] text-[0.5rem] md:text-[0.9rem] font-bold leading-none text-center text-white-900'>
-              {t('coupon.get_code')}
-            </span>
-          </div>
+          <Button className='mr-5' onClick={() => handleCopyCode(data.code)}>
+            {t('coupon.get_code')}
+          </Button>
         </div>
       </div>
     </div>
