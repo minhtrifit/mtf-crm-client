@@ -147,7 +147,10 @@
     "get_code": "Lấy mã",
     "expire": "HSD",
     "copy_code_successfully": "Sao chép mã thành công",
-    "copy_code_failed": "Sao chép mã không thành công"
+    "copy_code_failed": "Sao chép mã không thành công",
+    "condition_min": "Đơn tối thiểu {{ minOrderAmount }}",
+    "condition_max": "Giảm tối đa {{ maxDiscountAmount }}",
+    "condition": "Đơn tối thiểu {{ minOrderAmount }}, giảm tối đa {{ maxDiscountAmount }}"
   },
   "checkout": "Thanh toán",
   "notification": "Thông báo",

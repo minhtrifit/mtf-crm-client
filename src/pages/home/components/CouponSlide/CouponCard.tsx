@@ -30,6 +30,25 @@ const CouponCard = (props: PropType) => {
     }
   };
 
+  const getDiscountCondition = () => {
+    if (data.minOrderAmount && !data.maxDiscountAmount) {
+      return `(${t('coupon.condition_min', {
+        minOrderAmount: data.minOrderAmount,
+      })})`;
+    }
+    if (!data.minOrderAmount && data.maxDiscountAmount) {
+      return `(${t('coupon.condition_max', {
+        maxDiscountAmount: data.maxDiscountAmount,
+      })})`;
+    }
+    if (data.minOrderAmount && data.maxDiscountAmount) {
+      return `(${t('coupon.condition', {
+        minOrderAmount: data.minOrderAmount,
+        maxDiscountAmount: data.maxDiscountAmount,
+      })})`;
+    }
+  };
+
   const handleCopyCode = useCallback(
     async (code: string) => {
       try {
@@ -54,7 +73,7 @@ const CouponCard = (props: PropType) => {
     <div
       className={cn(className, 'relative w-full max-w-[520px] bg-white-900')}
       style={{
-        aspectRatio: '2.3 / 1',
+        aspectRatio: isMobile ? '1.8 / 1' : '2.3 / 1',
       }}
     >
       {/* Left discount panel */}
@@ -128,8 +147,8 @@ const CouponCard = (props: PropType) => {
           >
             {data.code}
           </h2>
-          <span className='text-zinc-700 text-[0.5rem] md:text-[0.8rem]'>
-            {t('coupon.discount')} {getDiscountValue()}
+          <span className='h-[30px] text-zinc-700 text-[0.5rem] md:text-[0.8rem] line-clamp-2'>
+            {t('coupon.discount')} {getDiscountValue()} {getDiscountCondition()}
           </span>
         </div>
 

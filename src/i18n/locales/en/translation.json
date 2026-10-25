@@ -147,7 +147,10 @@
     "get_code": "Get code",
     "expire": "Expire",
     "copy_code_successfully": "Copy code successfully",
-    "copy_code_failed": "Copy code failed"
+    "copy_code_failed": "Copy code failed",
+    "condition_min": "Minimum {{ minOrderAmount }} order",
+    "condition_max": "Maximum {{ maxDiscountAmount }} discount",
+    "condition": "Minimum {{ minOrderAmount }} order, maximum {{ maxDiscountAmount }} discount"
   },
   "checkout": "Checkout",
   "notification": "Notification",
