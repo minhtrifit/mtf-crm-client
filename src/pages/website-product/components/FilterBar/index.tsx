@@ -64,6 +64,7 @@ const FilterBar = (props: PropType) => {
             style={{ width: 280 }}
             disabled={categoriesLoading}
             placeholder={t('category.default')}
+            popupRender={(menu) => <div data-lenis-prevent>{menu}</div>}
             showSearch
             allowClear
             optionFilterProp='label'
