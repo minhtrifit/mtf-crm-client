@@ -142,7 +142,11 @@
     "subtotal": "Tiền hàng",
     "discount": "Giảm giá",
     "apply_successfully": "Áp dụng mã giảm giá thành công",
-    "apply_failed": "Không thể áp dụng mã giảm giá"
+    "apply_failed": "Không thể áp dụng mã giảm giá",
+    "get_code": "Lấy mã",
+    "expire": "HSD",
+    "copy_code_successfully": "Sao chép mã thành công",
+    "copy_code_failed": "Sao chép mã không thành công"
   },
   "checkout": "Thanh toán",
   "notification": "Thông báo",

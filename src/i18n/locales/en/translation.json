@@ -142,7 +142,11 @@
     "subtotal": "Subtotal",
     "discount": "Discount",
     "apply_successfully": "Coupon applied successfully",
-    "apply_failed": "Unable to apply coupon"
+    "apply_failed": "Unable to apply coupon",
+    "get_code": "Get code",
+    "expire": "Expire",
+    "copy_code_successfully": "Copy code successfully",
+    "copy_code_failed": "Copy code failed"
   },
   "checkout": "Checkout",
   "notification": "Notification",

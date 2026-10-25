@@ -139,3 +139,11 @@ export const formatFullDate = (date?: string | Date, lang: Lang = 'vi') => {
 
 export const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export const formatDate = (date: string) => {
+  return dayjs(date).format('DD/MM/YYYY');
+};
+
+export const copyToClipboard = async (text: string): Promise<void> => {
+  await navigator.clipboard.writeText(text);
+};

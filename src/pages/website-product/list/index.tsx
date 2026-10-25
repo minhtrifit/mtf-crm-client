@@ -10,6 +10,7 @@ import Error from '@/components/ui/Error/Error';
 import { ProductListSkeleton } from '@/components/ui/Skeleton';
 import FilterBar from '../components/FilterBar';
 import ProductList from '@/components/ui/ProductList';
+import CouponSlide from '@/pages/home/components/CouponSlide';
 
 export interface FilterType {
   page: number;
@@ -133,6 +134,8 @@ const WebsiteProductPage = () => {
           handleChangeFilter={handleChangeFilter}
           handleApplyFilter={handleApplyFilter}
         />
+
+        <CouponSlide />
 
         <section id='all-products-list' className='w-full'>
           {loading ? (

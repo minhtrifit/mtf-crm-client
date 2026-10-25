@@ -17,6 +17,7 @@ import { ProductListSkeleton } from '@/components/ui/Skeleton';
 import ProductList from '@/components/ui/ProductList';
 import FilterBar from '../components/FilterBar';
 import CategoryList from '../components/CategoryList';
+import CouponSlide from '@/pages/home/components/CouponSlide';
 
 export interface FilterType {
   page: number;
@@ -163,6 +164,8 @@ const WebsiteCategoryPage = () => {
           handleChangeFilter={handleChangeFilter}
           handleApplyFilter={handleApplyFilter}
         />
+
+        <CouponSlide />
 
         <section id='product-by-category-list' className='w-full'>
           {loading ? (
