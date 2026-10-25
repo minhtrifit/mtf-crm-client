@@ -63,6 +63,13 @@
     "website-template": "Website Template",
     "policy": "Policy"
   },
+  "headerSubMenu": {
+    "all_products": "All products",
+    "all_news": "News - blogs",
+    "policies": "Policies & terms",
+    "faq": "Frequently asked questions",
+    "stores": "Stores"
+  },
   "add": "Add new",
   "detail": "Detail",
   "edit": "Edit",

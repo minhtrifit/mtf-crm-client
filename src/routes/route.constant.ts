@@ -13,6 +13,8 @@ export const WEBSITE_ROUTE = {
   FAQ: '/cau-hoi-thuong-gap',
   POLICYS: '/chinh-sach-va-dieu-khoan',
   DETAIL_POLICY: '/chinh-sach-va-dieu-khoan/:slug',
+  NEWS: '/tin-tuc',
+  STORES: '/he-thong-cua-hang',
 };
 
 export const ADMIN_ROUTE = {

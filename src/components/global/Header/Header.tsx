@@ -25,6 +25,7 @@ import { FaArrowTrendUp } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
 import Error from '@/components/ui/Error/Error';
 import LanguageToggle from '../LanguageToggle/LanguageToggle';
+import SubMenu from './SubMenu';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -366,6 +367,7 @@ const Header = () => {
           </div>
         )}
       </div>
+      <SubMenu />
     </header>
   );
 };

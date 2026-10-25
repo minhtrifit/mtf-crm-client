@@ -63,6 +63,13 @@
     "website-template": "Mẫu thiết kế website",
     "policy": "Chính sách"
   },
+  "headerSubMenu": {
+    "all_products": "Tất cả sản phẩm",
+    "all_news": "Tin tức - bài viết",
+    "policies": "Chính sách & điều khoản",
+    "faq": "Câu hỏi thường gặp",
+    "stores": "Hệ thống cửa hàng"
+  },
   "add": "Thêm mới",
   "detail": "Chi tiết",
   "edit": "Chỉnh sửa",
