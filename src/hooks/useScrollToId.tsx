@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { getLenis } from '@/+core/services/lenis';
 
 type ScrollOptions = {
   offset?: number;
@@ -15,11 +16,16 @@ export const useScrollToId = () => {
     const { offset = 0, behavior = 'smooth' } = options || {};
 
     const top = element.getBoundingClientRect().top + window.scrollY - offset;
+    const lenis = getLenis();
 
-    window.scrollTo({
-      top,
-      behavior,
-    });
+    if (lenis) {
+      lenis.scrollTo(top, { immediate: behavior === 'instant' });
+    } else {
+      window.scrollTo({
+        top,
+        behavior,
+      });
+    }
   }, []);
 
   return scrollToId;
