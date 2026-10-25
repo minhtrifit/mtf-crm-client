@@ -72,6 +72,9 @@ const CouponCard = (props: PropType) => {
   return (
     <div
       className={cn(className, 'relative h-[100px] md:h-[165px] w-full max-w-[520px] bg-white-900')}
+      style={{
+        boxShadow: '0 4px 8px -4px rgba(0, 0, 0, 0.08)',
+      }}
     >
       {/* Left discount panel */}
       <div
@@ -144,27 +147,30 @@ const CouponCard = (props: PropType) => {
           >
             {data.code}
           </h2>
-          <span className='h-[30px] text-zinc-700 text-[0.5rem] md:text-[0.8rem] line-clamp-2'>
+          <span className='h-[20px] md:h-[30px] text-zinc-700 text-[0.5rem] md:text-[0.8rem] line-clamp-2'>
             {t('coupon.discount')} {getDiscountValue()} {getDiscountCondition()}
           </span>
         </div>
 
-        <div className='relative flex flex-1 items-center'>
+        <div className='flex flex-1 items-center justify-between'>
           <div className='px-1 md:px-2 py-2 md:py-4'>
             <span className='text-[0.4rem] md:text-[0.8rem] text-zinc-500'>
               {t('coupon.expire')} {formatDate(data.expiresAt)}
             </span>
           </div>
           <div
-            className='absolute right-0 top-[12%] flex h-[65%] items-center justify-end hover:cursor-pointer'
+            className={cn(
+              'mr-3 flex h-[50%] items-center justify-end',
+              'hover:cursor-pointer transition-transform duration-200 hover:scale-95',
+            )}
             style={{
               width: '40%',
               backgroundColor: color,
-              clipPath: 'polygon(24% 0, 100% 0, 100% 100%, 24% 100%, 0 50%)',
+              clipPath: 'polygon(28% 0, 100% 0, 88% 50%, 100% 100%, 28% 100%, 8% 50%)',
             }}
             onClick={() => handleCopyCode(data.code)}
           >
-            <span className='w-[95%] md:w-[90%] text-[0.5rem] md:text-[1rem] font-bold leading-none text-center text-white-900'>
+            <span className='w-[95%] md:w-[90%] text-[0.5rem] md:text-[0.9rem] font-bold leading-none text-center text-white-900'>
               {t('coupon.get_code')}
             </span>
           </div>
