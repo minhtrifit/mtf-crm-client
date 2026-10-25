@@ -407,6 +407,9 @@
     "code": "Mã cửa hàng",
     "address": "Địa chỉ",
     "tax_code": "Mã số thuế",
+    "image": "Ảnh cửa hàng",
+    "map_location": "Google Maps iframe",
+    "map_location_placeholder": "Dán mã iframe nhúng Google Maps",
     "update_status": "Cập nhập trạng thái cho cửa hàng này?",
     "choose_to_continue": "Chọn cửa hàng để tiếp tục"
   },

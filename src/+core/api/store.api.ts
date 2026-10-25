@@ -2,6 +2,11 @@ import axiosInstance from './api.instance';
 import { CreateStorePayload, UpdateStorePayload } from '@/types/store';
 
 export const storeApi = {
+  getWebsiteList: async () => {
+    const response = await axiosInstance.get('/store/website');
+
+    return response;
+  },
   getList: async (params?: Record<string, any>) => {
     try {
       const response = await axiosInstance.get('/store', {

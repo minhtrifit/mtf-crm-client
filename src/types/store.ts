@@ -5,6 +5,8 @@ export interface Store {
   email: string;
   hotline: string;
   taxCode: string;
+  image: string | null;
+  mapLocation: string | null;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -16,6 +18,8 @@ export interface CreateStorePayload {
   email: string;
   hotline: string;
   taxCode: string;
+  image?: string | null;
+  mapLocation?: string | null;
 }
 
 export interface UpdateStorePayload {
@@ -24,5 +28,7 @@ export interface UpdateStorePayload {
   email?: string;
   hotline?: string;
   taxCode?: string;
+  image?: string | null;
+  mapLocation?: string | null;
   isActive?: boolean;
 }

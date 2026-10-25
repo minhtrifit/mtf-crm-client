@@ -12,6 +12,7 @@ import WebsiteSearchPage from '@/pages/website-search/list';
 import WebsiteFaqPage from '@/pages/website-faq/pages';
 import WebsitePolicyListPage from '@/pages/website-policy/pages/list';
 import WebsitePolicyDetailPage from '@/pages/website-policy/pages/detail';
+import WebsiteStoresPage from '@/pages/website-stores';
 
 export const websiteRoutes = {
   path: '/',
@@ -59,6 +60,10 @@ export const websiteRoutes = {
         { index: true, element: <WebsitePolicyListPage /> },
         { path: WEBSITE_ROUTE.DETAIL_POLICY, element: <WebsitePolicyDetailPage /> },
       ],
+    },
+    {
+      path: WEBSITE_ROUTE.STORES,
+      element: <WebsiteStoresPage />,
     },
   ],
 };

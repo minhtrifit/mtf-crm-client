@@ -8,8 +8,11 @@ import { useTranslation } from 'react-i18next';
 import { Store } from '@/types/store';
 import Label from '@/components/ui/Label/Label';
 import { LuSend } from 'react-icons/lu';
+import UploadFile, { UploadFileType } from '@/components/ui/UploadFile/UploadFile';
+import { GoogleMap } from '@/components/ui/GoogleMap';
 
 const { Text } = Typography;
+const { TextArea } = Input;
 
 interface PropType {
   mode: 'add' | 'edit' | 'detail';
@@ -31,6 +34,8 @@ const FormModal = (props: PropType) => {
     hotline: z.string().min(1, { message: t('this_field_is_required') }),
     taxCode: z.string().min(1, { message: t('this_field_is_required') }),
     address: z.string().min(1, { message: t('this_field_is_required') }),
+    image: z.string().nullable().optional(),
+    mapLocation: z.string().nullable().optional(),
   });
 
   type FormType = z.infer<typeof FormSchema>;
@@ -41,6 +46,8 @@ const FormModal = (props: PropType) => {
     hotline: '',
     taxCode: '',
     address: '',
+    image: '',
+    mapLocation: '',
   };
 
   const {
@@ -92,7 +99,10 @@ const FormModal = (props: PropType) => {
       }}
       onCancel={() => onClose()}
     >
-      <form onSubmit={handleSubmit(onSubmit, onError)} className='flex flex-col gap-5'>
+      <form
+        onSubmit={handleSubmit(onSubmit, onError)}
+        className='flex flex-col gap-5 max-h-[600px] overflow-y-auto'
+      >
         <Divider className='my-0' />
 
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
@@ -222,6 +232,42 @@ const FormModal = (props: PropType) => {
                 </div>
               );
             }}
+          />
+          <Controller
+            control={control}
+            name='image'
+            render={({ field, fieldState }) => (
+              <div className='w-full flex flex-col gap-2'>
+                <Label title={t('store.image')} />
+                <UploadFile
+                  {...field}
+                  mode='single'
+                  value={field.value ?? undefined}
+                  disabled={mode === 'detail'}
+                  error={fieldState.error ? true : false}
+                  fileTypes={[UploadFileType.IMAGE]}
+                />
+              </div>
+            )}
+          />
+          <Controller
+            control={control}
+            name='mapLocation'
+            render={({ field }) => (
+              <div className='w-full flex flex-col gap-2 col-span-full'>
+                <Label title={t('store.map_location')} />
+                {mode === 'detail' ? (
+                  <GoogleMap value={field.value} />
+                ) : (
+                  <TextArea
+                    {...field}
+                    value={field.value ?? ''}
+                    placeholder={t('store.map_location_placeholder')}
+                    rows={6}
+                  />
+                )}
+              </div>
+            )}
           />
         </div>
 

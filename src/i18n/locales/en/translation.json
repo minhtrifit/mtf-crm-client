@@ -407,6 +407,9 @@
     "code": "Store code",
     "address": "Address",
     "tax_code": "Tax code",
+    "image": "Store image",
+    "map_location": "Google Maps iframe",
+    "map_location_placeholder": "Paste the Google Maps embed iframe",
     "update_status": "Are you sure to change this store status?",
     "choose_to_continue": "Choose store to continue"
   },
