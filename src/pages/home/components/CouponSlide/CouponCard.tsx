@@ -71,7 +71,7 @@ const CouponCard = (props: PropType) => {
 
   return (
     <div
-      className={cn(className, 'relative h-[135px] md:h-[165px] w-full max-w-[520px] bg-white-900')}
+      className={cn(className, 'relative h-[145px] md:h-[155px] w-full max-w-[520px] bg-white-900')}
       style={{
         boxShadow: '0 4px 8px -4px rgba(0, 0, 0, 0.08)',
       }}
@@ -115,7 +115,7 @@ const CouponCard = (props: PropType) => {
       >
         <div className='flex items-center gap-1'>
           <span
-            className='text-[0.7rem] md:text-[0.9rem] font-bold text-white-900'
+            className='text-[0.8rem] md:text-[0.9rem] font-bold text-white-900'
             style={{
               writingMode: 'vertical-rl',
               transform: 'rotate(360deg)',
@@ -148,15 +148,11 @@ const CouponCard = (props: PropType) => {
             {t('coupon.discount')} {getDiscountValue()} {getDiscountCondition()}
           </span>
         </div>
-        <div className='flex flex-1 items-center justify-between'>
-          <div className='px-1 md:px-2 py-2 md:py-4'>
-            <span className=' text-[0.7rem] md:text-[0.8rem] text-zinc-700'>
-              {t('coupon.expire')} {formatDate(data.expiresAt)}
-            </span>
-          </div>
-          <Button className='mr-5' onClick={() => handleCopyCode(data.code)}>
-            {t('coupon.get_code')}
-          </Button>
+        <div className='pl-2 pr-5 flex flex-1 items-center justify-between'>
+          <span className='text-[0.7rem] md:text-[0.8rem] text-zinc-700'>
+            {t('coupon.expire')} {formatDate(data.expiresAt)}
+          </span>
+          <Button onClick={() => handleCopyCode(data.code)}>{t('coupon.get_code')}</Button>
         </div>
       </div>
     </div>
