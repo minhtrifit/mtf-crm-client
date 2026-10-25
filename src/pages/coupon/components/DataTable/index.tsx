@@ -1,4 +1,4 @@
-import { Button, Pagination, Popconfirm, Table, Tag, Tooltip } from 'antd';
+import { Button, Pagination, Popconfirm, Switch, Table, Tag, Tooltip } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Coupon } from '@/types/coupon';
@@ -15,25 +15,23 @@ interface PropType {
   paging: PagingType | null;
   handlePageChange: (page: number) => void;
   handleDelete: (coupon: Coupon) => Promise<void>;
+  handleToggleStatus: (coupon: Coupon) => Promise<void>;
+  updatingStatus: boolean;
 }
 
 const DataTable = (props: PropType) => {
-  const { filter, data, paging, handlePageChange, handleDelete } = props;
+  const {
+    filter,
+    data,
+    paging,
+    handlePageChange,
+    handleDelete,
+    handleToggleStatus,
+    updatingStatus,
+  } = props;
 
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const getCouponStatus = (coupon: Coupon, t: (key: string) => string) => {
-    if (!coupon.isActive) return <Tag>{t('coupon.inactive_status')}</Tag>;
-
-    const now = Date.now();
-    if (new Date(coupon.startsAt).getTime() > now)
-      return <Tag color='blue'>{t('coupon.upcoming_status')}</Tag>;
-    if (new Date(coupon.expiresAt).getTime() < now)
-      return <Tag color='default'>{t('coupon.expired_status')}</Tag>;
-
-    return <Tag color='green'>{t('coupon.active_status')}</Tag>;
-  };
 
   return (
     <section className='block__container flex flex-col gap-5'>
@@ -103,10 +101,27 @@ const DataTable = (props: PropType) => {
           render={(_, coupon) => <span>{formatDateTime(coupon.expiresAt)}</span>}
         />
         <Table.Column<Coupon>
-          title={t('status')}
+          title={t('coupon.active')}
           key='status'
-          width={130}
-          render={(_, coupon) => getCouponStatus(coupon, t)}
+          width={140}
+          render={(_, coupon) => (
+            <Popconfirm
+              title={t('confirm')}
+              description={t('coupon.update_status')}
+              onConfirm={() => handleToggleStatus(coupon)}
+              okText={t('yes')}
+              cancelText={t('cancel')}
+              disabled={updatingStatus}
+            >
+              <span className='inline-flex cursor-pointer'>
+                <Switch
+                  checked={coupon.isActive}
+                  loading={updatingStatus}
+                  style={{ pointerEvents: 'none' }}
+                />
+              </span>
+            </Popconfirm>
+          )}
         />
         <Table.Column<Coupon>
           title={t('action')}

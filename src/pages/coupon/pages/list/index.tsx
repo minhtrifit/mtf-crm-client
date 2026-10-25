@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { DEFAULT_PAGE_SIZE } from '@/+core/constants/commons.constant';
 import { useList } from '../../hooks/useList';
 import { useDelete } from '../../hooks/useDelete';
+import { useEdit } from '../../hooks/useEdit';
 import { Coupon } from '@/types/coupon';
 import { ADMIN_ROUTE } from '@/routes/route.constant';
 import Error from '@/components/ui/Error/Error';
@@ -25,11 +26,12 @@ const CouponListPage = () => {
 
   const [filter, setFilter] = useState<FilterType>({ page: 1, q: '', isActive: '' });
 
-  const { data, paging, loading, error, params, setParams } = useList({
+  const { data, paging, loading, error, params, setParams, fetchData } = useList({
     page: 1,
     limit: DEFAULT_PAGE_SIZE,
   });
   const { mutate: deleteCoupon, loading: deleteLoading } = useDelete();
+  const { mutate: editCoupon, loading: updatingStatus } = useEdit();
 
   const handleApplyFilter = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -60,6 +62,16 @@ const CouponListPage = () => {
     const currentPage = data.length === 1 && filter.page > 1 ? filter.page - 1 : filter.page;
     setFilter((previous) => ({ ...previous, page: currentPage }));
     setParams({ ...params, page: currentPage });
+  };
+
+  const handleToggleStatus = async (coupon: Coupon) => {
+    const result = await editCoupon(coupon.id, { isActive: !coupon.isActive });
+    if (!result.success) {
+      message.error(result.message);
+      return;
+    }
+    message.success(result.message);
+    await fetchData(params);
   };
 
   if (!loading && error) return <Error />;
@@ -123,6 +135,8 @@ const CouponListPage = () => {
           paging={paging}
           handlePageChange={handlePageChange}
           handleDelete={handleDelete}
+          handleToggleStatus={handleToggleStatus}
+          updatingStatus={updatingStatus}
         />
       )}
     </div>

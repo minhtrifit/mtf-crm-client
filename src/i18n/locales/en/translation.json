@@ -139,6 +139,7 @@
     "upcoming_status": "Upcoming",
     "expired_status": "Expired",
     "delete_confirm": "Are you sure you want to delete this coupon?",
+    "update_status": "Are you sure you want to change this coupon status?",
     "subtotal": "Subtotal",
     "discount": "Discount",
     "apply_successfully": "Coupon applied successfully",
