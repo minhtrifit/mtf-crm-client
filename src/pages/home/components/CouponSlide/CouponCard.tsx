@@ -71,10 +71,7 @@ const CouponCard = (props: PropType) => {
 
   return (
     <div
-      className={cn(className, 'relative w-full max-w-[520px] bg-white-900')}
-      style={{
-        aspectRatio: isMobile ? '1.8 / 1' : '2.3 / 1',
-      }}
+      className={cn(className, 'relative h-[100px] md:h-[165px] w-full max-w-[520px] bg-white-900')}
     >
       {/* Left discount panel */}
       <div
